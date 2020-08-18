@@ -6,9 +6,12 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "dev": "parcel src/index.html",
+    "dev": "parcel serve src/index.html",
     "build": "parcel build src/index.html"
   },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "dependencies": {
     "d3": "^5.16.0"
   },
