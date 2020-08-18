@@ -2,14 +2,13 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="style.css" />
-
-    <script src="https://d3js.org/d3.v5.min.js" defer></script>
+    <!-- <script src="https://d3js.org/d3.v5.min.js" defer></script> -->
     <!-- <script src="https://unpkg.com/d3@5.16.0/dist/d3.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/remnoteio/remnote-api@latest/RemNoteAPI.js"></script> -->
-    <script src="lib/RemNoteAPI.js" defer></script>
-    <script src="lib/RemNoteUtil.js" defer></script>
-    <script src="lib/remnote-schedule.js" defer></script>
-    <script src="main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/remnoteio/remnote-api@latest/RemNoteAPI.js"></script>
+    <script>
+      import remNoteSchedule from './lib/remnote-schedule';
+      remNoteSchedule();
+    </script>
   </head>
 
   <body>

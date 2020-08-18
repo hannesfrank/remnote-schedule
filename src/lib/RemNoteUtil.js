@@ -1,7 +1,7 @@
-import RemNoteAPI from './RemNoteAPI';
+// import RemNoteAPI from './RemNoteAPI';
 
 export async function getDocument() {
-  context = await RemNoteAPI.v0.get_context();
+  const context = await RemNoteAPI.v0.get_context();
   const documentRem = await RemNoteAPI.v0.get(context.documentId);
   return documentRem;
 }

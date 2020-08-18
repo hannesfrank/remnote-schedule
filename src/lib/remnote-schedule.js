@@ -1,5 +1,7 @@
-import { getChildren, getVisibleChildren, getDocument } from './RemNoteUtil';
-import { RemNoteAPI } from './RemNoteAPI';
+import * as RemNoteUtil from './RemNoteUtil';
+// import RemNoteAPIV0, { RemNoteAPI } from './RemNoteAPI';
+import * as d3 from 'd3';
+
 const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
 const H = 600; // svg viewport height
@@ -81,7 +83,7 @@ async function drawSchedule(schedule) {
 let eventRegEx = /^([^,]+),([^,]+),.*$/;
 
 async function loadSchedule() {
-  const documentRem = await getDocument();
+  const documentRem = await RemNoteUtil.getDocument();
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
   //   console.log(tags);
   // console.log(documentRem);
@@ -95,9 +97,9 @@ async function loadSchedule() {
   // // The result I'm expecting using 'get' instead of 'name
   // let scheduleId = 'oGpv8WsJ9rFsh4QFE';
   // console.log('get', await RemNoteAPI.v0.get(scheduleId));
-  const children = await getChildren(documentRem, true);
+  const children = await RemNoteUtil.getChildren(documentRem, true);
   console.log(children);
-  const items = children.map((c) => getRemText(c));
+  const items = children.map((c) => RemNoteUtil.getRemText(c));
   console.log(items);
 
   return demo_schedule;
@@ -106,7 +108,7 @@ async function loadSchedule() {
 
 export { loadSchedule, drawSchedule, eventRegEx };
 
-export default function run() {
-  let schedule = loadSchedule();
+export default async function run() {
+  let schedule = await loadSchedule();
   drawSchedule(schedule);
 }
