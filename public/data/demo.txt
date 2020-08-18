@@ -1,0 +1,20 @@
+- 0730,0800,plan day and coffee #ritual
+    - I like coffee
+- 0800,0830,RemNote Queue
+- 0830,0945,workout #exercise
+- x,+30,shower dressing
+- This afternoon I want to code a bit
+- 1400,1500,lunch break
+- 1900,1940,cook with wife #ritual
+    - schedule ahead
+- x,+40,write wikipedia article #fun
+- x,2100,dinner #ritual
+- Work planning
+- 1100,1400,deep work slot 1 #work
+- 1400,1500,break and walk #ritual
+- x,+180,deep work block 2 #work
+- 1730,1900,read #book
+- append, it will be scheduled at the correct place
+- 1215,+25,emergency call
+- x,+40,research at the library
+- x,+40,shorter lunch
