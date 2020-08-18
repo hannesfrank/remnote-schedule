@@ -11,7 +11,7 @@ Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,
 Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
 ```
-http://localhost:5500/public/index.html
+http://localhost:1234/public/index.html
 ```
 
 Additionally configure:
@@ -20,10 +20,18 @@ Additionally configure:
 - **CSS Height:** `600px`
 - **CSS Width:** `400px`
 
-Serve the plugin, for example with [`live-server`](https://github.com/tapio/live-server) ([VSCode Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), [`npm install -g live-server`](https://github.com/tapio/live-server)).
+Run the plugin locally:
+
+```
+yarn dev
+```
+
+## Deployment
+
+- [ ] Make GitHub action to gh-pages
 
 ```sh
-live-server public --port=5500 --no-browser
+yarn build
 ```
 
 ## Roadmap

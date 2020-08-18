@@ -118,6 +118,6 @@ class RemNoteAPIV0 {
   }
 }
 
-const RemNoteAPI = {
+export default {
   v0: new RemNoteAPIV0(),
 };

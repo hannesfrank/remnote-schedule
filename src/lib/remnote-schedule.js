@@ -1,3 +1,5 @@
+import { getChildren, getVisibleChildren, getDocument } from './RemNoteUtil';
+import { RemNoteAPI } from './RemNoteAPI';
 const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
 const H = 600; // svg viewport height
@@ -76,6 +78,8 @@ async function drawSchedule(schedule) {
     .attr('height', (d) => durationToDY(d.endTime - d.startTime));
 }
 
+let eventRegEx = /^([^,]+),([^,]+),.*$/;
+
 async function loadSchedule() {
   const documentRem = await getDocument();
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
@@ -91,12 +95,18 @@ async function loadSchedule() {
   // // The result I'm expecting using 'get' instead of 'name
   // let scheduleId = 'oGpv8WsJ9rFsh4QFE';
   // console.log('get', await RemNoteAPI.v0.get(scheduleId));
-  const children = await getVisibleChildren(documentRem);
+  const children = await getChildren(documentRem, true);
   console.log(children);
   const items = children.map((c) => getRemText(c));
+  console.log(items);
 
   return demo_schedule;
 }
 // drawSchedule(demo_schedule);
-let schedule = loadSchedule();
-drawSchedule(schedule);
+
+export { loadSchedule, drawSchedule, eventRegEx };
+
+export default function run() {
+  let schedule = loadSchedule();
+  drawSchedule(schedule);
+}

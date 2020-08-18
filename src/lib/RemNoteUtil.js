@@ -1,19 +1,18 @@
-async function getDocument() {
+import RemNoteAPI from './RemNoteAPI';
+
+export async function getDocument() {
   context = await RemNoteAPI.v0.get_context();
   const documentRem = await RemNoteAPI.v0.get(context.documentId);
   return documentRem;
 }
 
-async function getVisibleChildren(rem) {
-  const visibleRem = await Promise.all(
-    rem.visibleRemOnDocument.map((remId) => RemNoteAPI.v0.get(remId))
-  );
-  return visibleRem;
+export async function getChildren(rem, visibleOnly = False) {
+  const children = visibleOnly ? rem.visibleRemOnDocument : rem.children;
+  return await Promise.all(children.map((remId) => RemNoteAPI.v0.get(remId)));
 }
 
-async function getChildren(rem) {
-  const children = await Promise.all(rem.children.map((remId) => RemNoteAPI.v0.get(remId)));
-  return children;
+export async function getVisibleChildren(remId) {
+  return getChildren(remId, true);
 }
 
 /**
@@ -22,7 +21,7 @@ async function getChildren(rem) {
  * objects representing rich text element. Text is extracted recursively from
  * Rem Reference elements.
  */
-async function getRemText(rem, exploredRem = []) {
+export async function getRemText(rem, exploredRem = []) {
   if (!rem.found) return '';
 
   const richTextElementsText = await Promise.all(
