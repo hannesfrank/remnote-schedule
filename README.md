@@ -54,6 +54,16 @@ TODO:
 
 - Maybe research other calendar views
 
+### Engineering
+
+- [ ] Add documentation to RemNoteAPI
+  - [ ] Add docstrings.
+  - [ ] Add type definitions.
+  - [ ] Publish to npm?
+- [ ] Locally test RemNoteAPI.
+  - [ ] Make a separate RemNote account with a demo document. Export this to JSON.
+  - [ ] Make the API connector work with the JSON file.
+
 ## References
 
 Other RemNote plugins:
@@ -62,5 +72,11 @@ Other RemNote plugins:
   - https://github.com/sirvan3tr/RemNote-Pomodoro
 - https://glitch.com/~remnote-wordcloud-plugin
 - https://glitch.com/~remnotewordcount
-- Graph
+- GraphView
 - https://glitch.com/edit/#!/abalone-pointy-ash?path=script.js%3A16%3A18 (Something with table formatting)
+
+Other RemNote code:
+
+- https://observablehq.com/collection/@dmrd/remnote
+  - GraphViz (tree and force layout)
+  - Crawler to load rems

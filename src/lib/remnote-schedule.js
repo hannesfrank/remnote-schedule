@@ -1,5 +1,5 @@
 import * as RemNoteUtil from './RemNoteUtil';
-// import RemNoteAPIV0, { RemNoteAPI } from './RemNoteAPI';
+import RemNoteAPI from './RemNoteAPI';
 import * as d3 from 'd3';
 
 const SVG_WIDTH = 400;
@@ -14,19 +14,6 @@ const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
 
 const START_TIME = 6;
 const END_TIME = 22;
-
-var demo_schedule = [
-  {
-    startTime: 9,
-    endTime: 9.5,
-    event: 'coffee',
-  },
-  {
-    startTime: 9.5,
-    endTime: 10,
-    event: 'walk',
-  },
-];
 
 async function drawSchedule(schedule) {
   const svg = d3
@@ -80,7 +67,7 @@ async function drawSchedule(schedule) {
     .attr('height', (d) => durationToDY(d.endTime - d.startTime));
 }
 
-let eventRegEx = /^([^,]+),([^,]+),.*$/;
+let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
 
 async function loadSchedule() {
   const documentRem = await RemNoteUtil.getDocument();
@@ -90,13 +77,13 @@ async function loadSchedule() {
   // const children = await getChildren(documentRem);
   // console.log(children);
   // What I try to do:
-  // console.log(
-  //   'name',
-  //   await RemNoteAPI.v0.get_by_name('Schedule', { parentId: 'z7ryrB4ThzSG2Pk8S' })
-  // );
+  console.log(
+    'name',
+    await RemNoteAPI.v0.get_by_name('Schedule', { parentId: 'z7ryrB4ThzSG2Pk8S' })
+  );
   // // The result I'm expecting using 'get' instead of 'name
-  // let scheduleId = 'oGpv8WsJ9rFsh4QFE';
-  // console.log('get', await RemNoteAPI.v0.get(scheduleId));
+  let scheduleId = 'oGpv8WsJ9rFsh4QFE';
+  console.log('get', await RemNoteAPI.v0.get(scheduleId));
   const children = await RemNoteUtil.getChildren(documentRem, true);
   console.log(children);
   const items = children.map((c) => RemNoteUtil.getRemText(c));
@@ -104,9 +91,8 @@ async function loadSchedule() {
 
   return demo_schedule;
 }
-// drawSchedule(demo_schedule);
 
-export { loadSchedule, drawSchedule, eventRegEx };
+export { loadSchedule, drawSchedule, eventRegex };
 
 export default async function run() {
   let schedule = await loadSchedule();

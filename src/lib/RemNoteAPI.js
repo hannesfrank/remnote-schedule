@@ -20,7 +20,7 @@
  * RemNoteAPI.v0.get_context(options);
  */
 
-export default class RemNoteAPIV0 {
+class RemNoteAPIV0 {
   constructor() {
     this.usedMessageIds = 0;
     window.addEventListener('message', this.receiveMessage.bind(this), false);
@@ -117,3 +117,9 @@ export default class RemNoteAPIV0 {
     delete this.messagePromises[messageId];
   }
 }
+
+const RemNoteAPI = {
+  v0: new RemNoteAPIV0(),
+};
+
+export default RemNoteAPI;
