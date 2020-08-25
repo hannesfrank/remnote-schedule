@@ -6,16 +6,18 @@ Visualize your daily schedule.
 
 ## Usage
 
+Add the plugin to a document and it renders all entries under a parent with the name `Schedule`.
+
 The syntax was developed by [CrushEntropy](https://crushentropy.com/). It is designed to be typed fast and to easily reschedule if things change. See the original tool for a guide.
 
 Basically you write Rems of the following form
 
 ```
-HHMM,HHMM,description
+HHMM,HHMM,description #tag
 ```
 
 Each line represents a time block. It consists of a start time, an end time and a description for that time block.
-You can also use tags to categorize blocks.
+You can also use tags to categorize and color blocks.
 
 As a shortcut you can use
 
@@ -33,12 +35,12 @@ rect.block.YOUR_TAG {
 }
 ```
 
-## Installation / Development
+## Installation
 
 Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
 ```
-http://localhost:1234/public/index.html
+https://hannesfrank.github.io/remnote-schedule/index.html
 ```
 
 Additionally configure:
@@ -47,21 +49,39 @@ Additionally configure:
 - **CSS Height:** `600px`
 - **CSS Width:** `400px`
 
+Add the plugin to a Document with the `/remnote-schedule` command.
+
+## Development
+
+Add a plugin `remnote-schedule-dev` with the above settings.
+
+```
+http://localhost:1234/public/index.html
+```
+
 Run the plugin locally:
 
 ```
 yarn dev
 ```
 
-This is not necessary
-
-## Deployment
-
-- [ ] Make GitHub action to gh-pages
+### Deployment
 
 ```sh
+git checkout gh-pages
+rm -r docs
 yarn build
+git add docs
+git commit -m "Release"
+git push origin gh-pages
 ```
+
+- [ ] Make github action
+
+## Known Issues
+
+- The `children` list of a rem gets sorted wrong leading to wrong schedules using the `x` syntax. Try reloading the page.
+- I have not implemented the multi column layout yet. The current single column might bug if you reschedule/overwrite things.
 
 ## Roadmap
 
