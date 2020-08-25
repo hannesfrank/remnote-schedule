@@ -80,16 +80,28 @@ export async function loadSchedule() {
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
   //   console.log(tags);
   // TODO: We need get_by_name if we want to configure the plugin.
-  // console.log(
-  //   'name',
-  //   await RemNoteAPI.v0.get_by_name('Schedule', { parentId: 'z7ryrB4ThzSG2Pk8S' })
-  // );
-  const children = await RemNoteUtil.getChildren(documentRem, true);
-  console.log(children);
-  const items = children.map((c) => RemNoteUtil.getRemText(c));
-  console.log(items);
+  // console.log('name', await RemNoteAPI.v0.get_by_name('Schedule', { parentId: documentRem._id }));
+  let children = await RemNoteUtil.getChildren(documentRem, true);
+  await RemNoteUtil.loadText(children);
+  const scheduleParent = children.filter((c) => c.text === 'Schedule')[0];
+  const timeBlocks = await RemNoteUtil.getVisibleChildren(scheduleParent);
+  await RemNoteUtil.loadText(timeBlocks);
 
-  return demo_schedule;
+  let events = [];
+  for (const block of timeBlocks) {
+    let match = eventRegex.exec(block.text);
+    if (match) {
+      let [_, start, end, event] = match;
+      events.push({
+        start,
+        end,
+        event,
+      });
+    }
+  }
+  return events;
+  // const items = children.map((c) => RemNoteUtil.getRemText(c));
+  // console.log
 }
 
 // Assume resolved time formatting.
@@ -172,6 +184,6 @@ export function sortScheduleSingleColumn(schedule) {
 export default async function run(targetId = '#schedule') {
   let schedule = await loadSchedule();
   resolveTimeFormatting(schedule);
-  column = sortScheduleSingleColumn(schedule);
+  let column = sortScheduleSingleColumn(schedule);
   drawSchedule(column, targetId);
 }

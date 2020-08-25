@@ -5,20 +5,26 @@
     <!-- <script src="https://d3js.org/d3.v5.min.js" defer></script> -->
     <!-- <script src="https://unpkg.com/d3@5.16.0/dist/d3.min.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/gh/remnoteio/remnote-api@latest/RemNoteAPI.js"></script> -->
-    <script>
-      import remNoteSchedule from './lib/remnote-schedule';
-      remNoteSchedule();
-    </script>
   </head>
 
   <body>
     <div id="schedule"></div>
     <script>
-      if (window.self == window.top) {
-        document.getElementById('schedule').innerHTML =
-          // TODO: Add release URL
-          'Please make a new RemNote plugin by typing /plugin, then pasting this URL: RELEASE URL';
-      }
+      import remNoteSchedule from './lib/remnote-schedule';
+      remNoteSchedule('#schedule');
+      // import { drawSchedule, resolveTimeFormatting, sortScheduleSingleColumn } from './lib/remnote-schedule';
+      // import schedule from '../data/demo-schedule.json';
+      // const events = schedule.map((el) => el.processed).filter((el) => el.start);
+      // const sorted = sortScheduleSingleColumn(events);
+      // drawSchedule(sorted, '#schedule');
+    </script>
+    <script>
+      // TODO: Enable this only in deployment, not in local development.
+      // if (window.self == window.top) {
+      //   document.getElementById('schedule').innerHTML =
+      //     // TODO: Add release URL
+      //     'Please make a new RemNote plugin by typing /plugin, then pasting this URL: RELEASE URL';
+      // }
     </script>
   </body>
 </html>

@@ -59,10 +59,13 @@ yarn build
 
 ## Roadmap
 
-- [ ] Read events from RemNote
+- [x] Read events from RemNote
+  - [ ] Proper error handling. What happens if you are zoomed into the schedule? Or the plugin is itself a child of schedule?
 - [x] Ignore non-event Rems
 - [ ] Tags
-- [ ] Multi-column
+- [ ] Handle intersecting events
+  - [ ] Handle event inside another in Single-column
+  - [ ] Support Multi-column
 - [ ] Redraw on data change
 - [ ] Nested blocks: Event Rems which are indented in a Event Rem get rendered as subblock
 - [ ] Separate plugin settings page which has settings for colors, icons etc.

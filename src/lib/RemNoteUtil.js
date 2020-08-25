@@ -45,3 +45,12 @@ export async function getRemText(rem, exploredRem = []) {
   );
   return richTextElementsText.join('');
 }
+
+export async function loadText(remList) {
+  await Promise.all(
+    remList.map(async (rem) => {
+      rem.text = await getRemText(rem);
+      return rem;
+    })
+  );
+}
