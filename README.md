@@ -2,7 +2,7 @@
 
 Visualize your daily schedule.
 
-TODO Image plan
+![Demo](demo.png)
 
 ## Usage
 
@@ -24,8 +24,8 @@ As a shortcut you can use
 
 ### Tips
 
-Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
-To configure the color of a tag, go to `Custom CSS` and add a block like this:
+- Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
+- To configure the color of a tag, go to `Custom CSS` and add a block like this:
 
 ```
 rect.block.YOUR_TAG {
@@ -72,7 +72,8 @@ yarn build
 - [ ] Handle intersecting events
   - [ ] Handle event inside another in Single-column
   - [ ] Support Multi-column
-- [ ] Redraw on data change
+- [x] Ability to Reload
+  - [ ] Watch Rem changes
 - [ ] Nested blocks: Event Rems which are indented in a Event Rem get rendered as subblock
 - [ ] Separate plugin settings page which has settings for colors, icons etc.
   - `- #RRGGBB: RemReference` colors events tagged with `#RemReference`
@@ -106,12 +107,7 @@ Other RemNote plugins:
 - https://glitch.com/~remnotewordcount
 - GraphView
 - https://glitch.com/edit/#!/abalone-pointy-ash?path=script.js%3A16%3A18 (Something with table formatting)
-- Image Search :mag_right:
-
-  Search and import images into any document with two clicks!
-
-  How To Add
-
+- Image Search :mag_right: Search and import images into any document with two clicks!
   1. Go to https://www.remnote.io/plugins
   2. Create a new plugin with this URL: https://remnoteimagesearch.glitch.me/
   3. Set plugin name to 'Image Search'
