@@ -1,6 +1,7 @@
 import * as RemNoteUtil from './RemNoteUtil';
-import RemNoteAPI from './RemNoteAPI';
+import RemNoteAPI from 'remnote-api';
 import * as d3 from 'd3';
+import { interval, stratify } from 'd3';
 
 const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
@@ -12,19 +13,19 @@ const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
 
-const START_TIME = 6;
-const END_TIME = 22;
+export const DEFAULT_START_TIME = 600;
+export const DEFAULT_END_TIME = 2200;
 
-async function drawSchedule(schedule) {
+export async function drawSchedule(events, targetId) {
   const svg = d3
-    .select('#schedule')
+    .select(targetId)
     .append('svg')
     .style('border', '1px solid black')
     .attr('height', SVG_HEIGHT)
     .attr('width', SVG_WIDTH)
     .attr('viewBox', `0 0 ${W} ${H}`);
 
-  const hours = d3.range(START_TIME, END_TIME);
+  const hours = d3.range(DEFAULT_START_TIME, DEFAULT_END_TIME, 100);
 
   svg
     .selectAll('line')
@@ -45,45 +46,44 @@ async function drawSchedule(schedule) {
     .attr('class', 'time')
     .attr('x', (d) => 2 * TIME_MARGIN)
     .attr('y', (d) => timeToY(d) - TIME_MARGIN)
-    .text((d) => d + ':00');
+    .text((d) => Math.floor(d / 100) + ':00');
 
   function timeToY(d) {
-    return ((d - START_TIME) * (H - MARGIN_TOP)) / (END_TIME - START_TIME) + MARGIN_TOP;
+    return (
+      ((d - DEFAULT_START_TIME) * (H - MARGIN_TOP)) / (DEFAULT_END_TIME - DEFAULT_START_TIME) +
+      MARGIN_TOP
+    );
   }
   function durationToDY(d) {
-    return (d / (END_TIME - START_TIME)) * (H - MARGIN_TOP);
+    return (d / (DEFAULT_END_TIME - DEFAULT_START_TIME)) * (H - MARGIN_TOP);
   }
+
+  console.log(events);
 
   svg
     .selectAll('rect')
-    .data(schedule)
+    .data(events)
     .enter()
     .append('rect')
     .attr('class', 'block')
     .attr('x', (d) => MARGIN_BLOCK_LEFT)
-    .attr('y', (d) => timeToY(d.startTime))
+    .attr('y', (d) => timeToY(d.start))
     .attr('fill', (d) => d.color || 'rgb(200, 50, 50, 0.2)')
     .attr('width', W - MARGIN_BLOCK_LEFT - MARGIN_BLOCK_RIGHT)
-    .attr('height', (d) => durationToDY(d.endTime - d.startTime));
+    .attr('height', (d) => durationToDY(d.end - d.start));
 }
 
-let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
+export let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
 
-async function loadSchedule() {
+export async function loadSchedule() {
   const documentRem = await RemNoteUtil.getDocument();
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
   //   console.log(tags);
-  // console.log(documentRem);
-  // const children = await getChildren(documentRem);
-  // console.log(children);
-  // What I try to do:
-  console.log(
-    'name',
-    await RemNoteAPI.v0.get_by_name('Schedule', { parentId: 'z7ryrB4ThzSG2Pk8S' })
-  );
-  // // The result I'm expecting using 'get' instead of 'name
-  let scheduleId = 'oGpv8WsJ9rFsh4QFE';
-  console.log('get', await RemNoteAPI.v0.get(scheduleId));
+  // TODO: We need get_by_name if we want to configure the plugin.
+  // console.log(
+  //   'name',
+  //   await RemNoteAPI.v0.get_by_name('Schedule', { parentId: 'z7ryrB4ThzSG2Pk8S' })
+  // );
   const children = await RemNoteUtil.getChildren(documentRem, true);
   console.log(children);
   const items = children.map((c) => RemNoteUtil.getRemText(c));
@@ -92,9 +92,76 @@ async function loadSchedule() {
   return demo_schedule;
 }
 
-export { loadSchedule, drawSchedule, eventRegex };
+export function startTime(schedule) {
+  return Math.max(0, Math.min(...schedule.map((block) => block.start), DEFAULT_START_TIME));
+}
 
-export default async function run() {
+export function endTime(schedule) {
+  return Math.min(Math.max(DEFAULT_END_TIME, ...schedule.map((block) => block.end)), 2400);
+}
+
+/**
+ * In HHMM the MM part is in range 00..59, but we want it to be 00..99.
+ * @param {number|string} time
+ */
+export function HHMMtoLinear(time) {
+  const minutes = time % 100;
+  return time - minutes + (minutes / 60) * 100;
+}
+
+/**
+ * TODO: Dept: This also changes global START_TIME and END_TIME
+ */
+export function resolveTimeFormatting(schedule) {
+  let lastEndTime = startTime(schedule);
+  return schedule.map((block) => {
+    if (block.start === 'x') {
+      block.start = lastEndTime;
+    }
+    if (block.end.startsWith('+')) {
+      block.end;
+    }
+    lastEndTime = block.end;
+    // if (block.end.startsWith)
+    return block;
+  });
+}
+
+/**
+ * For now this makes a single column where later time blocks overwrite previous ones.
+ * TODO: Multi-column
+ *
+ * @param {[event]} schedule List of time blocks.
+ */
+export function sortScheduleSingleColumn(schedule) {
+  const reversed = [...schedule];
+  reversed.reverse();
+  const nonOverlappingBlocks = [];
+
+  // TODO: In case a later element is fully within a previous one, i.e. you do A
+  // then B then A again this can not be drawn satisfactory. I jsut assume for
+  // now this does not happen.
+
+  const inInterval = (time, interval) => interval.start <= time && time <= interval.end;
+  for (const block of reversed) {
+    for (const int of nonOverlappingBlocks) {
+      const { start, end } = int;
+      if (inInterval(block.start, int)) {
+        block.start = end;
+      }
+      if (inInterval(block.end, int)) {
+        block.end = start;
+      }
+    }
+    if (block.start < block.end) {
+      nonOverlappingBlocks.push(block);
+    }
+  }
+  console.log(nonOverlappingBlocks);
+  return nonOverlappingBlocks;
+}
+
+export default async function run(targetId = '#schedule') {
   let schedule = await loadSchedule();
-  drawSchedule(schedule);
+  drawSchedule(schedule, targetId);
 }

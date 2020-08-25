@@ -1,4 +1,4 @@
-import RemNoteAPI from './RemNoteAPI';
+import RemNoteAPI from 'remnote-api';
 
 export async function getDocument() {
   const context = await RemNoteAPI.v0.get_context();

@@ -2,11 +2,36 @@
 
 Visualize your daily schedule.
 
-## Tips
+TODO Image plan
+TODO Image replan
+
+## Usage
+
+The syntax was developed by [CrushEntropy](https://crushentropy.com/). It is designed to be typed fast and to easily reschedule if things change. See the original tool for a guide.
+
+Basically you write Rems of the following form
+
+```
+HHMM,HHMM,description
+```
+
+Each line represents a time block. It consists of a start time, an end time and a description for that time block.
+You can also use tags to categorize blocks.
+
+As a shortcut you can use
+
+- `x` as start time to indicate that it should start right when the previous ended
+- `+MM`/`+MMM` as a end time to indicate that the time block lasts `MM`/`MMM` minutes
+
+**Note:** The original syntax parsed it as `+HMM` so `+120` would be 1 hour 20
+minutes but I parse it as 2 hours. I am not yet decided on this and it might
+change and break your previous diagrams. Feel free to discuss this in an issue.
+
+### Tips
 
 Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
 
-## Usage / Development
+## Installation / Development
 
 Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
@@ -26,6 +51,8 @@ Run the plugin locally:
 yarn dev
 ```
 
+This is not necessary
+
 ## Deployment
 
 - [ ] Make GitHub action to gh-pages
@@ -37,7 +64,7 @@ yarn build
 ## Roadmap
 
 - [ ] Read events from RemNote
-- [ ] Ignore non-event Rems
+- [x] Ignore non-event Rems
 - [ ] Tags
 - [ ] Multi-column
 - [ ] Redraw on data change
@@ -74,6 +101,20 @@ Other RemNote plugins:
 - https://glitch.com/~remnotewordcount
 - GraphView
 - https://glitch.com/edit/#!/abalone-pointy-ash?path=script.js%3A16%3A18 (Something with table formatting)
+- Image Search :mag_right:
+
+  Search and import images into any document with two clicks!
+
+  How To Add
+
+  1. Go to https://www.remnote.io/plugins
+  2. Create a new plugin with this URL: https://remnoteimagesearch.glitch.me/
+  3. Set plugin name to 'Image Search'
+  4. Set plugin description to 'Image Search'
+  5. Set width to 600px
+  6. Allow permissions to Read, Create and Modify
+  7. Set a custom shortcut (I use CTRL+SHIFT+G)
+  8. Switch the plugin from Inline to Popup
 
 Other RemNote code:
 

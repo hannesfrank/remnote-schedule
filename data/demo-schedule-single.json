@@ -1,0 +1,72 @@
+[
+  {
+    "start": 1333.3333333333333,
+    "end": 1400,
+    "event": "shorter lunch"
+  },
+  {
+    "start": 1266.6666666666667,
+    "end": 1333.3333333333333,
+    "event": "research at the library"
+  },
+  {
+    "start": 1225,
+    "end": 1266.6666666666667,
+    "event": "emergency call"
+  },
+  {
+    "start": 1750,
+    "end": 1900,
+    "event": "read"
+  },
+  {
+    "start": 1500,
+    "end": 1750,
+    "event": "deep work block 2"
+  },
+  {
+    "start": 1400,
+    "end": 1500,
+    "event": "break and walk"
+  },
+  {
+    "start": 1100,
+    "end": 1225,
+    "event": "deep work slot 1"
+  },
+  {
+    "start": 2033.3333333333333,
+    "end": 2100,
+    "event": "dinner"
+  },
+  {
+    "start": 1966.6666666666667,
+    "end": 2033.3333333333333,
+    "event": "write wikipedia article"
+  },
+  {
+    "start": 1900,
+    "end": 1966.6666666666667,
+    "event": "cook with wife"
+  },
+  {
+    "start": 975,
+    "end": 1025,
+    "event": "shower dressing"
+  },
+  {
+    "start": 850,
+    "end": 975,
+    "event": "workout"
+  },
+  {
+    "start": 800,
+    "end": 850,
+    "event": "RemNote Queue"
+  },
+  {
+    "start": 750,
+    "end": 800,
+    "event": "plan day and coffee"
+  }
+]
