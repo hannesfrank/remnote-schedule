@@ -21,11 +21,7 @@ You can also use tags to categorize blocks.
 As a shortcut you can use
 
 - `x` as start time to indicate that it should start right when the previous ended
-- `+MM`/`+MMM` as a end time to indicate that the time block lasts `MM`/`MMM` minutes
-
-**Note:** The original syntax parsed it as `+HMM` so `+120` would be 1 hour 20
-minutes but I parse it as 2 hours. I am not yet decided on this and it might
-change and break your previous diagrams. Feel free to discuss this in an issue.
+- `+MM`/`+HMM` as a end time to indicate that the time block lasts `MM` minutes / `H` hours and `MM` minutes. **Note:** This parses `+120` as 1 hour 20 minutes, not 2 hours.
 
 ### Tips
 

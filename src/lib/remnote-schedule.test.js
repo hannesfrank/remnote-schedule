@@ -15,7 +15,9 @@ test('eventRegex to match events', () => {
 });
 
 test('sortSchedule into single column', () => {
-  const processedSchedule = schedule.map((el) => el.processed).filter((el) => el.start);
+  const processedSchedule = schedule
+    .map((el) => Object.assign({}, el.processed))
+    .filter((el) => el.start);
   expect(remnoteSchedule.sortScheduleSingleColumn(processedSchedule)).toEqual(singleColumn);
 });
 
@@ -36,9 +38,18 @@ test('HHMMtoLinear', () => {
   expect(remnoteSchedule.HHMMtoLinear(2245)).toBe(2275);
 });
 
-// test('resolveTimeShortcuts', () => {
-//   const parsedSchedule = schedule.map((el) => el.parsed).filter((el) => el.start);
-//   const processedSchedule = schedule.map((el) => el.processed).filter((el) => el.start);
+test('resolveTimeShortcuts', () => {
+  let parsedSchedule = schedule.map((el) => Object.assign({}, el.parsed)).filter((el) => el.start);
+  let processedSchedule = schedule
+    .map((el) => Object.assign({}, el.processed))
+    .filter((el) => el.start);
 
-//   expect(remnoteSchedule.resolveTimeFormatting(parsedSchedule)).toBe(processedSchedule);
-// });
+  parsedSchedule = remnoteSchedule.resolveTimeFormatting(parsedSchedule);
+
+  for (let i = 0; i < parsedSchedule.length; i++) {
+    const { start, end } = parsedSchedule[i];
+    const { start: start2, end: end2 } = processedSchedule[i];
+    expect(start).toBeCloseTo(start2);
+    expect(end).toBeCloseTo(end2);
+  }
+});

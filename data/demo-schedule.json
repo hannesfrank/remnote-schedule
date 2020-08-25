@@ -92,10 +92,10 @@
     "processed": { "start": 1400, "end": 1500, "event": "break and walk" }
   },
   {
-    "raw": "x,+180,deep work block 2",
+    "raw": "x,+230,deep work block 2",
     "isEvent": true,
-    "parsed": { "start": "x", "end": "+180", "event": "deep work block 2" },
-    "processed": { "start": 1500, "end": 1800, "event": "deep work block 2" }
+    "parsed": { "start": "x", "end": "+230", "event": "deep work block 2" },
+    "processed": { "start": 1500, "end": 1750, "event": "deep work block 2" }
   },
   {
     "raw": "1730,1900,read",

@@ -92,10 +92,12 @@ export async function loadSchedule() {
   return demo_schedule;
 }
 
+// Assume resolved time formatting.
 export function startTime(schedule) {
   return Math.max(0, Math.min(...schedule.map((block) => block.start), DEFAULT_START_TIME));
 }
 
+// Assume resolved time formatting
 export function endTime(schedule) {
   return Math.min(Math.max(DEFAULT_END_TIME, ...schedule.map((block) => block.end)), 2400);
 }
@@ -110,19 +112,26 @@ export function HHMMtoLinear(time) {
 }
 
 /**
- * TODO: Dept: This also changes global START_TIME and END_TIME
  */
 export function resolveTimeFormatting(schedule) {
-  let lastEndTime = startTime(schedule);
+  let lastEndTime = undefined;
+
   return schedule.map((block) => {
-    if (block.start === 'x') {
+    if (block.start === 'x' && lastEndTime === undefined) {
+      // This should not happen. I map the start time to default.
+      block.start = DEFAULT_START_TIME;
+    } else if (block.start === 'x') {
       block.start = lastEndTime;
+    } else {
+      block.start = HHMMtoLinear(block.start);
     }
     if (block.end.startsWith('+')) {
-      block.end;
+      const minutes = parseInt(block.end);
+      block.end = block.start + HHMMtoLinear(minutes);
+    } else {
+      block.end = HHMMtoLinear(block.end);
     }
     lastEndTime = block.end;
-    // if (block.end.startsWith)
     return block;
   });
 }
@@ -157,11 +166,12 @@ export function sortScheduleSingleColumn(schedule) {
       nonOverlappingBlocks.push(block);
     }
   }
-  console.log(nonOverlappingBlocks);
   return nonOverlappingBlocks;
 }
 
 export default async function run(targetId = '#schedule') {
   let schedule = await loadSchedule();
-  drawSchedule(schedule, targetId);
+  resolveTimeFormatting(schedule);
+  column = sortScheduleSingleColumn(schedule);
+  drawSchedule(column, targetId);
 }
