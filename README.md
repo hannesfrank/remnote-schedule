@@ -3,7 +3,6 @@
 Visualize your daily schedule.
 
 TODO Image plan
-TODO Image replan
 
 ## Usage
 

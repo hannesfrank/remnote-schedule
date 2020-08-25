@@ -95,6 +95,19 @@ export async function drawSchedule(events, targetId) {
     .attr('y', (d) => (timeToY(d.start) + timeToY(d.end)) / 2 + FONT_SIZE / 2)
     .text((d) => d.event);
   // TODO: Nest rect and text inside group
+
+  const now = new Date();
+  const nowValue = now.getHours() * 100 + (now.getMinutes() / 60) * 100;
+  svg
+    .selectAll('line .now')
+    .data([nowValue])
+    .enter()
+    .append('line')
+    .attr('class', 'now')
+    .attr('x1', 0)
+    .attr('y1', (d) => timeToY(d))
+    .attr('x2', W)
+    .attr('y2', (d) => timeToY(d));
 }
 
 export let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
