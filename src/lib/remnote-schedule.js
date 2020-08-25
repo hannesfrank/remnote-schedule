@@ -7,8 +7,8 @@ const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
 const H = 600; // svg viewport height
 const W = 400; // svg viewport width
-const FONT_SIZE = 8;
-const TIME_MARGIN = 3;
+const FONT_SIZE = 10;
+const TIME_MARGIN = 3; // how much to move time text above line
 const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
@@ -16,7 +16,22 @@ const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
 export const DEFAULT_START_TIME = 600;
 export const DEFAULT_END_TIME = 2200;
 
+// Generated with https://mokole.com/palette.html
+// const COLOR_MAP = [
+//   '#2f4f4f',
+//   '#228b22',
+//   '#00008b',
+//   '#b03060',
+//   '#ff4500',
+//   '#ffff00',
+//   '#00ff00',
+//   '#00ffff',
+//   '#ff00ff',
+//   '#ffe4b5',
+// ];
+
 export async function drawSchedule(events, targetId) {
+  // console.log(events);
   const svg = d3
     .select(targetId)
     .append('svg')
@@ -26,6 +41,16 @@ export async function drawSchedule(events, targetId) {
     .attr('viewBox', `0 0 ${W} ${H}`);
 
   const hours = d3.range(DEFAULT_START_TIME, DEFAULT_END_TIME, 100);
+
+  function timeToY(d) {
+    return (
+      ((d - DEFAULT_START_TIME) * (H - MARGIN_TOP)) / (DEFAULT_END_TIME - DEFAULT_START_TIME) +
+      MARGIN_TOP
+    );
+  }
+  function durationToDY(d) {
+    return (d / (DEFAULT_END_TIME - DEFAULT_START_TIME)) * (H - MARGIN_TOP);
+  }
 
   svg
     .selectAll('line')
@@ -44,36 +69,47 @@ export async function drawSchedule(events, targetId) {
     .enter()
     .append('text')
     .attr('class', 'time')
-    .attr('x', (d) => 2 * TIME_MARGIN)
+    .attr('x', (d) => 2 * TIME_MARGIN) // more space to left than to line below
     .attr('y', (d) => timeToY(d) - TIME_MARGIN)
     .text((d) => Math.floor(d / 100) + ':00');
-
-  function timeToY(d) {
-    return (
-      ((d - DEFAULT_START_TIME) * (H - MARGIN_TOP)) / (DEFAULT_END_TIME - DEFAULT_START_TIME) +
-      MARGIN_TOP
-    );
-  }
-  function durationToDY(d) {
-    return (d / (DEFAULT_END_TIME - DEFAULT_START_TIME)) * (H - MARGIN_TOP);
-  }
-
-  console.log(events);
 
   svg
     .selectAll('rect')
     .data(events)
     .enter()
     .append('rect')
-    .attr('class', 'block')
+    .attr('class', (d) => ['block', d.tags].join(' '))
     .attr('x', (d) => MARGIN_BLOCK_LEFT)
     .attr('y', (d) => timeToY(d.start))
-    .attr('fill', (d) => d.color || 'rgb(200, 50, 50, 0.2)')
+    .attr('fill', (d) => d.color || 'rgb(130, 180, 250)')
     .attr('width', W - MARGIN_BLOCK_LEFT - MARGIN_BLOCK_RIGHT)
     .attr('height', (d) => durationToDY(d.end - d.start));
+
+  svg
+    .selectAll('text .block')
+    .data(events)
+    .enter()
+    .append('text')
+    .attr('class', 'block')
+    .attr('x', (d) => MARGIN_BLOCK_LEFT + 1.5 * FONT_SIZE)
+    .attr('y', (d) => (timeToY(d.start) + timeToY(d.end)) / 2 + FONT_SIZE / 2)
+    .text((d) => d.event);
+  // TODO: Nest rect and text inside group
 }
 
 export let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
+
+function hashString(str) {
+  if (!str) return 0;
+
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    let chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 export async function loadSchedule() {
   const documentRem = await RemNoteUtil.getDocument();
@@ -89,6 +125,7 @@ export async function loadSchedule() {
 
   let events = [];
   for (const block of timeBlocks) {
+    await RemNoteUtil.loadTags(block);
     let match = eventRegex.exec(block.text);
     if (match) {
       let [_, start, end, event] = match;
@@ -96,12 +133,12 @@ export async function loadSchedule() {
         start,
         end,
         event,
+        tags: block.tags,
       });
     }
   }
+  // console.log('Raw', events);
   return events;
-  // const items = children.map((c) => RemNoteUtil.getRemText(c));
-  // console.log
 }
 
 // Assume resolved time formatting.

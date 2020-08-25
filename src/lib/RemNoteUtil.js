@@ -8,6 +8,7 @@ export async function getDocument() {
 
 export async function getChildren(rem, visibleOnly = False) {
   const children = visibleOnly ? rem.visibleRemOnDocument : rem.children;
+  children.reverse();
   return await Promise.all(children.map((remId) => RemNoteAPI.v0.get(remId)));
 }
 
@@ -51,6 +52,19 @@ export async function loadText(remList) {
     remList.map(async (rem) => {
       rem.text = await getRemText(rem);
       return rem;
+    })
+  );
+}
+
+export async function loadTags(rem) {
+  rem.tags = await Promise.all(
+    rem.tagParents.map(async (tagId) => {
+      let tagRem = await RemNoteAPI.v0.get(tagId);
+      console.log('TagRem', tagRem);
+      return tagRem.nameAsMarkdown;
+      // let text = await getRemText(tagRem);
+      // console.log(text);
+      // return text;
     })
   );
 }

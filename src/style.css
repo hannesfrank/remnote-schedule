@@ -19,7 +19,28 @@ text.time {
   font-size: 8pt;
 }
 
+text.block {
+  font-size: 10pt;
+  font-family: Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
 rect.block {
   stroke-width: 1px;
   stroke: #333;
+}
+
+rect.block.exercise {
+  fill: lightskyblue;
+}
+rect.block.ritual {
+  fill: sandybrown;
+}
+rect.block.fun {
+  fill: gold;
+}
+rect.block.book {
+  fill: lightskyblue;
+}
+rect.block.work {
+  fill: darkgray;
 }

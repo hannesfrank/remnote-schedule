@@ -26,6 +26,13 @@ As a shortcut you can use
 ### Tips
 
 Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
+To configure the color of a tag, go to `Custom CSS` and add a block like this:
+
+```
+rect.block.YOUR_TAG {
+  fill: lime;
+}
+```
 
 ## Installation / Development
 
@@ -62,7 +69,7 @@ yarn build
 - [x] Read events from RemNote
   - [ ] Proper error handling. What happens if you are zoomed into the schedule? Or the plugin is itself a child of schedule?
 - [x] Ignore non-event Rems
-- [ ] Tags
+- [x] Tags
 - [ ] Handle intersecting events
   - [ ] Handle event inside another in Single-column
   - [ ] Support Multi-column
