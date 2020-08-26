@@ -27,7 +27,7 @@ As a shortcut you can use
 - `x` as start time to indicate that it should start right when the previous ended
 - `+MM`/`+HMM` as a end time to indicate that the time block lasts `MM` minutes / `H` hours and `MM` minutes. **Note:** This parses `+120` as 1 hour 20 minutes, not 2 hours.
 
-To refresh the graph click the reload icon in the top right or enable auto-reloading (see [Additional Settings](#additional-settings)).
+To refresh the graph click the reload icon in the top right or enable auto-reloading (see [Auto Reload](#auto-reload)).
 
 ### Tips
 
@@ -58,7 +58,15 @@ Add the plugin to a Document with the `/remnote-schedule` command.
 
 ### Additional Settings
 
+#### Auto Reload
+
 You can add an URL parameter `?autoreload=<milliseconds>` after the URL to enable auto-reloading. Clicking the reload button pauses the auto-reload.
+
+For example to reload every 5 seconds, use this URL:
+
+```
+https://hannesfrank.github.io/remnote-schedule/index.html?autoreload=5000
+```
 
 ## Development
 
