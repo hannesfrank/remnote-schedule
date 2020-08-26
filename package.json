@@ -8,7 +8,7 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "dev": "parcel serve src/index.html",
-    "build": "parcel build src/index.html --public-url remnote-schedule --dist-dir docs/"
+    "build": "parcel build src/index.html --public-url /remnote-schedule/ --dist-dir docs/"
   },
   "browserslist": [
     "last 2 Chrome versions"
