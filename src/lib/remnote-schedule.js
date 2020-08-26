@@ -1,7 +1,8 @@
-import * as RemNoteUtil from './RemNoteUtil';
+import * as RemNoteUtil from './remnote-util';
 import RemNoteAPI from 'remnote-api';
 import * as d3 from 'd3';
 import { interval, stratify } from 'd3';
+import feather from 'feather-icons';
 
 const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
@@ -231,9 +232,57 @@ export function sortScheduleSingleColumn(schedule) {
   return nonOverlappingBlocks;
 }
 
-export default async function run(targetId = '#schedule') {
+export async function run(targetId = '#schedule') {
   let schedule = await loadSchedule();
   resolveTimeFormatting(schedule);
   let column = sortScheduleSingleColumn(schedule);
   drawSchedule(column, targetId);
+}
+
+const config = RemNoteUtil.getURLConfig();
+const reloadInterval = parseInt(config.autoreload);
+const autoReloadEnabled = reloadInterval > 0;
+
+const reloadButton = document.getElementById('reload');
+let isAutoReloading = autoReloadEnabled;
+const RELOAD_ICON = feather.icons['refresh-cw'].toSvg();
+const PAUSE_ICON = feather.icons['pause'].toSvg();
+let reloadIntervalHandle;
+
+function updateReloadIcon() {
+  if (isAutoReloading || !autoReloadEnabled) {
+    reloadButton.innerHTML = RELOAD_ICON;
+  } else {
+    reloadButton.innerHTML = PAUSE_ICON;
+  }
+}
+
+async function doReload() {
+  console.info('Reloading remnote-schedule.');
+  let schedule = await loadSchedule();
+  resolveTimeFormatting(schedule);
+  let column = sortScheduleSingleColumn(schedule);
+
+  // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
+  document.getElementById('schedule').innerHTML = '';
+  drawSchedule(column, '#schedule');
+}
+
+doReload();
+updateReloadIcon();
+
+if (autoReloadEnabled) {
+  reloadIntervalHandle = setInterval(doReload, reloadInterval);
+
+  reloadButton.addEventListener('click', () => {
+    isAutoReloading = !isAutoReloading;
+    clearInterval(reloadIntervalHandle);
+    if (isAutoReloading) {
+      reloadIntervalHandle = setInterval(doReload, reloadInterval);
+      doReload();
+    }
+    updateReloadIcon();
+  });
+} else {
+  reloadButton.addEventListener('click', doReload);
 }

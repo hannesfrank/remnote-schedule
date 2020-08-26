@@ -10,6 +10,7 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
 #reload {
   position: absolute;
   top: 10px;
@@ -17,11 +18,25 @@ body {
   font-size: 20px;
   width: 30px;
   height: 30px;
-  padding: 4px 0 0 8px;
   background: rgba(50, 50, 50, 0.3);
   border-radius: 6px;
   cursor: pointer;
   user-select: none;
+}
+#reload .feather {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 5px auto;
+  width: 20px;
+  height: 20px;
+}
+#reload .feather-refresh-cw {
+  stroke-width: 3px;
+}
+#reload .feather-pause {
+  stroke-width: 0.5px;
+  fill: black;
 }
 
 line.time {

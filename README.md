@@ -27,6 +27,8 @@ As a shortcut you can use
 - `x` as start time to indicate that it should start right when the previous ended
 - `+MM`/`+HMM` as a end time to indicate that the time block lasts `MM` minutes / `H` hours and `MM` minutes. **Note:** This parses `+120` as 1 hour 20 minutes, not 2 hours.
 
+To refresh the graph click the reload icon in the top right or enable auto-reloading (see [Additional Settings](#additional-settings)).
+
 ### Tips
 
 - Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
@@ -45,17 +47,18 @@ rect.block.YOUR_TAG {
 
 Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
-```
-https://hannesfrank.github.io/remnote-schedule/index.html
-```
-
-Additionally configure:
-
-- **Plugin Name:** `remnote-schedule`
+- **Plugin Name:** `remnote-schedule` (or anything you like)
+- **Plugin Description:** Visualize your schedule. (or anything you like)
+- **Plugin URL:** `https://hannesfrank.github.io/remnote-schedule/index.html`
 - **CSS Height:** `600px`
 - **CSS Width:** `400px`
+- **Permissions:** `Read`
 
 Add the plugin to a Document with the `/remnote-schedule` command.
+
+### Additional Settings
+
+You can add an URL parameter `?autoreload=<milliseconds>` after the URL to enable auto-reloading. Clicking the reload button pauses the auto-reload.
 
 ## Development
 
@@ -102,6 +105,7 @@ git push origin gh-pages
   - [ ] Handle event inside another in Single-column
   - [ ] Support Multi-column
 - [x] Ability to Reload
+  - [x] Reload with `setInterval`
   - [ ] Watch Rem changes
 - [ ] Nested blocks: Event Rems which are indented in a Event Rem get rendered as subblock
 - [ ] Separate plugin settings page which has settings for colors, icons etc.
