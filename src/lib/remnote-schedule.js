@@ -1,4 +1,4 @@
-import * as RemNoteUtil from './RemNoteUtil';
+import * as RemNoteUtil from './remnote-util';
 import RemNoteAPI from 'remnote-api';
 import * as d3 from 'd3';
 import { interval, stratify } from 'd3';
@@ -110,7 +110,7 @@ export async function drawSchedule(events, targetId) {
     .attr('y2', (d) => timeToY(d));
 }
 
-export let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
+export let eventRegex = /^([0-9]{1,4}|x)\s*,\s*([0-9]{1,4}|\+[0-9]+)\s*,\s*(.*$)/;
 
 function hashString(str) {
   if (!str) return 0;
@@ -231,7 +231,7 @@ export function sortScheduleSingleColumn(schedule) {
   return nonOverlappingBlocks;
 }
 
-export default async function run(targetId = '#schedule') {
+export async function run(targetId = '#schedule') {
   let schedule = await loadSchedule();
   resolveTimeFormatting(schedule);
   let column = sortScheduleSingleColumn(schedule);

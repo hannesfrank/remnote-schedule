@@ -60,11 +60,27 @@ export async function loadTags(rem) {
   rem.tags = await Promise.all(
     rem.tagParents.map(async (tagId) => {
       let tagRem = await RemNoteAPI.v0.get(tagId);
-      console.log('TagRem', tagRem);
       return tagRem.nameAsMarkdown;
       // let text = await getRemText(tagRem);
       // console.log(text);
       // return text;
     })
   );
+}
+
+/** ----------- Plugin related --------------- */
+/*
+ * With the current plugin architecture there are a view possibilites to get
+ * configuration values:
+ * - URL get parameters: easy to use for small configs.
+ * - Reading the value of Rems: api.v0.get_by_name needs to work
+ * - manual input: Impractical as Plugins are stateless.
+ */
+
+/**
+ * @returns URL parameters as an Object. When supplied with duplicate keys, only
+ *          the last value is taken
+ */
+export function getURLConfig() {
+  return Object.fromEntries(new URLSearchParams(location.search));
 }

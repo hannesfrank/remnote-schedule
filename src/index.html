@@ -9,20 +9,8 @@
 
   <body>
     <div id="schedule"></div>
-    <div id="reload">⟳</div>
-    <script>
-      import remNoteSchedule from './lib/remnote-schedule';
-      remNoteSchedule('#schedule');
-      document.getElementById('reload').addEventListener('click', () => {
-        document.getElementById('schedule').innerHTML = '';
-        remNoteSchedule('#schedule');
-      });
-      // import { drawSchedule, resolveTimeFormatting, sortScheduleSingleColumn } from './lib/remnote-schedule';
-      // import schedule from '../data/demo-schedule.json';
-      // const events = schedule.map((el) => el.processed).filter((el) => el.start);
-      // const sorted = sortScheduleSingleColumn(events);
-      // drawSchedule(sorted, '#schedule');
-    </script>
+    <div id="reload"></div>
+    <script src="./main.js"></script>
     <script>
       // TODO: Enable this only in deployment, not in local development.
       // if (window.self == window.top) {

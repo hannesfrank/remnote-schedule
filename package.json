@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "d3": "^5.16.0",
+    "feather-icons": "^4.28.0",
     "remnote-api": "./remnote-api"
   },
   "devDependencies": {
