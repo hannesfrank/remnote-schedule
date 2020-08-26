@@ -2,7 +2,7 @@
 
 Visualize your daily schedule.
 
-![Demo](demo.png)
+![Demo](images/demo.png)
 
 ## Usage
 
@@ -27,13 +27,16 @@ As a shortcut you can use
 ### Tips
 
 - Use <kbd>Alt</kbd> + <kbd>Up</kbd>/<kbd>Down</kbd> to swap tasks of the form `x,+30`.
-- To configure the color of a tag, go to `Custom CSS` and add a block like this:
+
+- ~~To configure the color of a tag, go to `Custom CSS` and add a block like this:~~ This does not work because you can't style an iframe. Use [Stylus](https://github.com/openstyles/stylus) instead
 
 ```
 rect.block.YOUR_TAG {
   fill: lime;
 }
 ```
+
+![Stylus Settings](images/stylus-settings.png)
 
 ## Installation
 
@@ -89,6 +92,7 @@ git push origin gh-pages
   - [ ] Proper error handling. What happens if you are zoomed into the schedule? Or the plugin is itself a child of schedule?
 - [x] Ignore non-event Rems
 - [x] Tags
+  - [ ] Auto color tags so we don't have to install stylus.
 - [ ] Handle intersecting events
   - [ ] Handle event inside another in Single-column
   - [ ] Support Multi-column
@@ -97,10 +101,10 @@ git push origin gh-pages
 - [ ] Nested blocks: Event Rems which are indented in a Event Rem get rendered as subblock
 - [ ] Separate plugin settings page which has settings for colors, icons etc.
   - `- #RRGGBB: RemReference` colors events tagged with `#RemReference`
-  - autohighlight on tag
+  - Maybe autohighlight the Rem when adding a tag
 - [ ] Interactivity (this would need write access)
   - Click on a block to open the rem
-  - Delete block (gets hidden?)
+  - Delete block (Rem gets hidden?)
   - Drag to reschedule
 
 TODO:
