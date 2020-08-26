@@ -111,10 +111,7 @@ git push origin gh-pages
   - Click on a block to open the rem
   - Delete block (Rem gets hidden?)
   - Drag to reschedule
-
-TODO:
-
-- Maybe research other calendar views
+  - Maybe use a different calendar view, not SVG+D3.js.
 
 ### Engineering
 

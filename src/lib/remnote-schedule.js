@@ -110,7 +110,7 @@ export async function drawSchedule(events, targetId) {
     .attr('y2', (d) => timeToY(d));
 }
 
-export let eventRegex = /^([0-9]{4}|x),([0-9]{4}|\+[0-9]+),(.*$)/;
+export let eventRegex = /^([0-9]{1,4}|x)\s*,\s*([0-9]{1,4}|\+[0-9]+)\s*,\s*(.*$)/;
 
 function hashString(str) {
   if (!str) return 0;
