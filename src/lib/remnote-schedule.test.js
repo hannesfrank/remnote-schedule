@@ -2,15 +2,48 @@ import * as remnoteSchedule from './remnote-schedule';
 import schedule from '../../data/demo-schedule.json';
 import singleColumn from '../../data/demo-schedule-single.json';
 
-test('eventRegex to match events', () => {
-  schedule.map(({ raw, isEvent, parsed }) => {
-    expect(remnoteSchedule.eventRegex.test(raw)).toBe(isEvent);
-    if (isEvent) {
-      let match = remnoteSchedule.eventRegex.exec(raw);
-      expect(match[1]).toBe(parsed.start);
-      expect(match[2]).toBe(parsed.end);
-      expect(match[3]).toBe(parsed.event);
-    }
+describe('eventRegex', () => {
+  it('should match events', () => {
+    schedule.map(({ raw, isEvent, parsed }) => {
+      expect(remnoteSchedule.eventRegex.test(raw)).toBe(isEvent);
+      if (isEvent) {
+        let match = remnoteSchedule.eventRegex.exec(raw);
+        expect(match[1]).toBe(parsed.start);
+        expect(match[2]).toBe(parsed.end);
+        expect(match[3]).toBe(parsed.event);
+      }
+    });
+  });
+
+  it('should to be robust to spaces', () => {
+    expect('x,+5,test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x,1000, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x,1500, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x ,  +120, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x , +5 , test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x , 1000 , test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x , 1500 ,  test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x, +120, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('1000 , +120, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('0700, +120, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('0700, +120, test string ').toMatch(remnoteSchedule.eventRegex);
+  });
+
+  it('should allow shorter time definitions', () => {
+    expect('x,+5,test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('x,700, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('200,700, test string ').toMatch(remnoteSchedule.eventRegex);
+    expect('30,40, test string ').toMatch(remnoteSchedule.eventRegex);
+  });
+
+  it('should match empty description', () => {
+    expect('1000,+100,').toMatch(remnoteSchedule.eventRegex);
+  });
+
+  it('should not match non events', () => {
+    expect(' ,+5,test string ').not.toMatch(remnoteSchedule.eventRegex);
+    expect('x,,test string ').not.toMatch(remnoteSchedule.eventRegex);
+    expect('random description').not.toMatch(remnoteSchedule.eventRegex);
   });
 });
 
