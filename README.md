@@ -8,6 +8,9 @@ Visualize your daily schedule.
 
 Add the plugin to a document and it renders all entries under a parent with the name `Schedule`.
 
+**Important:** You have to put `Schedule` as a direct child of
+the Document/Rem you are currently in or it will not be found.
+
 The syntax was developed by [CrushEntropy](https://crushentropy.com/). It is designed to be typed fast and to easily reschedule if things change. See the original tool for a guide.
 
 Basically you write Rems of the following form
@@ -88,8 +91,10 @@ git push origin gh-pages
 
 ## Roadmap
 
+- [ ] **Turn roadmap into issues!** :tounge:
 - [x] Read events from RemNote
-  - [ ] Proper error handling. What happens if you are zoomed into the schedule? Or the plugin is itself a child of schedule?
+  - [ ] Proper error handling with feedback. What happens if you are zoomed into the schedule? Or the plugin is itself a child of schedule?
+  - [ ] Make `get_by_name` work to find "Schedule" anywhere in the subtree.
 - [x] Ignore non-event Rems
 - [x] Tags
   - [ ] Auto color tags so we don't have to install stylus.
