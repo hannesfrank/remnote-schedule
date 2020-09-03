@@ -8,10 +8,17 @@ import {
 
 import feather from 'feather-icons';
 
-const config = RemNoteUtil.getURLConfig();
-const reloadInterval = parseInt(config.autoreload);
-const autoReloadEnabled = reloadInterval > 0;
+// Custom config handling.
+const defaultSettings = {
+  scheduleName: 'Schedule',
+  start: 600,
+  end: 2200,
+  autoReload: 5000,
+};
 
+const settings = Object.assign(defaultSettings, RemNoteUtil.getSettings());
+
+const autoReloadEnabled = settings.reloadInterval > 0;
 const reloadButton = document.getElementById('reload');
 let isAutoReloading = autoReloadEnabled;
 const RELOAD_ICON = feather.icons['refresh-cw'].toSvg();
@@ -28,7 +35,7 @@ function updateReloadIcon() {
 
 async function doReload() {
   console.info('Reloading remnote-schedule.');
-  let schedule = await loadSchedule();
+  let schedule = await loadSchedule(settings.scheduleName);
   resolveTimeFormatting(schedule);
   let column = sortScheduleSingleColumn(schedule);
 
