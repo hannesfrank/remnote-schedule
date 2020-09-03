@@ -2,6 +2,9 @@
   "name": "remnote-api",
   "version": "0.0.1",
   "description": "Transparently work with the RemNote API.",
+  "scripts": {
+    "build": "tsc --module index.ts"
+  },
   "main": "index.js",
   "repository": "https://github.com/hannesfrank/remnote-api.git",
   "author": "Hannes Frank",

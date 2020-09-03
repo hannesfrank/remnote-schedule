@@ -1,13 +1,30 @@
+/**
+ * TODO: This should be part of the API.
+ */
+
 import RemNoteAPI from 'remnote-api';
+
+const SETTINGS_REM = 'Plugin Settings';
 
 export async function getDocument() {
   const context = await RemNoteAPI.v0.get_context();
+  console.log('context', context);
   const documentRem = await RemNoteAPI.v0.get(context.documentId);
   return documentRem;
 }
 
+export async function getRem(options = {}) {
+  if (options.id) {
+    return await RemNoteAPI.v0.get(options.id);
+  } else if (options.name) {
+    return await RemNoteAPI.v0.get_by_name(options.name);
+  }
+}
+
 export async function getChildren(rem, visibleOnly = False) {
   const children = visibleOnly ? rem.visibleRemOnDocument : rem.children;
+  // TODO: Children have the correct order, visibleRemOnDocument don't
+  console.log('Children', children);
   children.reverse();
   return await Promise.all(children.map((remId) => RemNoteAPI.v0.get(remId)));
 }
@@ -69,13 +86,6 @@ export async function loadTags(rem) {
 }
 
 /** ----------- Plugin related --------------- */
-/*
- * With the current plugin architecture there are a view possibilites to get
- * configuration values:
- * - URL get parameters: easy to use for small configs.
- * - Reading the value of Rems: api.v0.get_by_name needs to work
- * - manual input: Impractical as Plugins are stateless.
- */
 
 /**
  * @returns URL parameters as an Object. When supplied with duplicate keys, only
