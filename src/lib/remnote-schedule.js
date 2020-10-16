@@ -1,5 +1,4 @@
-import * as RemNoteUtil from './remnote-util';
-import RemNoteAPI from 'remnote-api';
+import * as RemNoteUtil from 'remnote-api/util';
 import * as d3 from 'd3';
 
 const SVG_WIDTH = 400;
@@ -11,6 +10,9 @@ const TIME_MARGIN = 3; // how much to move time text above line
 const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
+
+export const DEFAULT_START_TIME = 600;
+export const DEFAULT_END_TIME = 2200;
 
 // Generated with https://mokole.com/palette.html
 // const COLOR_MAP = [
