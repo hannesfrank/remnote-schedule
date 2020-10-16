@@ -1,4 +1,5 @@
-import * as RemNoteUtil from './lib/remnote-util';
+import RemNoteAPI from 'remnote-api';
+import * as RemNoteUtil from 'remnote-api/util';
 import {
   loadSchedule,
   resolveTimeFormatting,
@@ -8,6 +9,9 @@ import {
 
 import feather from 'feather-icons';
 
+window.rapi = RemNoteAPI.v0;
+window.rutil = RemNoteUtil;
+
 // Custom config handling.
 const defaultSettings = {
   scheduleName: 'Schedule',
@@ -16,7 +20,8 @@ const defaultSettings = {
   autoReload: 5000,
 };
 
-const settings = Object.assign(defaultSettings, RemNoteUtil.getSettings());
+// const settings = Object.assign(defaultSettings, RemNoteUtil.getSettings());
+const settings = defaultSettings;
 
 const autoReloadEnabled = settings.reloadInterval > 0;
 const reloadButton = document.getElementById('reload');

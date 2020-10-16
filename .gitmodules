@@ -1,0 +1,3 @@
+[submodule "remnote-api"]
+	path = remnote-api
+	url = git@github.com:hannesfrank/remnote-api.git
