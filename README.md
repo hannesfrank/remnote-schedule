@@ -84,16 +84,9 @@ yarn dev
 
 ### Deployment
 
-```sh
-git checkout gh-pages
-rm -r docs
-yarn build
-git add docs
-git commit -m "Release"
-git push origin gh-pages
 ```
-
-- [ ] Make github action
+yarn deploy
+```
 
 ## Known Issues
 
@@ -124,13 +117,3 @@ git push origin gh-pages
   - Delete block (Rem gets hidden?)
   - Drag to reschedule
   - Maybe use a different calendar view, not SVG+D3.js.
-
-### Engineering
-
-- [ ] Add documentation to RemNoteAPI
-  - [ ] Add docstrings.
-  - [ ] Add type definitions.
-  - [ ] Publish to npm?
-- [ ] Locally test RemNoteAPI.
-  - [ ] Make a separate RemNote account with a demo document. Export this to JSON.
-  - [ ] Make the API connector work with the JSON file.
