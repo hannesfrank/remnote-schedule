@@ -84,16 +84,9 @@ yarn dev
 
 ### Deployment
 
-```sh
-git checkout gh-pages
-rm -r docs
-yarn build
-git add docs
-git commit -m "Release"
-git push origin gh-pages
 ```
-
-- [ ] Make github action
+yarn deploy
+```
 
 ## Known Issues
 
@@ -124,39 +117,3 @@ git push origin gh-pages
   - Delete block (Rem gets hidden?)
   - Drag to reschedule
   - Maybe use a different calendar view, not SVG+D3.js.
-
-### Engineering
-
-- [ ] Add documentation to RemNoteAPI
-  - [ ] Add docstrings.
-  - [ ] Add type definitions.
-  - [ ] Publish to npm?
-- [ ] Locally test RemNoteAPI.
-  - [ ] Make a separate RemNote account with a demo document. Export this to JSON.
-  - [ ] Make the API connector work with the JSON file.
-
-## References
-
-Other RemNote plugins:
-
-- https://glitch.com/~remnote-pomodoro
-  - https://github.com/sirvan3tr/RemNote-Pomodoro
-- https://glitch.com/~remnote-wordcloud-plugin
-- https://glitch.com/~remnotewordcount
-- GraphView
-- https://glitch.com/edit/#!/abalone-pointy-ash?path=script.js%3A16%3A18 (Something with table formatting)
-- Image Search :mag_right: Search and import images into any document with two clicks!
-  1. Go to https://www.remnote.io/plugins
-  2. Create a new plugin with this URL: https://remnoteimagesearch.glitch.me/
-  3. Set plugin name to 'Image Search'
-  4. Set plugin description to 'Image Search'
-  5. Set width to 600px
-  6. Allow permissions to Read, Create and Modify
-  7. Set a custom shortcut (I use CTRL+SHIFT+G)
-  8. Switch the plugin from Inline to Popup
-
-Other RemNote code:
-
-- https://observablehq.com/collection/@dmrd/remnote
-  - GraphViz (tree and force layout)
-  - Crawler to load rems

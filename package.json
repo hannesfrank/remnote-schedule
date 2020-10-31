@@ -8,7 +8,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "dev": "parcel serve src/index.html",
-    "build": "parcel build src/index.html --no-minify --public-url /remnote-schedule/ --dist-dir docs/"
+    "build": "parcel build src/index.html --no-minify --public-url /remnote-schedule/ --dist-dir docs/",
+    "deploy": "rm -rf dist/ && npm run build && gh-pages -d dist"
   },
   "browserslist": [
     "last 2 Chrome versions"
@@ -23,6 +24,7 @@
     "@babel/preset-env": "^7.11.0",
     "@types/jest": "^26.0.10",
     "babel-jest": "^26.3.0",
+    "gh-pages": "^3.1.0",
     "jest": "^26.4.0",
     "parcel": "^2.0.0-beta.1"
   }
