@@ -1,9 +1,0 @@
-{
-  "name": "remnote-api",
-  "version": "0.0.1",
-  "description": "Transparently work with the RemNote API.",
-  "main": "index.js",
-  "repository": "https://github.com/hannesfrank/remnote-api.git",
-  "author": "Hannes Frank",
-  "license": "MIT"
-}

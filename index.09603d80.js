@@ -1,7 +1,8 @@
 (function () {
-  function $parcel$defineInteropFlag(a) {
-    Object.defineProperty(a, '__esModule', {
-      value: true
+  function $parcel$reexport(e, n, v) {
+    Object.defineProperty(e, n, {
+      get: v,
+      enumerable: true
     });
   }
 
@@ -21,28 +22,13 @@
     return dest;
   }
 
-  // ASSET: /home/hannes/projects/remnote-schedule/src/lib/remnote-util.js
-  var $bde54b568fcafde3104e4c31b427aba$exports = {};
-  Object.defineProperty($bde54b568fcafde3104e4c31b427aba$exports, "__esModule", {
-    value: true
-  });
-  var $bde54b568fcafde3104e4c31b427aba$export$getDocument = $bde54b568fcafde3104e4c31b427aba$var$getDocument;
-  $bde54b568fcafde3104e4c31b427aba$exports.getDocument = $bde54b568fcafde3104e4c31b427aba$export$getDocument;
-  var $bde54b568fcafde3104e4c31b427aba$export$getChildren = $bde54b568fcafde3104e4c31b427aba$var$getChildren;
-  $bde54b568fcafde3104e4c31b427aba$exports.getChildren = $bde54b568fcafde3104e4c31b427aba$export$getChildren;
-  var $bde54b568fcafde3104e4c31b427aba$export$getVisibleChildren = $bde54b568fcafde3104e4c31b427aba$var$getVisibleChildren;
-  $bde54b568fcafde3104e4c31b427aba$exports.getVisibleChildren = $bde54b568fcafde3104e4c31b427aba$export$getVisibleChildren;
-  var $bde54b568fcafde3104e4c31b427aba$export$getRemText = $bde54b568fcafde3104e4c31b427aba$var$getRemText;
-  $bde54b568fcafde3104e4c31b427aba$exports.getRemText = $bde54b568fcafde3104e4c31b427aba$export$getRemText;
-  var $bde54b568fcafde3104e4c31b427aba$export$loadText = $bde54b568fcafde3104e4c31b427aba$var$loadText;
-  $bde54b568fcafde3104e4c31b427aba$exports.loadText = $bde54b568fcafde3104e4c31b427aba$export$loadText;
-  var $bde54b568fcafde3104e4c31b427aba$export$loadTags = $bde54b568fcafde3104e4c31b427aba$var$loadTags;
-  $bde54b568fcafde3104e4c31b427aba$exports.loadTags = $bde54b568fcafde3104e4c31b427aba$export$loadTags;
-  var $bde54b568fcafde3104e4c31b427aba$export$getURLConfig = $bde54b568fcafde3104e4c31b427aba$var$getURLConfig;
-  $bde54b568fcafde3104e4c31b427aba$exports.getURLConfig = $bde54b568fcafde3104e4c31b427aba$export$getURLConfig;
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/remnote-api/index.js
   var $dea2b6bcca0fb8bc5500a2b1efaad06$exports = {};
-  $parcel$defineInteropFlag($dea2b6bcca0fb8bc5500a2b1efaad06$exports);
+  Object.defineProperty($dea2b6bcca0fb8bc5500a2b1efaad06$exports, "__esModule", {
+    value: true
+  });
+  var $dea2b6bcca0fb8bc5500a2b1efaad06$export$default = void 0;
+  $dea2b6bcca0fb8bc5500a2b1efaad06$exports.default = $dea2b6bcca0fb8bc5500a2b1efaad06$export$default;
 
   /**
    * The RemNote Frontend API allows you to build RemNote plugins.
@@ -64,6 +50,33 @@
    * RemNoteAPI.v0.delete(remId, options);
    * RemNoteAPI.v0.create(text, parentId, options);
    * RemNoteAPI.v0.get_context(options);
+   */
+
+  /**
+   * @typedef {Object} PluginContext
+   * @property {string} documentId - The id of the Rem which is displayed as the title.
+   * @property {string} remId - The Id of the Rem where the plugin was invoked.
+   * @property {string} selectedTextAtActivation - The text which was selected when the plugin was invoked by a shortcut.
+   */
+
+  /**
+   * @typedef
+   * @property {Boolean} found - Was a matching Rem found?
+   * @property {RemId} _id - The Rem's ID.
+   * @property {RemId| Null} parent - The Rem's parent.
+   * @property {Array<RemId>} children - The Rem's children.
+   * @property {RichText} name - The Rem's name.
+   * @property {String} nameAsMarkdown - The Rem's name as markdown.
+   * @property {RichText| Undefined} content - The Rem's content.
+   * @property {String| Undefined} contentAsMarkdown - The Rem's content as markdown.
+   * @property {RichText} source - The Rem's source.
+   * @property {Enum(string)} remType - The Rem's type.
+   * @property {Boolean} isDocument - Is this Rem marked as a document?
+   * @property {Array<RemId>} visibleRemOnDocument - The descendant Rem that appear when this Rem is opened as a Document. (The order is arbitrary.)
+   * @property {Date} updatedAt - The date at which this Rem was last updated
+   * @property {Date} createdAt - The date at which this Rem was created
+   * @property {Array<RemId>} tags - The Rem's tags.(The order is arbitrary.)
+   * @property {Array<RemId>} tagChildren - The Rem that are tagged with this Rem. (The order is arbitrary.).
    */
   class $dea2b6bcca0fb8bc5500a2b1efaad06$var$RemNoteAPIV0 {
     constructor() {
@@ -120,6 +133,13 @@
         ...options
       });
     }
+    /**
+     * Get the context information about the invokation location of the plugin.
+     *
+     * @param options
+     * @returns {PluginContext} Information about the plugin invokation context.
+     */
+
 
     async get_context(options = {}) {
       return await this.makeAPICall('get_context', options);
@@ -156,39 +176,122 @@
 
     receiveMessage(event) {
       const data = event.data;
-      const messageId = data.messageId;
-      this.messagePromises[messageId](data.response);
-      delete this.messagePromises[messageId];
+      const messageId = data.messageId; // FIXME: There is an issue again that the same message is received twice. I had this problem before
+      // and last time I tinkered a bit with the instantiation of the API, because RemNoteAPIV0 needs
+      // to be a singleton.
+      // I don't know why im getting this again. The console.warn below shows that there is only one
+      // instance. I just manually check if there is a message for now to suppress the warning.
+
+      if (messageId in this.messagePromises) {
+        this.messagePromises[messageId](data.response);
+        delete this.messagePromises[messageId];
+      }
     }
 
   }
 
-  const $dea2b6bcca0fb8bc5500a2b1efaad06$export$default = {
+  const $dea2b6bcca0fb8bc5500a2b1efaad06$var$RemNoteAPI = {
     v0: new $dea2b6bcca0fb8bc5500a2b1efaad06$var$RemNoteAPIV0()
   };
+  var $dea2b6bcca0fb8bc5500a2b1efaad06$var$_default = $dea2b6bcca0fb8bc5500a2b1efaad06$var$RemNoteAPI;
+  $dea2b6bcca0fb8bc5500a2b1efaad06$export$default = $dea2b6bcca0fb8bc5500a2b1efaad06$var$_default;
   $dea2b6bcca0fb8bc5500a2b1efaad06$exports.default = $dea2b6bcca0fb8bc5500a2b1efaad06$export$default;
-  var $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi = $bde54b568fcafde3104e4c31b427aba$var$_interopRequireDefault($dea2b6bcca0fb8bc5500a2b1efaad06$exports);
+  // ASSET: /home/hannes/projects/remnote-schedule/src/main.js
+  var $fefb8311bfbb38e3fee80b21923eaae0$var$_remnoteApi = $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireDefault($dea2b6bcca0fb8bc5500a2b1efaad06$exports);
+  // ASSET: /home/hannes/projects/remnote-schedule/node_modules/remnote-api/util.js
+  var $eeab3078c78ed0f15e2b1317a60d5ab$exports = {};
+  Object.defineProperty($eeab3078c78ed0f15e2b1317a60d5ab$exports, "__esModule", {
+    value: true
+  });
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getContext = $eeab3078c78ed0f15e2b1317a60d5ab$var$getContext;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getContext = $eeab3078c78ed0f15e2b1317a60d5ab$export$getContext;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getDocument = $eeab3078c78ed0f15e2b1317a60d5ab$var$getDocument;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getDocument = $eeab3078c78ed0f15e2b1317a60d5ab$export$getDocument;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getRem = $eeab3078c78ed0f15e2b1317a60d5ab$var$getRem;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getRem = $eeab3078c78ed0f15e2b1317a60d5ab$export$getRem;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getChildren = $eeab3078c78ed0f15e2b1317a60d5ab$var$getChildren;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getChildren = $eeab3078c78ed0f15e2b1317a60d5ab$export$getChildren;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$insertImage = $eeab3078c78ed0f15e2b1317a60d5ab$var$insertImage;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.insertImage = $eeab3078c78ed0f15e2b1317a60d5ab$export$insertImage;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getVisibleChildren = $eeab3078c78ed0f15e2b1317a60d5ab$var$getVisibleChildren;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getVisibleChildren = $eeab3078c78ed0f15e2b1317a60d5ab$export$getVisibleChildren;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getRemText = $eeab3078c78ed0f15e2b1317a60d5ab$var$getRemText;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getRemText = $eeab3078c78ed0f15e2b1317a60d5ab$export$getRemText;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$loadText = $eeab3078c78ed0f15e2b1317a60d5ab$var$loadText;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.loadText = $eeab3078c78ed0f15e2b1317a60d5ab$export$loadText;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$loadTags = $eeab3078c78ed0f15e2b1317a60d5ab$var$loadTags;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.loadTags = $eeab3078c78ed0f15e2b1317a60d5ab$export$loadTags;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$export$getPluginSettings = $eeab3078c78ed0f15e2b1317a60d5ab$var$getPluginSettings;
+  $eeab3078c78ed0f15e2b1317a60d5ab$exports.getPluginSettings = $eeab3078c78ed0f15e2b1317a60d5ab$export$getPluginSettings;
+  var $eeab3078c78ed0f15e2b1317a60d5ab$var$_index = $eeab3078c78ed0f15e2b1317a60d5ab$var$_interopRequireDefault($dea2b6bcca0fb8bc5500a2b1efaad06$exports);
 
-  function $bde54b568fcafde3104e4c31b427aba$var$_interopRequireDefault(obj) {
+  function $eeab3078c78ed0f15e2b1317a60d5ab$var$_interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
       default: obj
     };
   }
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$getDocument() {
-    const context = await $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi.default.v0.get_context();
-    const documentRem = await $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi.default.v0.get(context.documentId);
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getContext() {
+    const context = await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get_context(); // TODO: transparent preloading
+
+    context.rem = await $eeab3078c78ed0f15e2b1317a60d5ab$var$getRem({
+      id: context.remId
+    });
+    context.document = await $eeab3078c78ed0f15e2b1317a60d5ab$var$getRem({
+      id: context.documentId
+    });
+    return context;
+  }
+
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getDocument() {
+    const context = await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get_context();
+    const documentRem = await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get(context.documentId);
     return documentRem;
   }
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$getChildren(rem, visibleOnly = False) {
-    const children = visibleOnly ? rem.visibleRemOnDocument : rem.children;
-    children.reverse();
-    return await Promise.all(children.map(remId => $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi.default.v0.get(remId)));
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getRem(options = {}) {
+    if (options.id) {
+      return $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get(options.id);
+    } else if (options.name) {
+      return $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get_by_name(options.name);
+    }
   }
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$getVisibleChildren(remId) {
-    return $bde54b568fcafde3104e4c31b427aba$var$getChildren(remId, true);
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getChildren(rem, visibleOnly = False) {
+    const children = visibleOnly ? rem.visibleRemOnDocument : rem.children; // TODO: Children have the correct order, visibleRemOnDocument don't
+
+    children.reverse();
+    return Promise.all(children.map(remId => $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get(remId)));
+  }
+  /**
+   * Insert an image to a rem.
+   * @param {*} rem Rem or RemID
+   */
+
+
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$insertImage(rem, imageURL) {
+    if (typeof rem === 'string') {
+      rem = await $eeab3078c78ed0f15e2b1317a60d5ab$var$getRem({
+        id: rem
+      });
+    } // append
+
+
+    console.log('remnote append', rem);
+
+    if (rem.content) {
+      await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.update(rem._id, {
+        content: rem.contentAsMarkdown + `![](${imageURL})`
+      });
+    } else {
+      await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.update(rem._id, {
+        name: rem.nameAsMarkdown + `![](${imageURL})`
+      });
+    }
+  }
+
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getVisibleChildren(remId) {
+    return $eeab3078c78ed0f15e2b1317a60d5ab$var$getChildren(remId, true);
   }
   /**
    * Take a Rem, and extract its text. The rem.name and rem.content fields are
@@ -198,7 +301,7 @@
    */
 
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$getRemText(rem, exploredRem = []) {
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$getRemText(rem, exploredRem = []) {
     if (!rem.found) return '';
     const richTextElementsText = await Promise.all( // Go through each element in the rich text
     rem.name.concat(rem.content || []).map(async richTextElement => {
@@ -206,7 +309,7 @@
       if (typeof richTextElement == 'string') {
         return richTextElement; // If the element is a Rem Reference (i == "q"), then recursively get that Rem Reference's text.
       } else if (richTextElement.i == 'q' && !exploredRem.includes(richTextElement._id)) {
-        return await $bde54b568fcafde3104e4c31b427aba$var$getRemText(await $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi.default.v0.get(richTextElement._id), // Track explored Rem to avoid infinite loops
+        return await $eeab3078c78ed0f15e2b1317a60d5ab$var$getRemText(await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get(richTextElement._id), // Track explored Rem to avoid infinite loops
         exploredRem.concat([richTextElement._id]));
       } else {
         // If the Rem is some other rich text element, just take its .text property.
@@ -216,16 +319,16 @@
     return richTextElementsText.join('');
   }
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$loadText(remList) {
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$loadText(remList) {
     await Promise.all(remList.map(async rem => {
-      rem.text = await $bde54b568fcafde3104e4c31b427aba$var$getRemText(rem);
+      rem.text = await $eeab3078c78ed0f15e2b1317a60d5ab$var$getRemText(rem);
       return rem;
     }));
   }
 
-  async function $bde54b568fcafde3104e4c31b427aba$var$loadTags(rem) {
+  async function $eeab3078c78ed0f15e2b1317a60d5ab$var$loadTags(rem) {
     rem.tags = await Promise.all(rem.tagParents.map(async tagId => {
-      let tagRem = await $bde54b568fcafde3104e4c31b427aba$var$_remnoteApi.default.v0.get(tagId);
+      let tagRem = await $eeab3078c78ed0f15e2b1317a60d5ab$var$_index.default.v0.get(tagId);
       return tagRem.nameAsMarkdown; // let text = await getRemText(tagRem);
       // console.log(text);
       // return text;
@@ -233,26 +336,21 @@
   }
   /** ----------- Plugin related --------------- */
 
-  /*
-   * With the current plugin architecture there are a view possibilites to get
-   * configuration values:
-   * - URL get parameters: easy to use for small configs.
-   * - Reading the value of Rems: api.v0.get_by_name needs to work
-   * - manual input: Impractical as Plugins are stateless.
-   */
 
-  /**
-   * @returns URL parameters as an Object. When supplied with duplicate keys, only
-   *          the last value is taken
-   */
+  function $eeab3078c78ed0f15e2b1317a60d5ab$var$getPluginSettings(urlParamsStr, defaultSettings = {}) {
+    const params = new URLSearchParams(urlParamsStr);
 
+    function camelCase(str) {
+      return str.replace(/-([a-z])/g, function (g) {
+        return g[1].toUpperCase();
+      });
+    }
 
-  function $bde54b568fcafde3104e4c31b427aba$var$getURLConfig() {
-    return Object.fromEntries(new URLSearchParams(location.search));
+    const settings = Object.fromEntries([...params.entries()].map(([k, v]) => [camelCase(k), v]));
+    return Object.assign(defaultSettings, settings);
   }
 
-  // ASSET: /home/hannes/projects/remnote-schedule/src/main.js
-  var $fefb8311bfbb38e3fee80b21923eaae0$var$RemNoteUtil = $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireWildcard($bde54b568fcafde3104e4c31b427aba$exports);
+  var $fefb8311bfbb38e3fee80b21923eaae0$var$RemNoteUtil = $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireWildcard($eeab3078c78ed0f15e2b1317a60d5ab$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/src/lib/remnote-schedule.js
   var $b4867728b5074e96e0d0487dc52bab0$exports = {};
   Object.defineProperty($b4867728b5074e96e0d0487dc52bab0$exports, "__esModule", {
@@ -272,16 +370,14 @@
   $b4867728b5074e96e0d0487dc52bab0$exports.resolveTimeFormatting = $b4867728b5074e96e0d0487dc52bab0$export$resolveTimeFormatting;
   var $b4867728b5074e96e0d0487dc52bab0$export$sortScheduleSingleColumn = $b4867728b5074e96e0d0487dc52bab0$var$sortScheduleSingleColumn;
   $b4867728b5074e96e0d0487dc52bab0$exports.sortScheduleSingleColumn = $b4867728b5074e96e0d0487dc52bab0$export$sortScheduleSingleColumn;
-  var $b4867728b5074e96e0d0487dc52bab0$export$run = $b4867728b5074e96e0d0487dc52bab0$var$run;
-  $b4867728b5074e96e0d0487dc52bab0$exports.run = $b4867728b5074e96e0d0487dc52bab0$export$run;
-  var $b4867728b5074e96e0d0487dc52bab0$export$eventRegex = ($b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_END_TIME = ($b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_START_TIME = void 0, $b4867728b5074e96e0d0487dc52bab0$exports.DEFAULT_START_TIME = $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_START_TIME), $b4867728b5074e96e0d0487dc52bab0$exports.DEFAULT_END_TIME = $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_END_TIME);
+  var $b4867728b5074e96e0d0487dc52bab0$export$makeSchedule = $b4867728b5074e96e0d0487dc52bab0$var$makeSchedule;
+  $b4867728b5074e96e0d0487dc52bab0$exports.makeSchedule = $b4867728b5074e96e0d0487dc52bab0$export$makeSchedule;
+  var $b4867728b5074e96e0d0487dc52bab0$export$eventRegex = void 0;
   $b4867728b5074e96e0d0487dc52bab0$exports.eventRegex = $b4867728b5074e96e0d0487dc52bab0$export$eventRegex;
-  var $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil = $b4867728b5074e96e0d0487dc52bab0$var$_interopRequireWildcard($bde54b568fcafde3104e4c31b427aba$exports);
-  var $b4867728b5074e96e0d0487dc52bab0$var$_remnoteApi = $b4867728b5074e96e0d0487dc52bab0$var$_interopRequireDefault($dea2b6bcca0fb8bc5500a2b1efaad06$exports);
+  var $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil = $b4867728b5074e96e0d0487dc52bab0$var$_interopRequireWildcard($eeab3078c78ed0f15e2b1317a60d5ab$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3/index.js
   var $baf87f18f8e7d2dd21d7f8fc68289236$exports = {};
   var $a003e70e6b368a7643cff3c4c15a2$export$version = "5.16.0";
-  $baf87f18f8e7d2dd21d7f8fc68289236$exports.version = $a003e70e6b368a7643cff3c4c15a2$export$version;
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-array/src/index.js
   var $a48bec920495e0524ae8d47eae77$exports = {};
 
@@ -838,37 +934,99 @@
     return $b86a08f2963926c8e9caf9a96abbe4$export$default(arguments);
   };
 
-  $a48bec920495e0524ae8d47eae77$exports.bisectLeft = $b69f26782f5d050d4a7639c7$export$bisectLeft;
-  $a48bec920495e0524ae8d47eae77$exports.bisectRight = $b69f26782f5d050d4a7639c7$export$bisectRight;
-  $a48bec920495e0524ae8d47eae77$exports.bisect = $b69f26782f5d050d4a7639c7$export$bisectRight;
-  $a48bec920495e0524ae8d47eae77$exports.ascending = $df9b75c3b4d69fb61c2ae9cbd2bf10f5$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.bisector = $ab3d366b88d786de67a70e71190d32e7$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.cross = $ebfc71e8813e0feb3e98db3feffc7512$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.descending = $c8640c239f2a397bfafa1a99e95471b$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.deviation = $da6a950416c44009b4d2f7831cce434$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.extent = $aa98a53c76866904595d6fbe1384c$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.histogram = $e1885fd362da22638727ba2e4b5$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.thresholdFreedmanDiaconis = $eeb71782c7531615a9dd04acf6871$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.thresholdScott = $e65f30f3c9edb456e584cf44b8bc7f4$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.thresholdSturges = $cf18c21d48bce50a1570b478e61e5e1$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.max = $f7a9dd19dbc15f0bf3e046bf490a67e$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.mean = $fe3599471dceca5673fcda245a06f9$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.median = $c763bb6f4b4ce69884115d0e198e7e57$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.merge = $cd19c0e1656d94f867042de4550025f3$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.min = $b0fa3eccb253c16a6e3b3932024$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.pairs = $cfc4a7da8f8bdd01966f78316101759b$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.permute = $e1c41f047a61977d6c2f0c3a70fd48bd$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.quantile = $b5e6defb07903d2052c3201516dedf5$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.range = $c42659c40d17582305f81857dcf861f2$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.scan = $a34e180e97dd9f7ca71f1d3126c1aea$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.shuffle = $f75161c9ab8d189ba2efe6fd981$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.sum = $aed8b116ebce8a00acdaa010e7d265e1$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.tickStep = $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$tickStep;
-  $a48bec920495e0524ae8d47eae77$exports.tickIncrement = $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$tickIncrement;
-  $a48bec920495e0524ae8d47eae77$exports.ticks = $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.transpose = $b86a08f2963926c8e9caf9a96abbe4$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.variance = $c8b806ee8400a2687e29d4cb4c916525$export$default;
-  $a48bec920495e0524ae8d47eae77$exports.zip = $b31b183e14c477b45ccccf51c060783$export$default;
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "bisectLeft", function () {
+    return $b69f26782f5d050d4a7639c7$export$bisectLeft;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "bisectRight", function () {
+    return $b69f26782f5d050d4a7639c7$export$bisectRight;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "bisect", function () {
+    return $b69f26782f5d050d4a7639c7$export$bisectRight;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "ascending", function () {
+    return $df9b75c3b4d69fb61c2ae9cbd2bf10f5$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "bisector", function () {
+    return $ab3d366b88d786de67a70e71190d32e7$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "cross", function () {
+    return $ebfc71e8813e0feb3e98db3feffc7512$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "descending", function () {
+    return $c8640c239f2a397bfafa1a99e95471b$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "deviation", function () {
+    return $da6a950416c44009b4d2f7831cce434$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "extent", function () {
+    return $aa98a53c76866904595d6fbe1384c$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "histogram", function () {
+    return $e1885fd362da22638727ba2e4b5$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "thresholdFreedmanDiaconis", function () {
+    return $eeb71782c7531615a9dd04acf6871$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "thresholdScott", function () {
+    return $e65f30f3c9edb456e584cf44b8bc7f4$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "thresholdSturges", function () {
+    return $cf18c21d48bce50a1570b478e61e5e1$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "max", function () {
+    return $f7a9dd19dbc15f0bf3e046bf490a67e$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "mean", function () {
+    return $fe3599471dceca5673fcda245a06f9$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "median", function () {
+    return $c763bb6f4b4ce69884115d0e198e7e57$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "merge", function () {
+    return $cd19c0e1656d94f867042de4550025f3$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "min", function () {
+    return $b0fa3eccb253c16a6e3b3932024$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "pairs", function () {
+    return $cfc4a7da8f8bdd01966f78316101759b$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "permute", function () {
+    return $e1c41f047a61977d6c2f0c3a70fd48bd$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "quantile", function () {
+    return $b5e6defb07903d2052c3201516dedf5$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "range", function () {
+    return $c42659c40d17582305f81857dcf861f2$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "scan", function () {
+    return $a34e180e97dd9f7ca71f1d3126c1aea$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "shuffle", function () {
+    return $f75161c9ab8d189ba2efe6fd981$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "sum", function () {
+    return $aed8b116ebce8a00acdaa010e7d265e1$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "tickStep", function () {
+    return $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$tickStep;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "tickIncrement", function () {
+    return $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$tickIncrement;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "ticks", function () {
+    return $b6a5240e4f06a4fb3f8dd7e9d4b88a2$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "transpose", function () {
+    return $b86a08f2963926c8e9caf9a96abbe4$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "variance", function () {
+    return $c8b806ee8400a2687e29d4cb4c916525$export$default;
+  });
+  $parcel$reexport($a48bec920495e0524ae8d47eae77$exports, "zip", function () {
+    return $b31b183e14c477b45ccccf51c060783$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $a48bec920495e0524ae8d47eae77$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-axis/src/index.js
   var $e966a6686b2912a5d78cddd2b04279$exports = {};
@@ -1024,10 +1182,18 @@
     return $c74203e635a68b0b00a6ca5c8ebb8a$var$axis($c74203e635a68b0b00a6ca5c8ebb8a$var$left, scale);
   }
 
-  $e966a6686b2912a5d78cddd2b04279$exports.axisLeft = $c74203e635a68b0b00a6ca5c8ebb8a$export$axisLeft;
-  $e966a6686b2912a5d78cddd2b04279$exports.axisBottom = $c74203e635a68b0b00a6ca5c8ebb8a$export$axisBottom;
-  $e966a6686b2912a5d78cddd2b04279$exports.axisRight = $c74203e635a68b0b00a6ca5c8ebb8a$export$axisRight;
-  $e966a6686b2912a5d78cddd2b04279$exports.axisTop = $c74203e635a68b0b00a6ca5c8ebb8a$export$axisTop;
+  $parcel$reexport($e966a6686b2912a5d78cddd2b04279$exports, "axisLeft", function () {
+    return $c74203e635a68b0b00a6ca5c8ebb8a$export$axisLeft;
+  });
+  $parcel$reexport($e966a6686b2912a5d78cddd2b04279$exports, "axisBottom", function () {
+    return $c74203e635a68b0b00a6ca5c8ebb8a$export$axisBottom;
+  });
+  $parcel$reexport($e966a6686b2912a5d78cddd2b04279$exports, "axisRight", function () {
+    return $c74203e635a68b0b00a6ca5c8ebb8a$export$axisRight;
+  });
+  $parcel$reexport($e966a6686b2912a5d78cddd2b04279$exports, "axisTop", function () {
+    return $c74203e635a68b0b00a6ca5c8ebb8a$export$axisTop;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $e966a6686b2912a5d78cddd2b04279$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-brush/src/index.js
   var $ace4401f6b86427091d7a062b662fda5$exports = {};
@@ -1132,7 +1298,9 @@
     return type;
   }
 
-  $f3e2504056c10021889540656fcb16a5$exports.dispatch = $d92af43de305a33b585fe15ee90f8c34$export$default;
+  $parcel$reexport($f3e2504056c10021889540656fcb16a5$exports, "dispatch", function () {
+    return $d92af43de305a33b585fe15ee90f8c34$export$default;
+  });
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-drag/src/index.js
   var $d5bb9182c3cf1e531eef55582ddee8b8$exports = {};
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-selection/src/index.js
@@ -2113,25 +2281,63 @@
     return points;
   };
 
-  $bc1c240ef53a27a9774123ee235bd$exports.create = $ff55c6dddabbb2e35d481774ffd198$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.creator = $e108ad1d53a85a2c0acd93af8920f$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.local = $da9a950dfcd1938bb2490d7e882ef507$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.matcher = $e6878d04246d4507c907a52761$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.mouse = $aa8cdd13017edd165dddd111cc6030c5$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.namespace = $b4743ef5d029a4f8829b4aed53715aec$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.namespaces = $c8cc2dc1b77cd558fe8d5a4755388e$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.clientPoint = $e2048e6b437f327835926adf4290f1fd$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.select = $b56959d553113d20baa4784dfb24f401$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.selectAll = $fe75cb04cdde37cec493ea6049a5cf83$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.selection = $d6e8568bc330f9ca4b3e05dd8ae9169f$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.selector = $bec06b6b10e990be2a6e32a6de8f89fe$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.selectorAll = $d18e78d0f76a4a213531a7ff93aee755$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.style = $aa335bf2f31132f408113c6e72c5a9d$export$styleValue;
-  $bc1c240ef53a27a9774123ee235bd$exports.touch = $d61dedf5febf203903d30f01e922f037$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.touches = $d0cb794dac7ef5037700b01690d5b8$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.window = $bc640212338291ee043b29b673197a$export$default;
-  $bc1c240ef53a27a9774123ee235bd$exports.customEvent = $ee90543887c8b1f1e6b53ab1e3f5c3bc$export$customEvent;
-  $bc1c240ef53a27a9774123ee235bd$exports.event = $ee90543887c8b1f1e6b53ab1e3f5c3bc$export$event;
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "create", function () {
+    return $ff55c6dddabbb2e35d481774ffd198$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "creator", function () {
+    return $e108ad1d53a85a2c0acd93af8920f$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "local", function () {
+    return $da9a950dfcd1938bb2490d7e882ef507$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "matcher", function () {
+    return $e6878d04246d4507c907a52761$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "mouse", function () {
+    return $aa8cdd13017edd165dddd111cc6030c5$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "namespace", function () {
+    return $b4743ef5d029a4f8829b4aed53715aec$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "namespaces", function () {
+    return $c8cc2dc1b77cd558fe8d5a4755388e$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "clientPoint", function () {
+    return $e2048e6b437f327835926adf4290f1fd$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "select", function () {
+    return $b56959d553113d20baa4784dfb24f401$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "selectAll", function () {
+    return $fe75cb04cdde37cec493ea6049a5cf83$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "selection", function () {
+    return $d6e8568bc330f9ca4b3e05dd8ae9169f$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "selector", function () {
+    return $bec06b6b10e990be2a6e32a6de8f89fe$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "selectorAll", function () {
+    return $d18e78d0f76a4a213531a7ff93aee755$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "style", function () {
+    return $aa335bf2f31132f408113c6e72c5a9d$export$styleValue;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "touch", function () {
+    return $d61dedf5febf203903d30f01e922f037$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "touches", function () {
+    return $d0cb794dac7ef5037700b01690d5b8$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "window", function () {
+    return $bc640212338291ee043b29b673197a$export$default;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "customEvent", function () {
+    return $ee90543887c8b1f1e6b53ab1e3f5c3bc$export$customEvent;
+  });
+  $parcel$reexport($bc1c240ef53a27a9774123ee235bd$exports, "event", function () {
+    return $ee90543887c8b1f1e6b53ab1e3f5c3bc$export$event;
+  });
 
   function $ae88d808f7e151ff3140dce027d322c$export$nopropagation() {
     $ee90543887c8b1f1e6b53ab1e3f5c3bc$export$event.stopImmediatePropagation();
@@ -2378,9 +2584,15 @@
     return drag;
   };
 
-  $d5bb9182c3cf1e531eef55582ddee8b8$exports.drag = $f9ad8dccc6df06feda529aed477235c$export$default;
-  $d5bb9182c3cf1e531eef55582ddee8b8$exports.dragEnable = $f2ffaa14bb5a14201e988ba58a6e4cc$export$yesdrag;
-  $d5bb9182c3cf1e531eef55582ddee8b8$exports.dragDisable = $f2ffaa14bb5a14201e988ba58a6e4cc$export$default;
+  $parcel$reexport($d5bb9182c3cf1e531eef55582ddee8b8$exports, "drag", function () {
+    return $f9ad8dccc6df06feda529aed477235c$export$default;
+  });
+  $parcel$reexport($d5bb9182c3cf1e531eef55582ddee8b8$exports, "dragEnable", function () {
+    return $f2ffaa14bb5a14201e988ba58a6e4cc$export$yesdrag;
+  });
+  $parcel$reexport($d5bb9182c3cf1e531eef55582ddee8b8$exports, "dragDisable", function () {
+    return $f2ffaa14bb5a14201e988ba58a6e4cc$export$default;
+  });
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-interpolate/src/index.js
   var $ebff45c14050398ee69c86418842a3c$exports = {};
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-color/src/index.js
@@ -2917,14 +3129,30 @@
       return new $d80e7eb50bfacfa29f34ba4059876df8$export$Rgb(255 * (l + a * ($ee4ccdacb4682b4d904e7ef68e0800$var$A * cosh + $ee4ccdacb4682b4d904e7ef68e0800$var$B * sinh)), 255 * (l + a * ($ee4ccdacb4682b4d904e7ef68e0800$var$C * cosh + $ee4ccdacb4682b4d904e7ef68e0800$var$D * sinh)), 255 * (l + a * ($ee4ccdacb4682b4d904e7ef68e0800$var$E * cosh)), this.opacity);
     }
   }));
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.hsl = $d80e7eb50bfacfa29f34ba4059876df8$export$hsl;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.rgb = $d80e7eb50bfacfa29f34ba4059876df8$export$rgb;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.color = $d80e7eb50bfacfa29f34ba4059876df8$export$default;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.gray = $cd5beb24024c03915469694bd0777$export$gray;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.lch = $cd5beb24024c03915469694bd0777$export$lch;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.hcl = $cd5beb24024c03915469694bd0777$export$hcl;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.lab = $cd5beb24024c03915469694bd0777$export$default;
-  $e30df59f56260a5c58dd173a3a0d5f16$exports.cubehelix = $ee4ccdacb4682b4d904e7ef68e0800$export$default;
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "hsl", function () {
+    return $d80e7eb50bfacfa29f34ba4059876df8$export$hsl;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "rgb", function () {
+    return $d80e7eb50bfacfa29f34ba4059876df8$export$rgb;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "color", function () {
+    return $d80e7eb50bfacfa29f34ba4059876df8$export$default;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "gray", function () {
+    return $cd5beb24024c03915469694bd0777$export$gray;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "lch", function () {
+    return $cd5beb24024c03915469694bd0777$export$lch;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "hcl", function () {
+    return $cd5beb24024c03915469694bd0777$export$hcl;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "lab", function () {
+    return $cd5beb24024c03915469694bd0777$export$default;
+  });
+  $parcel$reexport($e30df59f56260a5c58dd173a3a0d5f16$exports, "cubehelix", function () {
+    return $ee4ccdacb4682b4d904e7ef68e0800$export$default;
+  });
 
   function $b8058e6aa58c4cbee21316f7b35880$export$basis(t1, v0, v1, v2, v3) {
     var t2 = t1 * t1,
@@ -3151,7 +3379,6 @@
 
     while ((am = $cc93ea21b3940008982ffec5a357a00$var$reA.exec(a)) && (bm = $cc93ea21b3940008982ffec5a357a00$var$reB.exec(b))) {
       if ((bs = bm.index) > bi) {
-        // a string precedes the next number in b
         bs = b.slice(bi, bs);
         if (s[i]) s[i] += bs; // coalesce with previous string
         else s[++i] = bs;
@@ -3507,33 +3734,87 @@
     return samples;
   };
 
-  $ebff45c14050398ee69c86418842a3c$exports.interpolate = $e062b163b7632843b6f6f98ba02bf$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateArray = $fb1b1e62f1ab6360f26f741419a09$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateBasis = $b8058e6aa58c4cbee21316f7b35880$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateBasisClosed = $dbc55fcd0a4e66723de94791cec4a157$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateDate = $fa5d1d0db92cfd218983d67341ec210$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateDiscrete = $be94c39764382501bed6ed4f39843$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateHue = $b5303c7b26b007c643bd23d2c9509a4a$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateNumber = $cb63b4f483c00ee81f3d5cc44438$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateNumberArray = $fa197e677bcc078b7fcb20143dc681ce$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateObject = $dfb4889aefcf79da6fe93c781$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateRound = $e497b7d623fc4b3d766b95ef$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateString = $cc93ea21b3940008982ffec5a357a00$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateTransformSvg = $f646615b9cc09a786946188f35cd6f5a$export$interpolateTransformSvg;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateTransformCss = $f646615b9cc09a786946188f35cd6f5a$export$interpolateTransformCss;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateZoom = $a426b2ca4da9ebbe8a6fe1c149f36$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateRgbBasisClosed = $a78860430d0b6594a642eb77b8069ea$export$rgbBasisClosed;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateRgbBasis = $a78860430d0b6594a642eb77b8069ea$export$rgbBasis;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateRgb = $a78860430d0b6594a642eb77b8069ea$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateHslLong = $ae5a54b96bdd001189397f1d27672b$export$hslLong;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateHsl = $ae5a54b96bdd001189397f1d27672b$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateLab = $de0c12cc35591c603c1f5c0076f22$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateHclLong = $f2fbfd5c305d215c52828022670f7c$export$hclLong;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateHcl = $f2fbfd5c305d215c52828022670f7c$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateCubehelixLong = $fe7a57e38d670b3c5d58ff2b773025df$export$cubehelixLong;
-  $ebff45c14050398ee69c86418842a3c$exports.interpolateCubehelix = $fe7a57e38d670b3c5d58ff2b773025df$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.piecewise = $c6ad01bc9395cf11b7fa200760ded$export$default;
-  $ebff45c14050398ee69c86418842a3c$exports.quantize = $b87fac77b823d53b03d835ca6cfa16$export$default;
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolate", function () {
+    return $e062b163b7632843b6f6f98ba02bf$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateArray", function () {
+    return $fb1b1e62f1ab6360f26f741419a09$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateBasis", function () {
+    return $b8058e6aa58c4cbee21316f7b35880$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateBasisClosed", function () {
+    return $dbc55fcd0a4e66723de94791cec4a157$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateDate", function () {
+    return $fa5d1d0db92cfd218983d67341ec210$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateDiscrete", function () {
+    return $be94c39764382501bed6ed4f39843$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateHue", function () {
+    return $b5303c7b26b007c643bd23d2c9509a4a$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateNumber", function () {
+    return $cb63b4f483c00ee81f3d5cc44438$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateNumberArray", function () {
+    return $fa197e677bcc078b7fcb20143dc681ce$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateObject", function () {
+    return $dfb4889aefcf79da6fe93c781$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateRound", function () {
+    return $e497b7d623fc4b3d766b95ef$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateString", function () {
+    return $cc93ea21b3940008982ffec5a357a00$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateTransformSvg", function () {
+    return $f646615b9cc09a786946188f35cd6f5a$export$interpolateTransformSvg;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateTransformCss", function () {
+    return $f646615b9cc09a786946188f35cd6f5a$export$interpolateTransformCss;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateZoom", function () {
+    return $a426b2ca4da9ebbe8a6fe1c149f36$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateRgbBasisClosed", function () {
+    return $a78860430d0b6594a642eb77b8069ea$export$rgbBasisClosed;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateRgbBasis", function () {
+    return $a78860430d0b6594a642eb77b8069ea$export$rgbBasis;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateRgb", function () {
+    return $a78860430d0b6594a642eb77b8069ea$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateHslLong", function () {
+    return $ae5a54b96bdd001189397f1d27672b$export$hslLong;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateHsl", function () {
+    return $ae5a54b96bdd001189397f1d27672b$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateLab", function () {
+    return $de0c12cc35591c603c1f5c0076f22$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateHclLong", function () {
+    return $f2fbfd5c305d215c52828022670f7c$export$hclLong;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateHcl", function () {
+    return $f2fbfd5c305d215c52828022670f7c$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateCubehelixLong", function () {
+    return $fe7a57e38d670b3c5d58ff2b773025df$export$cubehelixLong;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "interpolateCubehelix", function () {
+    return $fe7a57e38d670b3c5d58ff2b773025df$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "piecewise", function () {
+    return $c6ad01bc9395cf11b7fa200760ded$export$default;
+  });
+  $parcel$reexport($ebff45c14050398ee69c86418842a3c$exports, "quantize", function () {
+    return $b87fac77b823d53b03d835ca6cfa16$export$default;
+  });
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-transition/src/index.js
   var $d1b29429bf64ea6bdf9b90ca7eb67$exports = {};
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-timer/src/index.js
@@ -3691,11 +3972,21 @@
     return t;
   };
 
-  $a54896ec174a155ea00046e5606310f4$exports.timerFlush = $ed73d876efc9b77dfa8ac20bf11a9a5$export$timerFlush;
-  $a54896ec174a155ea00046e5606310f4$exports.timer = $ed73d876efc9b77dfa8ac20bf11a9a5$export$timer;
-  $a54896ec174a155ea00046e5606310f4$exports.now = $ed73d876efc9b77dfa8ac20bf11a9a5$export$now;
-  $a54896ec174a155ea00046e5606310f4$exports.timeout = $bc6e3ae9196dd414d66789bb58947740$export$default;
-  $a54896ec174a155ea00046e5606310f4$exports.interval = $a49f0ba479397b04964d97e7cc4$export$default;
+  $parcel$reexport($a54896ec174a155ea00046e5606310f4$exports, "timerFlush", function () {
+    return $ed73d876efc9b77dfa8ac20bf11a9a5$export$timerFlush;
+  });
+  $parcel$reexport($a54896ec174a155ea00046e5606310f4$exports, "timer", function () {
+    return $ed73d876efc9b77dfa8ac20bf11a9a5$export$timer;
+  });
+  $parcel$reexport($a54896ec174a155ea00046e5606310f4$exports, "now", function () {
+    return $ed73d876efc9b77dfa8ac20bf11a9a5$export$now;
+  });
+  $parcel$reexport($a54896ec174a155ea00046e5606310f4$exports, "timeout", function () {
+    return $bc6e3ae9196dd414d66789bb58947740$export$default;
+  });
+  $parcel$reexport($a54896ec174a155ea00046e5606310f4$exports, "interval", function () {
+    return $a49f0ba479397b04964d97e7cc4$export$default;
+  });
   var $acfcc2887f7275efc3cb053fdd4f1$var$emptyOn = $d92af43de305a33b585fe15ee90f8c34$export$default("start", "end", "cancel", "interrupt");
   var $acfcc2887f7275efc3cb053fdd4f1$var$emptyTween = [];
   var $acfcc2887f7275efc3cb053fdd4f1$export$CREATED = 0;
@@ -4695,43 +4986,117 @@
     return elasticInOut;
   }($c205eef2598195d6c6b7a7f7843d4612$var$amplitude, $c205eef2598195d6c6b7a7f7843d4612$var$period);
 
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeLinear = $f7842aa5b180e8d83eaad5d230979451$export$linear;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeQuadInOut = $deba7f6da5819dba5725006bd10d94a2$export$quadInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeQuadOut = $deba7f6da5819dba5725006bd10d94a2$export$quadOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeQuadIn = $deba7f6da5819dba5725006bd10d94a2$export$quadIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeQuad = $deba7f6da5819dba5725006bd10d94a2$export$quadInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCubicInOut = $d7313027c27a070b3fe2ba7f772b2c5$export$cubicInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCubicOut = $d7313027c27a070b3fe2ba7f772b2c5$export$cubicOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCubicIn = $d7313027c27a070b3fe2ba7f772b2c5$export$cubicIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCubic = $d7313027c27a070b3fe2ba7f772b2c5$export$cubicInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easePolyInOut = $b679c3325db1a0833a51bed0758b8d74$export$polyInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easePolyOut = $b679c3325db1a0833a51bed0758b8d74$export$polyOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easePolyIn = $b679c3325db1a0833a51bed0758b8d74$export$polyIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easePoly = $b679c3325db1a0833a51bed0758b8d74$export$polyInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeSinInOut = $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeSinOut = $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeSinIn = $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeSin = $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeExpInOut = $cebd736e90ac0b89bf26bb13a88ecd3$export$expInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeExpOut = $cebd736e90ac0b89bf26bb13a88ecd3$export$expOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeExpIn = $cebd736e90ac0b89bf26bb13a88ecd3$export$expIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeExp = $cebd736e90ac0b89bf26bb13a88ecd3$export$expInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCircleInOut = $d83b262ca0b6206a25bdfdec39aed55f$export$circleInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCircleOut = $d83b262ca0b6206a25bdfdec39aed55f$export$circleOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCircleIn = $d83b262ca0b6206a25bdfdec39aed55f$export$circleIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeCircle = $d83b262ca0b6206a25bdfdec39aed55f$export$circleInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBounceInOut = $c80cd774d65a946ffe8d69966c3aa0$export$bounceInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBounceOut = $c80cd774d65a946ffe8d69966c3aa0$export$bounceOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBounceIn = $c80cd774d65a946ffe8d69966c3aa0$export$bounceIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBounce = $c80cd774d65a946ffe8d69966c3aa0$export$bounceOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBackInOut = $fd38fe483f2c321c019ce65dcb5c9dde$export$backInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBackOut = $fd38fe483f2c321c019ce65dcb5c9dde$export$backOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBackIn = $fd38fe483f2c321c019ce65dcb5c9dde$export$backIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeBack = $fd38fe483f2c321c019ce65dcb5c9dde$export$backInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeElasticInOut = $c205eef2598195d6c6b7a7f7843d4612$export$elasticInOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeElasticOut = $c205eef2598195d6c6b7a7f7843d4612$export$elasticOut;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeElasticIn = $c205eef2598195d6c6b7a7f7843d4612$export$elasticIn;
-  $a724a2425deb9ebe2a9c0219d7f91f$exports.easeElastic = $c205eef2598195d6c6b7a7f7843d4612$export$elasticOut;
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeLinear", function () {
+    return $f7842aa5b180e8d83eaad5d230979451$export$linear;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeQuadInOut", function () {
+    return $deba7f6da5819dba5725006bd10d94a2$export$quadInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeQuadOut", function () {
+    return $deba7f6da5819dba5725006bd10d94a2$export$quadOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeQuadIn", function () {
+    return $deba7f6da5819dba5725006bd10d94a2$export$quadIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeQuad", function () {
+    return $deba7f6da5819dba5725006bd10d94a2$export$quadInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCubicInOut", function () {
+    return $d7313027c27a070b3fe2ba7f772b2c5$export$cubicInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCubicOut", function () {
+    return $d7313027c27a070b3fe2ba7f772b2c5$export$cubicOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCubicIn", function () {
+    return $d7313027c27a070b3fe2ba7f772b2c5$export$cubicIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCubic", function () {
+    return $d7313027c27a070b3fe2ba7f772b2c5$export$cubicInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easePolyInOut", function () {
+    return $b679c3325db1a0833a51bed0758b8d74$export$polyInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easePolyOut", function () {
+    return $b679c3325db1a0833a51bed0758b8d74$export$polyOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easePolyIn", function () {
+    return $b679c3325db1a0833a51bed0758b8d74$export$polyIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easePoly", function () {
+    return $b679c3325db1a0833a51bed0758b8d74$export$polyInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeSinInOut", function () {
+    return $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeSinOut", function () {
+    return $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeSinIn", function () {
+    return $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeSin", function () {
+    return $c9b2f4fa4e25c8fbc1cc08c53fbb0f4$export$sinInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeExpInOut", function () {
+    return $cebd736e90ac0b89bf26bb13a88ecd3$export$expInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeExpOut", function () {
+    return $cebd736e90ac0b89bf26bb13a88ecd3$export$expOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeExpIn", function () {
+    return $cebd736e90ac0b89bf26bb13a88ecd3$export$expIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeExp", function () {
+    return $cebd736e90ac0b89bf26bb13a88ecd3$export$expInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCircleInOut", function () {
+    return $d83b262ca0b6206a25bdfdec39aed55f$export$circleInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCircleOut", function () {
+    return $d83b262ca0b6206a25bdfdec39aed55f$export$circleOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCircleIn", function () {
+    return $d83b262ca0b6206a25bdfdec39aed55f$export$circleIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeCircle", function () {
+    return $d83b262ca0b6206a25bdfdec39aed55f$export$circleInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBounceInOut", function () {
+    return $c80cd774d65a946ffe8d69966c3aa0$export$bounceInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBounceOut", function () {
+    return $c80cd774d65a946ffe8d69966c3aa0$export$bounceOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBounceIn", function () {
+    return $c80cd774d65a946ffe8d69966c3aa0$export$bounceIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBounce", function () {
+    return $c80cd774d65a946ffe8d69966c3aa0$export$bounceOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBackInOut", function () {
+    return $fd38fe483f2c321c019ce65dcb5c9dde$export$backInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBackOut", function () {
+    return $fd38fe483f2c321c019ce65dcb5c9dde$export$backOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBackIn", function () {
+    return $fd38fe483f2c321c019ce65dcb5c9dde$export$backIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeBack", function () {
+    return $fd38fe483f2c321c019ce65dcb5c9dde$export$backInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeElasticInOut", function () {
+    return $c205eef2598195d6c6b7a7f7843d4612$export$elasticInOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeElasticOut", function () {
+    return $c205eef2598195d6c6b7a7f7843d4612$export$elasticOut;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeElasticIn", function () {
+    return $c205eef2598195d6c6b7a7f7843d4612$export$elasticIn;
+  });
+  $parcel$reexport($a724a2425deb9ebe2a9c0219d7f91f$exports, "easeElastic", function () {
+    return $c205eef2598195d6c6b7a7f7843d4612$export$elasticOut;
+  });
   var $d8757508ddc17d76413892fa4d158623$var$defaultTiming = {
     time: null,
     // Set on use.
@@ -4794,9 +5159,15 @@
     return null;
   };
 
-  $d1b29429bf64ea6bdf9b90ca7eb67$exports.transition = $acad5b5957d3245ad300104c5a2$export$default;
-  $d1b29429bf64ea6bdf9b90ca7eb67$exports.active = $c18ab78a562310a0dab1dc0fb9f98a1$export$default;
-  $d1b29429bf64ea6bdf9b90ca7eb67$exports.interrupt = $bdf70ab8341fb31f3b461ccd0214fb84$export$default;
+  $parcel$reexport($d1b29429bf64ea6bdf9b90ca7eb67$exports, "transition", function () {
+    return $acad5b5957d3245ad300104c5a2$export$default;
+  });
+  $parcel$reexport($d1b29429bf64ea6bdf9b90ca7eb67$exports, "active", function () {
+    return $c18ab78a562310a0dab1dc0fb9f98a1$export$default;
+  });
+  $parcel$reexport($d1b29429bf64ea6bdf9b90ca7eb67$exports, "interrupt", function () {
+    return $bdf70ab8341fb31f3b461ccd0214fb84$export$default;
+  });
 
   var $d9fd34136cc312ebfbbea4b2bd$export$default = function (x) {
     return function () {
@@ -5405,10 +5776,18 @@
     return brush;
   }
 
-  $ace4401f6b86427091d7a062b662fda5$exports.brushSelection = $e98c243fc6761855c05a99$export$brushSelection;
-  $ace4401f6b86427091d7a062b662fda5$exports.brushY = $e98c243fc6761855c05a99$export$brushY;
-  $ace4401f6b86427091d7a062b662fda5$exports.brushX = $e98c243fc6761855c05a99$export$brushX;
-  $ace4401f6b86427091d7a062b662fda5$exports.brush = $e98c243fc6761855c05a99$export$default;
+  $parcel$reexport($ace4401f6b86427091d7a062b662fda5$exports, "brushSelection", function () {
+    return $e98c243fc6761855c05a99$export$brushSelection;
+  });
+  $parcel$reexport($ace4401f6b86427091d7a062b662fda5$exports, "brushY", function () {
+    return $e98c243fc6761855c05a99$export$brushY;
+  });
+  $parcel$reexport($ace4401f6b86427091d7a062b662fda5$exports, "brushX", function () {
+    return $e98c243fc6761855c05a99$export$brushX;
+  });
+  $parcel$reexport($ace4401f6b86427091d7a062b662fda5$exports, "brush", function () {
+    return $e98c243fc6761855c05a99$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $ace4401f6b86427091d7a062b662fda5$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-chord/src/index.js
   var $c09a5792db18a25e761c0d29c422f$exports = {};
@@ -5670,7 +6049,9 @@
       return this._;
     }
   };
-  $dbbf16ee3c124d5ef346f6d23ef00$exports.path = $aaecdd35dcbe06f6021edd9c43e29031$export$default;
+  $parcel$reexport($dbbf16ee3c124d5ef346f6d23ef00$exports, "path", function () {
+    return $aaecdd35dcbe06f6021edd9c43e29031$export$default;
+  });
 
   function $fb10f6d45d5073e489ef5311a74504$var$defaultSource(d) {
     return d.source;
@@ -5755,8 +6136,12 @@
     return ribbon;
   };
 
-  $c09a5792db18a25e761c0d29c422f$exports.chord = $f90a89a10b042fa22d4eed1a3c60$export$default;
-  $c09a5792db18a25e761c0d29c422f$exports.ribbon = $fb10f6d45d5073e489ef5311a74504$export$default;
+  $parcel$reexport($c09a5792db18a25e761c0d29c422f$exports, "chord", function () {
+    return $f90a89a10b042fa22d4eed1a3c60$export$default;
+  });
+  $parcel$reexport($c09a5792db18a25e761c0d29c422f$exports, "ribbon", function () {
+    return $fb10f6d45d5073e489ef5311a74504$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $c09a5792db18a25e761c0d29c422f$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-collection/src/index.js
   var $c1639f985d9ad6526b15beaaca7$exports = {};
@@ -5960,7 +6345,8 @@
 
     if (object instanceof $cd98e1d39bc05d108ecafbb4ead$var$Set) object.each(function (value) {
       set.add(value);
-    });else if (object) {
+    }); // Otherwise, assume it’s an array.
+    else if (object) {
         var i = -1,
             n = object.length;
         if (f == null) while (++i < n) set.add(object[i]);else while (++i < n) set.add(f(object[i], i, object));
@@ -5995,12 +6381,24 @@
     return entries;
   };
 
-  $c1639f985d9ad6526b15beaaca7$exports.nest = $f09bf7c680b91c816b2f8a2f4bf3e6c$export$default;
-  $c1639f985d9ad6526b15beaaca7$exports.set = $cd98e1d39bc05d108ecafbb4ead$export$default;
-  $c1639f985d9ad6526b15beaaca7$exports.map = $d3b8232ba9a360457f0744$export$default;
-  $c1639f985d9ad6526b15beaaca7$exports.keys = $e277d408d93a18829cead484bda65487$export$default;
-  $c1639f985d9ad6526b15beaaca7$exports.values = $a4180e9a10f826491e2d7cd842649$export$default;
-  $c1639f985d9ad6526b15beaaca7$exports.entries = $d8b65049f214d653258a79b1b3d2dce$export$default;
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "nest", function () {
+    return $f09bf7c680b91c816b2f8a2f4bf3e6c$export$default;
+  });
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "set", function () {
+    return $cd98e1d39bc05d108ecafbb4ead$export$default;
+  });
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "map", function () {
+    return $d3b8232ba9a360457f0744$export$default;
+  });
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "keys", function () {
+    return $e277d408d93a18829cead484bda65487$export$default;
+  });
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "values", function () {
+    return $a4180e9a10f826491e2d7cd842649$export$default;
+  });
+  $parcel$reexport($c1639f985d9ad6526b15beaaca7$exports, "entries", function () {
+    return $d8b65049f214d653258a79b1b3d2dce$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $c1639f985d9ad6526b15beaaca7$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $e30df59f56260a5c58dd173a3a0d5f16$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-contour/src/index.js
@@ -6505,8 +6903,12 @@
     return density;
   };
 
-  $fa91b7800d70b649c71704614c9ac22$exports.contours = $fb021e9ceee9450e7a478d8115df9b40$export$default;
-  $fa91b7800d70b649c71704614c9ac22$exports.contourDensity = $ffdd4a1d4c8e2c0074d35d7ea6$export$default;
+  $parcel$reexport($fa91b7800d70b649c71704614c9ac22$exports, "contours", function () {
+    return $fb021e9ceee9450e7a478d8115df9b40$export$default;
+  });
+  $parcel$reexport($fa91b7800d70b649c71704614c9ac22$exports, "contourDensity", function () {
+    return $ffdd4a1d4c8e2c0074d35d7ea6$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $fa91b7800d70b649c71704614c9ac22$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $f3e2504056c10021889540656fcb16a5$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $d5bb9182c3cf1e531eef55582ddee8b8$exports);
@@ -6714,22 +7116,54 @@
 
 
   var $e254ffeb2e522316c0012719e7945ce$var$fixtz = new Date("2019-01-01T00:00").getHours() || new Date("2019-07-01T00:00").getHours();
-  $ac97fc45bc35a5359f5b9a286455$exports.dsvFormat = $d106ed39a539c37f8a3849a2dcce171e$export$default;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvFormatValue = $ebc9b998baffd219032f015f6fadf111$export$csvFormatValue;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvFormatRow = $ebc9b998baffd219032f015f6fadf111$export$csvFormatRow;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvFormatRows = $ebc9b998baffd219032f015f6fadf111$export$csvFormatRows;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvFormatBody = $ebc9b998baffd219032f015f6fadf111$export$csvFormatBody;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvFormat = $ebc9b998baffd219032f015f6fadf111$export$csvFormat;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvParseRows = $ebc9b998baffd219032f015f6fadf111$export$csvParseRows;
-  $ac97fc45bc35a5359f5b9a286455$exports.csvParse = $ebc9b998baffd219032f015f6fadf111$export$csvParse;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvFormatValue = $b34d8cd15d04fb7b824f6574de36$export$tsvFormatValue;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvFormatRow = $b34d8cd15d04fb7b824f6574de36$export$tsvFormatRow;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvFormatRows = $b34d8cd15d04fb7b824f6574de36$export$tsvFormatRows;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvFormatBody = $b34d8cd15d04fb7b824f6574de36$export$tsvFormatBody;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvFormat = $b34d8cd15d04fb7b824f6574de36$export$tsvFormat;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvParseRows = $b34d8cd15d04fb7b824f6574de36$export$tsvParseRows;
-  $ac97fc45bc35a5359f5b9a286455$exports.tsvParse = $b34d8cd15d04fb7b824f6574de36$export$tsvParse;
-  $ac97fc45bc35a5359f5b9a286455$exports.autoType = $e254ffeb2e522316c0012719e7945ce$export$default;
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "dsvFormat", function () {
+    return $d106ed39a539c37f8a3849a2dcce171e$export$default;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvFormatValue", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvFormatValue;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvFormatRow", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvFormatRow;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvFormatRows", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvFormatRows;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvFormatBody", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvFormatBody;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvFormat", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvFormat;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvParseRows", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvParseRows;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "csvParse", function () {
+    return $ebc9b998baffd219032f015f6fadf111$export$csvParse;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvFormatValue", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvFormatValue;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvFormatRow", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvFormatRow;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvFormatRows", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvFormatRows;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvFormatBody", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvFormatBody;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvFormat", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvFormat;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvParseRows", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvParseRows;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "tsvParse", function () {
+    return $b34d8cd15d04fb7b824f6574de36$export$tsvParse;
+  });
+  $parcel$reexport($ac97fc45bc35a5359f5b9a286455$exports, "autoType", function () {
+    return $e254ffeb2e522316c0012719e7945ce$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $ac97fc45bc35a5359f5b9a286455$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $a724a2425deb9ebe2a9c0219d7f91f$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-fetch/src/index.js
@@ -6819,17 +7253,39 @@
   var $be9982f8296e513a80c9bbf6dc3a$export$default = $be9982f8296e513a80c9bbf6dc3a$var$parser("application/xml");
   var $be9982f8296e513a80c9bbf6dc3a$export$html = $be9982f8296e513a80c9bbf6dc3a$var$parser("text/html");
   var $be9982f8296e513a80c9bbf6dc3a$export$svg = $be9982f8296e513a80c9bbf6dc3a$var$parser("image/svg+xml");
-  $efdf65bd650571422427b9b0543c4668$exports.blob = $b2a143c202c5ee36f416c18f67100e0$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.buffer = $c2f945bac86863b2503636cf8c6d3db0$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.tsv = $a48c4a1e5db341f9e7c1c0de60$export$tsv;
-  $efdf65bd650571422427b9b0543c4668$exports.csv = $a48c4a1e5db341f9e7c1c0de60$export$csv;
-  $efdf65bd650571422427b9b0543c4668$exports.dsv = $a48c4a1e5db341f9e7c1c0de60$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.image = $f846eafe9284b72416d445f2389b$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.json = $a976267cdd08f52f9d56a7ef5cd79$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.text = $f4b6b403ea0e1f0ccc8772ad32fabcd$export$default;
-  $efdf65bd650571422427b9b0543c4668$exports.svg = $be9982f8296e513a80c9bbf6dc3a$export$svg;
-  $efdf65bd650571422427b9b0543c4668$exports.html = $be9982f8296e513a80c9bbf6dc3a$export$html;
-  $efdf65bd650571422427b9b0543c4668$exports.xml = $be9982f8296e513a80c9bbf6dc3a$export$default;
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "blob", function () {
+    return $b2a143c202c5ee36f416c18f67100e0$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "buffer", function () {
+    return $c2f945bac86863b2503636cf8c6d3db0$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "tsv", function () {
+    return $a48c4a1e5db341f9e7c1c0de60$export$tsv;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "csv", function () {
+    return $a48c4a1e5db341f9e7c1c0de60$export$csv;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "dsv", function () {
+    return $a48c4a1e5db341f9e7c1c0de60$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "image", function () {
+    return $f846eafe9284b72416d445f2389b$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "json", function () {
+    return $a976267cdd08f52f9d56a7ef5cd79$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "text", function () {
+    return $f4b6b403ea0e1f0ccc8772ad32fabcd$export$default;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "svg", function () {
+    return $be9982f8296e513a80c9bbf6dc3a$export$svg;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "html", function () {
+    return $be9982f8296e513a80c9bbf6dc3a$export$html;
+  });
+  $parcel$reexport($efdf65bd650571422427b9b0543c4668$exports, "xml", function () {
+    return $be9982f8296e513a80c9bbf6dc3a$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $efdf65bd650571422427b9b0543c4668$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-force/src/index.js
   var $df7658a3c08feee4ac5fffe666b05d$exports = {};
@@ -7303,7 +7759,9 @@
   $c4093e44661dca2058daf977621a89e$var$treeProto.visitAfter = $c2909cede85a40818cf8d0800cc2$export$default;
   $c4093e44661dca2058daf977621a89e$var$treeProto.x = $a12340bf96467cc2d31b28c25a6d9d66$export$default;
   $c4093e44661dca2058daf977621a89e$var$treeProto.y = $bd3b36d0f58c048797fe6334d0aeb0a2$export$default;
-  $f6e1b23144a51b929653145864a$exports.quadtree = $c4093e44661dca2058daf977621a89e$export$default;
+  $parcel$reexport($f6e1b23144a51b929653145864a$exports, "quadtree", function () {
+    return $c4093e44661dca2058daf977621a89e$export$default;
+  });
 
   function $eebf29d680c1656ac7ae01a5d50335$var$x(d) {
     return d.x + d.vx;
@@ -7913,14 +8371,30 @@
     return force;
   };
 
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceCenter = $cf654ac44ef91d946b820a89522f6252$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceCollide = $eebf29d680c1656ac7ae01a5d50335$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceLink = $fead458e6ded3b26e78bd1bac7f34d9$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceManyBody = $abf6b0314a4c6d1623eb9ad7ebac$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceRadial = $b8b3e0634d3a48ec8a06cbdbaa$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceSimulation = $f4aa49fe8e7ec4512b997c5dee64136f$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceX = $cf272dc4246d42c41140a1f24fa93e$export$default;
-  $df7658a3c08feee4ac5fffe666b05d$exports.forceY = $e345ce03ae7529cbd6a15ebd3561a187$export$default;
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceCenter", function () {
+    return $cf654ac44ef91d946b820a89522f6252$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceCollide", function () {
+    return $eebf29d680c1656ac7ae01a5d50335$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceLink", function () {
+    return $fead458e6ded3b26e78bd1bac7f34d9$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceManyBody", function () {
+    return $abf6b0314a4c6d1623eb9ad7ebac$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceRadial", function () {
+    return $b8b3e0634d3a48ec8a06cbdbaa$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceSimulation", function () {
+    return $f4aa49fe8e7ec4512b997c5dee64136f$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceX", function () {
+    return $cf272dc4246d42c41140a1f24fa93e$export$default;
+  });
+  $parcel$reexport($df7658a3c08feee4ac5fffe666b05d$exports, "forceY", function () {
+    return $e345ce03ae7529cbd6a15ebd3561a187$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $df7658a3c08feee4ac5fffe666b05d$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-format/src/index.js
   var $b0b489916aab45c045e2799841090cdf$exports = {};
@@ -8258,15 +8732,33 @@
     return Math.max(0, $dacc61cde6cb1ad75cd386cb404f5ad6$export$default(max) - $dacc61cde6cb1ad75cd386cb404f5ad6$export$default(step)) + 1;
   };
 
-  $b0b489916aab45c045e2799841090cdf$exports.formatPrefix = $bcffed39678711ae4bee7a37bbfb3$export$formatPrefix;
-  $b0b489916aab45c045e2799841090cdf$exports.format = $bcffed39678711ae4bee7a37bbfb3$export$format;
-  $b0b489916aab45c045e2799841090cdf$exports.formatDefaultLocale = $bcffed39678711ae4bee7a37bbfb3$export$default;
-  $b0b489916aab45c045e2799841090cdf$exports.formatLocale = $dc4448dc3b001f43155474dc43fd9d82$export$default;
-  $b0b489916aab45c045e2799841090cdf$exports.FormatSpecifier = $e3467f1c584b30bf21777c2de94d72$export$FormatSpecifier;
-  $b0b489916aab45c045e2799841090cdf$exports.formatSpecifier = $e3467f1c584b30bf21777c2de94d72$export$default;
-  $b0b489916aab45c045e2799841090cdf$exports.precisionFixed = $f57d964729c4904c774b7ea1fe888$export$default;
-  $b0b489916aab45c045e2799841090cdf$exports.precisionPrefix = $a5b92eef8cfc9931eebe6d7e7adf$export$default;
-  $b0b489916aab45c045e2799841090cdf$exports.precisionRound = $c477857c5b4da5f1a1745164e1e4$export$default;
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "formatPrefix", function () {
+    return $bcffed39678711ae4bee7a37bbfb3$export$formatPrefix;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "format", function () {
+    return $bcffed39678711ae4bee7a37bbfb3$export$format;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "formatDefaultLocale", function () {
+    return $bcffed39678711ae4bee7a37bbfb3$export$default;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "formatLocale", function () {
+    return $dc4448dc3b001f43155474dc43fd9d82$export$default;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "FormatSpecifier", function () {
+    return $e3467f1c584b30bf21777c2de94d72$export$FormatSpecifier;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "formatSpecifier", function () {
+    return $e3467f1c584b30bf21777c2de94d72$export$default;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "precisionFixed", function () {
+    return $f57d964729c4904c774b7ea1fe888$export$default;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "precisionPrefix", function () {
+    return $a5b92eef8cfc9931eebe6d7e7adf$export$default;
+  });
+  $parcel$reexport($b0b489916aab45c045e2799841090cdf$exports, "precisionRound", function () {
+    return $c477857c5b4da5f1a1745164e1e4$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $b0b489916aab45c045e2799841090cdf$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-geo/src/index.js
   var $d8e7db8fd3d19a313f973caaed5d076$exports = {};
@@ -9515,7 +10007,6 @@
           if (v0) stream.lineEnd();
           point0 = null;
         },
-        // Rejoin first and last segments if there were intersections and the first
         // and last points were visible.
         clean: function () {
           return clean | (v00 && v0) << 1;
@@ -11498,55 +11989,153 @@
     return rotate([0, 0, 90]).scale(159.155);
   };
 
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoArea = $ca6dc6f9647f4a3904b2afcc4cb4f9b$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoBounds = $f29e296e61c4483c06e27c88eb5e4c7$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoCentroid = $fa65c2ed0fdecd76bf9df277b3a2abf$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoCircle = $deb53c7d9e05dc4e7b5d3914eb1cbb0f$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoClipAntimeridian = $bf6214ea2da2f81f2fc7cf76fcf612c$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoClipCircle = $b29c2106085eff433cb505c$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoClipExtent = $eb26206aa5661ef588d1a977a27749b$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoClipRectangle = $e08ff6b07730062464fd278fb1$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoContains = $dd0e6bd454dd8a1bad5b878130dc336$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoDistance = $c540fb63aa93733ce2b4cd91baaa0$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoGraticule10 = $ac48cc2a8c7e595d73accbe4ba52a8$export$graticule10;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoGraticule = $ac48cc2a8c7e595d73accbe4ba52a8$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoInterpolate = $eb56563a9d6dee721c36a80c3c1$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoLength = $b5165956f58c48d793a0e4a2ce98a622$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoPath = $d5800234e4fbf5a54b7d9641fc713e0$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAlbers = $a74cb0b0d1fd27dc6d8e827393e7389$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAlbersUsa = $eece7b3f72a8c3a1c06d5664a862e81$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAzimuthalEqualAreaRaw = $a0ec6b0603315b723e5a4e71576b4bed$export$azimuthalEqualAreaRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAzimuthalEqualArea = $a0ec6b0603315b723e5a4e71576b4bed$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAzimuthalEquidistantRaw = $a363fac5e02ceec0e467037b1036549$export$azimuthalEquidistantRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoAzimuthalEquidistant = $a363fac5e02ceec0e467037b1036549$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicConformalRaw = $ed2abe7bf5439ca$export$conicConformalRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicConformal = $ed2abe7bf5439ca$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicEqualAreaRaw = $b06658707461acf7a85428c7c139bf84$export$conicEqualAreaRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicEqualArea = $b06658707461acf7a85428c7c139bf84$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicEquidistantRaw = $fd08a3c07130c6771f45e07043eed$export$conicEquidistantRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoConicEquidistant = $fd08a3c07130c6771f45e07043eed$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoEqualEarthRaw = $edf59563ed880d9efae09efeae7ce1$export$equalEarthRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoEqualEarth = $edf59563ed880d9efae09efeae7ce1$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoEquirectangularRaw = $a9e5a1fa0bfc9d869a8670e40f776fd$export$equirectangularRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoEquirectangular = $a9e5a1fa0bfc9d869a8670e40f776fd$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoGnomonicRaw = $ec6057807a3d9b59ac2072a2dc9$export$gnomonicRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoGnomonic = $ec6057807a3d9b59ac2072a2dc9$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoIdentity = $d0d990cce1e53ebe4e5f6c06df5d55$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoProjectionMutator = $a0cfbd89faa0c6f8ba9169080adb23e6$export$projectionMutator;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoProjection = $a0cfbd89faa0c6f8ba9169080adb23e6$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoMercatorRaw = $c0421b3aa5925e406b0c9141253a8$export$mercatorRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoMercator = $c0421b3aa5925e406b0c9141253a8$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoNaturalEarth1Raw = $f67b645318462eef26ee9bc16ddabbcb$export$naturalEarth1Raw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoNaturalEarth1 = $f67b645318462eef26ee9bc16ddabbcb$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoOrthographicRaw = $eee8084655f332232b53be9cc49629c$export$orthographicRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoOrthographic = $eee8084655f332232b53be9cc49629c$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoStereographicRaw = $e49b8d1c2249a88f454e85fdb15b$export$stereographicRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoStereographic = $e49b8d1c2249a88f454e85fdb15b$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoTransverseMercatorRaw = $c870f69dd55c74f5b0973dfe6dec5a7$export$transverseMercatorRaw;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoTransverseMercator = $c870f69dd55c74f5b0973dfe6dec5a7$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoRotation = $d89696a4ce0fa939beff9bf839e21a12$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoStream = $d3bb61815cdae530e4d52891472c26b5$export$default;
-  $d8e7db8fd3d19a313f973caaed5d076$exports.geoTransform = $ff86d84dcc8cd204edd94a40d50378$export$default;
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoArea", function () {
+    return $ca6dc6f9647f4a3904b2afcc4cb4f9b$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoBounds", function () {
+    return $f29e296e61c4483c06e27c88eb5e4c7$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoCentroid", function () {
+    return $fa65c2ed0fdecd76bf9df277b3a2abf$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoCircle", function () {
+    return $deb53c7d9e05dc4e7b5d3914eb1cbb0f$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoClipAntimeridian", function () {
+    return $bf6214ea2da2f81f2fc7cf76fcf612c$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoClipCircle", function () {
+    return $b29c2106085eff433cb505c$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoClipExtent", function () {
+    return $eb26206aa5661ef588d1a977a27749b$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoClipRectangle", function () {
+    return $e08ff6b07730062464fd278fb1$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoContains", function () {
+    return $dd0e6bd454dd8a1bad5b878130dc336$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoDistance", function () {
+    return $c540fb63aa93733ce2b4cd91baaa0$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoGraticule10", function () {
+    return $ac48cc2a8c7e595d73accbe4ba52a8$export$graticule10;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoGraticule", function () {
+    return $ac48cc2a8c7e595d73accbe4ba52a8$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoInterpolate", function () {
+    return $eb56563a9d6dee721c36a80c3c1$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoLength", function () {
+    return $b5165956f58c48d793a0e4a2ce98a622$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoPath", function () {
+    return $d5800234e4fbf5a54b7d9641fc713e0$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAlbers", function () {
+    return $a74cb0b0d1fd27dc6d8e827393e7389$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAlbersUsa", function () {
+    return $eece7b3f72a8c3a1c06d5664a862e81$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAzimuthalEqualAreaRaw", function () {
+    return $a0ec6b0603315b723e5a4e71576b4bed$export$azimuthalEqualAreaRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAzimuthalEqualArea", function () {
+    return $a0ec6b0603315b723e5a4e71576b4bed$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAzimuthalEquidistantRaw", function () {
+    return $a363fac5e02ceec0e467037b1036549$export$azimuthalEquidistantRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoAzimuthalEquidistant", function () {
+    return $a363fac5e02ceec0e467037b1036549$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicConformalRaw", function () {
+    return $ed2abe7bf5439ca$export$conicConformalRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicConformal", function () {
+    return $ed2abe7bf5439ca$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicEqualAreaRaw", function () {
+    return $b06658707461acf7a85428c7c139bf84$export$conicEqualAreaRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicEqualArea", function () {
+    return $b06658707461acf7a85428c7c139bf84$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicEquidistantRaw", function () {
+    return $fd08a3c07130c6771f45e07043eed$export$conicEquidistantRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoConicEquidistant", function () {
+    return $fd08a3c07130c6771f45e07043eed$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoEqualEarthRaw", function () {
+    return $edf59563ed880d9efae09efeae7ce1$export$equalEarthRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoEqualEarth", function () {
+    return $edf59563ed880d9efae09efeae7ce1$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoEquirectangularRaw", function () {
+    return $a9e5a1fa0bfc9d869a8670e40f776fd$export$equirectangularRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoEquirectangular", function () {
+    return $a9e5a1fa0bfc9d869a8670e40f776fd$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoGnomonicRaw", function () {
+    return $ec6057807a3d9b59ac2072a2dc9$export$gnomonicRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoGnomonic", function () {
+    return $ec6057807a3d9b59ac2072a2dc9$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoIdentity", function () {
+    return $d0d990cce1e53ebe4e5f6c06df5d55$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoProjectionMutator", function () {
+    return $a0cfbd89faa0c6f8ba9169080adb23e6$export$projectionMutator;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoProjection", function () {
+    return $a0cfbd89faa0c6f8ba9169080adb23e6$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoMercatorRaw", function () {
+    return $c0421b3aa5925e406b0c9141253a8$export$mercatorRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoMercator", function () {
+    return $c0421b3aa5925e406b0c9141253a8$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoNaturalEarth1Raw", function () {
+    return $f67b645318462eef26ee9bc16ddabbcb$export$naturalEarth1Raw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoNaturalEarth1", function () {
+    return $f67b645318462eef26ee9bc16ddabbcb$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoOrthographicRaw", function () {
+    return $eee8084655f332232b53be9cc49629c$export$orthographicRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoOrthographic", function () {
+    return $eee8084655f332232b53be9cc49629c$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoStereographicRaw", function () {
+    return $e49b8d1c2249a88f454e85fdb15b$export$stereographicRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoStereographic", function () {
+    return $e49b8d1c2249a88f454e85fdb15b$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoTransverseMercatorRaw", function () {
+    return $c870f69dd55c74f5b0973dfe6dec5a7$export$transverseMercatorRaw;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoTransverseMercator", function () {
+    return $c870f69dd55c74f5b0973dfe6dec5a7$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoRotation", function () {
+    return $d89696a4ce0fa939beff9bf839e21a12$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoStream", function () {
+    return $d3bb61815cdae530e4d52891472c26b5$export$default;
+  });
+  $parcel$reexport($d8e7db8fd3d19a313f973caaed5d076$exports, "geoTransform", function () {
+    return $ff86d84dcc8cd204edd94a40d50378$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $d8e7db8fd3d19a313f973caaed5d076$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-hierarchy/src/index.js
   var $af9df4a9f4ed2fc4905221e522b139$exports = {};
@@ -12896,21 +13485,51 @@
     return resquarify;
   }($c7279f76c51dce840ababa813efeb08$export$phi);
 
-  $af9df4a9f4ed2fc4905221e522b139$exports.cluster = $ac49769f704b10513488a66a6b5ea$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.hierarchy = $c9e4adbd083e2b5c0e058f0b02cda751$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.pack = $f6db227caace81414686c969acb$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.packSiblings = $f4788b80635ff5460ffa27$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.packEnclose = $b4c1a9cfc69e0e1ab48303622f1d285$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.partition = $f54abce2fb0edebcad2ca7d3586c14$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.stratify = $b21473a444d0ac93efa2efc5bc66d$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.tree = $b7a0a3a7c264126ab9afb6b1fb$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemap = $a27978e8743d3124dc45e23ae8bb0d13$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapBinary = $e37f7992b3a530df7850848fb9cb2050$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapDice = $baffeb7c75504146ed3d35ec$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapSlice = $c225780866575ec52d3cf60590a75191$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapSliceDice = $ed1176e6b7acc76318b58125$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapSquarify = $c7279f76c51dce840ababa813efeb08$export$default;
-  $af9df4a9f4ed2fc4905221e522b139$exports.treemapResquarify = $c4cdf8dabd9c9e1faee3dac99df9f91$export$default;
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "cluster", function () {
+    return $ac49769f704b10513488a66a6b5ea$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "hierarchy", function () {
+    return $c9e4adbd083e2b5c0e058f0b02cda751$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "pack", function () {
+    return $f6db227caace81414686c969acb$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "packSiblings", function () {
+    return $f4788b80635ff5460ffa27$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "packEnclose", function () {
+    return $b4c1a9cfc69e0e1ab48303622f1d285$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "partition", function () {
+    return $f54abce2fb0edebcad2ca7d3586c14$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "stratify", function () {
+    return $b21473a444d0ac93efa2efc5bc66d$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "tree", function () {
+    return $b7a0a3a7c264126ab9afb6b1fb$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemap", function () {
+    return $a27978e8743d3124dc45e23ae8bb0d13$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapBinary", function () {
+    return $e37f7992b3a530df7850848fb9cb2050$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapDice", function () {
+    return $baffeb7c75504146ed3d35ec$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapSlice", function () {
+    return $c225780866575ec52d3cf60590a75191$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapSliceDice", function () {
+    return $ed1176e6b7acc76318b58125$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapSquarify", function () {
+    return $c7279f76c51dce840ababa813efeb08$export$default;
+  });
+  $parcel$reexport($af9df4a9f4ed2fc4905221e522b139$exports, "treemapResquarify", function () {
+    return $c4cdf8dabd9c9e1faee3dac99df9f91$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $af9df4a9f4ed2fc4905221e522b139$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $ebff45c14050398ee69c86418842a3c$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $dbbf16ee3c124d5ef346f6d23ef00$exports);
@@ -13051,11 +13670,21 @@
     return perimeter;
   };
 
-  $c56808b260d23cf8cc0f50e1ebf33f2c$exports.polygonArea = $cac37bc1a48de7cb0a44ea8516c2a1$export$default;
-  $c56808b260d23cf8cc0f50e1ebf33f2c$exports.polygonCentroid = $d1573fd92c7ab864c41737563834174$export$default;
-  $c56808b260d23cf8cc0f50e1ebf33f2c$exports.polygonHull = $bb721fd0e3df12510df86f02638d2f6d$export$default;
-  $c56808b260d23cf8cc0f50e1ebf33f2c$exports.polygonContains = $c66ba5d442b5730c3529bbc125a5d0d$export$default;
-  $c56808b260d23cf8cc0f50e1ebf33f2c$exports.polygonLength = $cd3751fd7fdaac4f3223e1333e48a58$export$default;
+  $parcel$reexport($c56808b260d23cf8cc0f50e1ebf33f2c$exports, "polygonArea", function () {
+    return $cac37bc1a48de7cb0a44ea8516c2a1$export$default;
+  });
+  $parcel$reexport($c56808b260d23cf8cc0f50e1ebf33f2c$exports, "polygonCentroid", function () {
+    return $d1573fd92c7ab864c41737563834174$export$default;
+  });
+  $parcel$reexport($c56808b260d23cf8cc0f50e1ebf33f2c$exports, "polygonHull", function () {
+    return $bb721fd0e3df12510df86f02638d2f6d$export$default;
+  });
+  $parcel$reexport($c56808b260d23cf8cc0f50e1ebf33f2c$exports, "polygonContains", function () {
+    return $c66ba5d442b5730c3529bbc125a5d0d$export$default;
+  });
+  $parcel$reexport($c56808b260d23cf8cc0f50e1ebf33f2c$exports, "polygonLength", function () {
+    return $cd3751fd7fdaac4f3223e1333e48a58$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $c56808b260d23cf8cc0f50e1ebf33f2c$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $f6e1b23144a51b929653145864a$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-random/src/index.js
@@ -13148,12 +13777,24 @@
     return randomExponential;
   }($b82a2e980f5fada1fe3fe591caf4225a$export$default);
 
-  $dce44baef57fe2b70362f07769ef805$exports.randomUniform = $e865d23c50682890bafa4cc0408e8e$export$default;
-  $dce44baef57fe2b70362f07769ef805$exports.randomNormal = $f413e8ee783df83c9940682bc23cbb8c$export$default;
-  $dce44baef57fe2b70362f07769ef805$exports.randomLogNormal = $a2dd8ca506c6a457ce687e38e4236a0c$export$default;
-  $dce44baef57fe2b70362f07769ef805$exports.randomBates = $e1fec2610a237c0d064daa22bd19f6fc$export$default;
-  $dce44baef57fe2b70362f07769ef805$exports.randomIrwinHall = $c32218e1e71f560a2ab29da90b7$export$default;
-  $dce44baef57fe2b70362f07769ef805$exports.randomExponential = $be4744e3d68636790ae5cddb$export$default;
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomUniform", function () {
+    return $e865d23c50682890bafa4cc0408e8e$export$default;
+  });
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomNormal", function () {
+    return $f413e8ee783df83c9940682bc23cbb8c$export$default;
+  });
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomLogNormal", function () {
+    return $a2dd8ca506c6a457ce687e38e4236a0c$export$default;
+  });
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomBates", function () {
+    return $e1fec2610a237c0d064daa22bd19f6fc$export$default;
+  });
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomIrwinHall", function () {
+    return $c32218e1e71f560a2ab29da90b7$export$default;
+  });
+  $parcel$reexport($dce44baef57fe2b70362f07769ef805$exports, "randomExponential", function () {
+    return $be4744e3d68636790ae5cddb$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $dce44baef57fe2b70362f07769ef805$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-scale/src/index.js
   var $d4f1111cbbfd851862171f85d171591f$exports = {};
@@ -14259,67 +14900,189 @@
   };
 
   var $e80e743fb3e2eea3cab464d05b9d$export$utcYears = $e80e743fb3e2eea3cab464d05b9d$export$default.range;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeInterval = $c40fa021f042845464448f314dd046c6$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMilliseconds = $ef51466c3998557c32e4e1e11c493785$export$milliseconds;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMillisecond = $ef51466c3998557c32e4e1e11c493785$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMilliseconds = $ef51466c3998557c32e4e1e11c493785$export$milliseconds;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMillisecond = $ef51466c3998557c32e4e1e11c493785$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSeconds = $b455b12c427d8a306abd301184d8c86$export$seconds;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSecond = $b455b12c427d8a306abd301184d8c86$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSeconds = $b455b12c427d8a306abd301184d8c86$export$seconds;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSecond = $b455b12c427d8a306abd301184d8c86$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMinutes = $f42ccd36dbed465b02f2410fe0a8b96$export$minutes;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMinute = $f42ccd36dbed465b02f2410fe0a8b96$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeHours = $a2695955da014da84fd1b831610a27d3$export$hours;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeHour = $a2695955da014da84fd1b831610a27d3$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeDays = $ef8e67f936de2cd9bf050151bcdf5fc$export$days;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeDay = $ef8e67f936de2cd9bf050151bcdf5fc$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSaturdays = $c69b1a0afd0b74f859e5beb7c523be$export$saturdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSaturday = $c69b1a0afd0b74f859e5beb7c523be$export$saturday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeFridays = $c69b1a0afd0b74f859e5beb7c523be$export$fridays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeFriday = $c69b1a0afd0b74f859e5beb7c523be$export$friday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeThursdays = $c69b1a0afd0b74f859e5beb7c523be$export$thursdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeThursday = $c69b1a0afd0b74f859e5beb7c523be$export$thursday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeWednesdays = $c69b1a0afd0b74f859e5beb7c523be$export$wednesdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeWednesday = $c69b1a0afd0b74f859e5beb7c523be$export$wednesday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeTuesdays = $c69b1a0afd0b74f859e5beb7c523be$export$tuesdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeTuesday = $c69b1a0afd0b74f859e5beb7c523be$export$tuesday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMondays = $c69b1a0afd0b74f859e5beb7c523be$export$mondays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMonday = $c69b1a0afd0b74f859e5beb7c523be$export$monday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSundays = $c69b1a0afd0b74f859e5beb7c523be$export$sundays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeSunday = $c69b1a0afd0b74f859e5beb7c523be$export$sunday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeWeeks = $c69b1a0afd0b74f859e5beb7c523be$export$sundays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeWeek = $c69b1a0afd0b74f859e5beb7c523be$export$sunday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMonths = $be1f17ceb681a397d240b364b865bcc3$export$months;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeMonth = $be1f17ceb681a397d240b364b865bcc3$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeYears = $d5d7893a68c20a684ec395303fc002$export$years;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.timeYear = $d5d7893a68c20a684ec395303fc002$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMinutes = $c4df54f4cce98160df36ba18fd408f0c$export$utcMinutes;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMinute = $c4df54f4cce98160df36ba18fd408f0c$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcHours = $b726970eab053a6f4c43b2178ecd3f8e$export$utcHours;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcHour = $b726970eab053a6f4c43b2178ecd3f8e$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcDays = $d23d479d6c9ad8295359bc41e2c19$export$utcDays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcDay = $d23d479d6c9ad8295359bc41e2c19$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSaturdays = $e3667a57a680034e12f6cd2040207c5$export$utcSaturdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSaturday = $e3667a57a680034e12f6cd2040207c5$export$utcSaturday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcFridays = $e3667a57a680034e12f6cd2040207c5$export$utcFridays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcFriday = $e3667a57a680034e12f6cd2040207c5$export$utcFriday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcThursdays = $e3667a57a680034e12f6cd2040207c5$export$utcThursdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcThursday = $e3667a57a680034e12f6cd2040207c5$export$utcThursday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcWednesdays = $e3667a57a680034e12f6cd2040207c5$export$utcWednesdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcWednesday = $e3667a57a680034e12f6cd2040207c5$export$utcWednesday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcTuesdays = $e3667a57a680034e12f6cd2040207c5$export$utcTuesdays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcTuesday = $e3667a57a680034e12f6cd2040207c5$export$utcTuesday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMondays = $e3667a57a680034e12f6cd2040207c5$export$utcMondays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMonday = $e3667a57a680034e12f6cd2040207c5$export$utcMonday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSundays = $e3667a57a680034e12f6cd2040207c5$export$utcSundays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcSunday = $e3667a57a680034e12f6cd2040207c5$export$utcSunday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcWeeks = $e3667a57a680034e12f6cd2040207c5$export$utcSundays;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcWeek = $e3667a57a680034e12f6cd2040207c5$export$utcSunday;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMonths = $e8c6fa3b17b14bec4f6dc74054b$export$utcMonths;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcMonth = $e8c6fa3b17b14bec4f6dc74054b$export$default;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcYears = $e80e743fb3e2eea3cab464d05b9d$export$utcYears;
-  $fdb41d4afe2ce1674a98816cc3ec80$exports.utcYear = $e80e743fb3e2eea3cab464d05b9d$export$default;
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeInterval", function () {
+    return $c40fa021f042845464448f314dd046c6$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMilliseconds", function () {
+    return $ef51466c3998557c32e4e1e11c493785$export$milliseconds;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMillisecond", function () {
+    return $ef51466c3998557c32e4e1e11c493785$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMilliseconds", function () {
+    return $ef51466c3998557c32e4e1e11c493785$export$milliseconds;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMillisecond", function () {
+    return $ef51466c3998557c32e4e1e11c493785$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSeconds", function () {
+    return $b455b12c427d8a306abd301184d8c86$export$seconds;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSecond", function () {
+    return $b455b12c427d8a306abd301184d8c86$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSeconds", function () {
+    return $b455b12c427d8a306abd301184d8c86$export$seconds;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSecond", function () {
+    return $b455b12c427d8a306abd301184d8c86$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMinutes", function () {
+    return $f42ccd36dbed465b02f2410fe0a8b96$export$minutes;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMinute", function () {
+    return $f42ccd36dbed465b02f2410fe0a8b96$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeHours", function () {
+    return $a2695955da014da84fd1b831610a27d3$export$hours;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeHour", function () {
+    return $a2695955da014da84fd1b831610a27d3$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeDays", function () {
+    return $ef8e67f936de2cd9bf050151bcdf5fc$export$days;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeDay", function () {
+    return $ef8e67f936de2cd9bf050151bcdf5fc$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSaturdays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$saturdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSaturday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$saturday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeFridays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$fridays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeFriday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$friday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeThursdays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$thursdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeThursday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$thursday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeWednesdays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$wednesdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeWednesday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$wednesday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeTuesdays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$tuesdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeTuesday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$tuesday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMondays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$mondays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMonday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$monday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSundays", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$sundays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeSunday", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$sunday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeWeeks", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$sundays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeWeek", function () {
+    return $c69b1a0afd0b74f859e5beb7c523be$export$sunday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMonths", function () {
+    return $be1f17ceb681a397d240b364b865bcc3$export$months;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeMonth", function () {
+    return $be1f17ceb681a397d240b364b865bcc3$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeYears", function () {
+    return $d5d7893a68c20a684ec395303fc002$export$years;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "timeYear", function () {
+    return $d5d7893a68c20a684ec395303fc002$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMinutes", function () {
+    return $c4df54f4cce98160df36ba18fd408f0c$export$utcMinutes;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMinute", function () {
+    return $c4df54f4cce98160df36ba18fd408f0c$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcHours", function () {
+    return $b726970eab053a6f4c43b2178ecd3f8e$export$utcHours;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcHour", function () {
+    return $b726970eab053a6f4c43b2178ecd3f8e$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcDays", function () {
+    return $d23d479d6c9ad8295359bc41e2c19$export$utcDays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcDay", function () {
+    return $d23d479d6c9ad8295359bc41e2c19$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSaturdays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSaturdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSaturday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSaturday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcFridays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcFridays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcFriday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcFriday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcThursdays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcThursdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcThursday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcThursday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcWednesdays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcWednesdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcWednesday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcWednesday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcTuesdays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcTuesdays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcTuesday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcTuesday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMondays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcMondays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMonday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcMonday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSundays", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSundays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcSunday", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSunday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcWeeks", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSundays;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcWeek", function () {
+    return $e3667a57a680034e12f6cd2040207c5$export$utcSunday;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMonths", function () {
+    return $e8c6fa3b17b14bec4f6dc74054b$export$utcMonths;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcMonth", function () {
+    return $e8c6fa3b17b14bec4f6dc74054b$export$default;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcYears", function () {
+    return $e80e743fb3e2eea3cab464d05b9d$export$utcYears;
+  });
+  $parcel$reexport($fdb41d4afe2ce1674a98816cc3ec80$exports, "utcYear", function () {
+    return $e80e743fb3e2eea3cab464d05b9d$export$default;
+  });
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-time-format/src/index.js
   var $e12bd314e171f88fccf6d8e1c4669436$exports = {};
 
@@ -15037,14 +15800,30 @@
   }
 
   var $d7c327e0426a68366532c0f3a74427b$export$default = +new Date("2000-01-01T00:00:00.000Z") ? $d7c327e0426a68366532c0f3a74427b$var$parseIsoNative : $d18ce73e2e54560a90591a3630f6c1$export$utcParse($e7101eb52ae0db242fb080861a9$export$isoSpecifier);
-  $e12bd314e171f88fccf6d8e1c4669436$exports.utcParse = $d18ce73e2e54560a90591a3630f6c1$export$utcParse;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.utcFormat = $d18ce73e2e54560a90591a3630f6c1$export$utcFormat;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.timeParse = $d18ce73e2e54560a90591a3630f6c1$export$timeParse;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.timeFormat = $d18ce73e2e54560a90591a3630f6c1$export$timeFormat;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.timeFormatDefaultLocale = $d18ce73e2e54560a90591a3630f6c1$export$default;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.timeFormatLocale = $d2cbc24af7f39b48a4f11c30d8468a36$export$default;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.isoFormat = $e7101eb52ae0db242fb080861a9$export$default;
-  $e12bd314e171f88fccf6d8e1c4669436$exports.isoParse = $d7c327e0426a68366532c0f3a74427b$export$default;
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "utcParse", function () {
+    return $d18ce73e2e54560a90591a3630f6c1$export$utcParse;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "utcFormat", function () {
+    return $d18ce73e2e54560a90591a3630f6c1$export$utcFormat;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "timeParse", function () {
+    return $d18ce73e2e54560a90591a3630f6c1$export$timeParse;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "timeFormat", function () {
+    return $d18ce73e2e54560a90591a3630f6c1$export$timeFormat;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "timeFormatDefaultLocale", function () {
+    return $d18ce73e2e54560a90591a3630f6c1$export$default;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "timeFormatLocale", function () {
+    return $d2cbc24af7f39b48a4f11c30d8468a36$export$default;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "isoFormat", function () {
+    return $e7101eb52ae0db242fb080861a9$export$default;
+  });
+  $parcel$reexport($e12bd314e171f88fccf6d8e1c4669436$exports, "isoParse", function () {
+    return $d7c327e0426a68366532c0f3a74427b$export$default;
+  });
   var $ba5a5ad67c16530a39f9e56fd5e685cf$var$durationSecond = 1000,
       $ba5a5ad67c16530a39f9e56fd5e685cf$var$durationMinute = $ba5a5ad67c16530a39f9e56fd5e685cf$var$durationSecond * 60,
       $ba5a5ad67c16530a39f9e56fd5e685cf$var$durationHour = $ba5a5ad67c16530a39f9e56fd5e685cf$var$durationMinute * 60,
@@ -15349,33 +16128,87 @@
     return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingPow.apply(null, arguments).exponent(0.5);
   }
 
-  $d4f1111cbbfd851862171f85d171591f$exports.scalePoint = $d6b55218d9421a865470033320816d3$export$point;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleBand = $d6b55218d9421a865470033320816d3$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleIdentity = $c20873725d52cf52df0a453353bcc93$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleLinear = $da503be766eaa7903499a06d46a2605b$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleLog = $ec5d9c47bf4fa2fcafad98b14bd193$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSymlog = $c6c39c1b523a110201b24a5b9191bd3f$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleImplicit = $f295b9ab78bbf68b55b78fed471$export$implicit;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleOrdinal = $f295b9ab78bbf68b55b78fed471$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSqrt = $d13fec50082f9388e213dd73f5c3$export$sqrt;
-  $d4f1111cbbfd851862171f85d171591f$exports.scalePow = $d13fec50082f9388e213dd73f5c3$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleQuantile = $aefa6d66705147908ff407971b88a6$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleQuantize = $b08edb578824bc930827d975c1ef2$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleThreshold = $c2ad823f8442f152b85f6a5464b197fb$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleTime = $ba5a5ad67c16530a39f9e56fd5e685cf$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleUtc = $bf5e77269ffba3596882eac21699$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequentialSymlog = $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialSymlog;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequentialSqrt = $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialSqrt;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequentialPow = $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialPow;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequentialLog = $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialLog;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequential = $bcac789681e7f4c88bd4dcbbb95d0add$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleSequentialQuantile = $be69131ee039ba4591874967a41842cf$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleDivergingSymlog = $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingSymlog;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleDivergingSqrt = $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingSqrt;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleDivergingPow = $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingPow;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleDivergingLog = $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingLog;
-  $d4f1111cbbfd851862171f85d171591f$exports.scaleDiverging = $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$default;
-  $d4f1111cbbfd851862171f85d171591f$exports.tickFormat = $b4cb351dc499b56cdd4aba9314d2046$export$default;
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scalePoint", function () {
+    return $d6b55218d9421a865470033320816d3$export$point;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleBand", function () {
+    return $d6b55218d9421a865470033320816d3$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleIdentity", function () {
+    return $c20873725d52cf52df0a453353bcc93$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleLinear", function () {
+    return $da503be766eaa7903499a06d46a2605b$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleLog", function () {
+    return $ec5d9c47bf4fa2fcafad98b14bd193$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSymlog", function () {
+    return $c6c39c1b523a110201b24a5b9191bd3f$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleImplicit", function () {
+    return $f295b9ab78bbf68b55b78fed471$export$implicit;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleOrdinal", function () {
+    return $f295b9ab78bbf68b55b78fed471$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSqrt", function () {
+    return $d13fec50082f9388e213dd73f5c3$export$sqrt;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scalePow", function () {
+    return $d13fec50082f9388e213dd73f5c3$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleQuantile", function () {
+    return $aefa6d66705147908ff407971b88a6$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleQuantize", function () {
+    return $b08edb578824bc930827d975c1ef2$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleThreshold", function () {
+    return $c2ad823f8442f152b85f6a5464b197fb$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleTime", function () {
+    return $ba5a5ad67c16530a39f9e56fd5e685cf$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleUtc", function () {
+    return $bf5e77269ffba3596882eac21699$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequentialSymlog", function () {
+    return $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialSymlog;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequentialSqrt", function () {
+    return $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialSqrt;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequentialPow", function () {
+    return $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialPow;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequentialLog", function () {
+    return $bcac789681e7f4c88bd4dcbbb95d0add$export$sequentialLog;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequential", function () {
+    return $bcac789681e7f4c88bd4dcbbb95d0add$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleSequentialQuantile", function () {
+    return $be69131ee039ba4591874967a41842cf$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleDivergingSymlog", function () {
+    return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingSymlog;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleDivergingSqrt", function () {
+    return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingSqrt;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleDivergingPow", function () {
+    return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingPow;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleDivergingLog", function () {
+    return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$divergingLog;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "scaleDiverging", function () {
+    return $b8bfdef6aad68b6634cbe8dbf8cc4a2e$export$default;
+  });
+  $parcel$reexport($d4f1111cbbfd851862171f85d171591f$exports, "tickFormat", function () {
+    return $b4cb351dc499b56cdd4aba9314d2046$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $d4f1111cbbfd851862171f85d171591f$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-scale-chromatic/src/index.js
   var $fbd49dde1eebb4268b01862811e04$exports = {};
@@ -15508,81 +16341,231 @@
   var $d9b046a8ee1c285578ac4f2e20ccb7ec$export$magma = $d9b046a8ee1c285578ac4f2e20ccb7ec$var$ramp($c148a9c07d8ebc877191a374249973f7$export$default("00000401000501010601010802010902020b02020d03030f03031204041405041606051806051a07061c08071e0907200a08220b09240c09260d0a290e0b2b100b2d110c2f120d31130d34140e36150e38160f3b180f3d19103f1a10421c10441d11471e114920114b21114e22115024125325125527125829115a2a115c2c115f2d11612f116331116533106734106936106b38106c390f6e3b0f703d0f713f0f72400f74420f75440f764510774710784910784a10794c117a4e117b4f127b51127c52137c54137d56147d57157e59157e5a167e5c167f5d177f5f187f601880621980641a80651a80671b80681c816a1c816b1d816d1d816e1e81701f81721f817320817521817621817822817922827b23827c23827e24828025828125818326818426818627818827818928818b29818c29818e2a81902a81912b81932b80942c80962c80982d80992d809b2e7f9c2e7f9e2f7fa02f7fa1307ea3307ea5317ea6317da8327daa337dab337cad347cae347bb0357bb2357bb3367ab5367ab73779b83779ba3878bc3978bd3977bf3a77c03a76c23b75c43c75c53c74c73d73c83e73ca3e72cc3f71cd4071cf4070d0416fd2426fd3436ed5446dd6456cd8456cd9466bdb476adc4869de4968df4a68e04c67e24d66e34e65e44f64e55064e75263e85362e95462ea5661eb5760ec5860ed5a5fee5b5eef5d5ef05f5ef1605df2625df2645cf3655cf4675cf4695cf56b5cf66c5cf66e5cf7705cf7725cf8745cf8765cf9785df9795df97b5dfa7d5efa7f5efa815ffb835ffb8560fb8761fc8961fc8a62fc8c63fc8e64fc9065fd9266fd9467fd9668fd9869fd9a6afd9b6bfe9d6cfe9f6dfea16efea36ffea571fea772fea973feaa74feac76feae77feb078feb27afeb47bfeb67cfeb77efeb97ffebb81febd82febf84fec185fec287fec488fec68afec88cfeca8dfecc8ffecd90fecf92fed194fed395fed597fed799fed89afdda9cfddc9efddea0fde0a1fde2a3fde3a5fde5a7fde7a9fde9aafdebacfcecaefceeb0fcf0b2fcf2b4fcf4b6fcf6b8fcf7b9fcf9bbfcfbbdfcfdbf"));
   var $d9b046a8ee1c285578ac4f2e20ccb7ec$export$inferno = $d9b046a8ee1c285578ac4f2e20ccb7ec$var$ramp($c148a9c07d8ebc877191a374249973f7$export$default("00000401000501010601010802010a02020c02020e03021004031204031405041706041907051b08051d09061f0a07220b07240c08260d08290e092b10092d110a30120a32140b34150b37160b39180c3c190c3e1b0c411c0c431e0c451f0c48210c4a230c4c240c4f260c51280b53290b552b0b572d0b592f0a5b310a5c320a5e340a5f3609613809623909633b09643d09653e0966400a67420a68440a68450a69470b6a490b6a4a0c6b4c0c6b4d0d6c4f0d6c510e6c520e6d540f6d550f6d57106e59106e5a116e5c126e5d126e5f136e61136e62146e64156e65156e67166e69166e6a176e6c186e6d186e6f196e71196e721a6e741a6e751b6e771c6d781c6d7a1d6d7c1d6d7d1e6d7f1e6c801f6c82206c84206b85216b87216b88226a8a226a8c23698d23698f24699025689225689326679526679727669827669a28659b29649d29649f2a63a02a63a22b62a32c61a52c60a62d60a82e5fa92e5eab2f5ead305dae305cb0315bb1325ab3325ab43359b63458b73557b93556ba3655bc3754bd3853bf3952c03a51c13a50c33b4fc43c4ec63d4dc73e4cc83f4bca404acb4149cc4248ce4347cf4446d04545d24644d34743d44842d54a41d74b3fd84c3ed94d3dda4e3cdb503bdd513ade5238df5337e05536e15635e25734e35933e45a31e55c30e65d2fe75e2ee8602de9612bea632aeb6429eb6628ec6726ed6925ee6a24ef6c23ef6e21f06f20f1711ff1731df2741cf3761bf37819f47918f57b17f57d15f67e14f68013f78212f78410f8850ff8870ef8890cf98b0bf98c0af98e09fa9008fa9207fa9407fb9606fb9706fb9906fb9b06fb9d07fc9f07fca108fca309fca50afca60cfca80dfcaa0ffcac11fcae12fcb014fcb216fcb418fbb61afbb81dfbba1ffbbc21fbbe23fac026fac228fac42afac62df9c72ff9c932f9cb35f8cd37f8cf3af7d13df7d340f6d543f6d746f5d949f5db4cf4dd4ff4df53f4e156f3e35af3e55df2e661f2e865f2ea69f1ec6df1ed71f1ef75f1f179f2f27df2f482f3f586f3f68af4f88ef5f992f6fa96f8fb9af9fc9dfafda1fcffa4"));
   var $d9b046a8ee1c285578ac4f2e20ccb7ec$export$plasma = $d9b046a8ee1c285578ac4f2e20ccb7ec$var$ramp($c148a9c07d8ebc877191a374249973f7$export$default("0d088710078813078916078a19068c1b068d1d068e20068f2206902406912605912805922a05932c05942e05952f059631059733059735049837049938049a3a049a3c049b3e049c3f049c41049d43039e44039e46039f48039f4903a04b03a14c02a14e02a25002a25102a35302a35502a45601a45801a45901a55b01a55c01a65e01a66001a66100a76300a76400a76600a76700a86900a86a00a86c00a86e00a86f00a87100a87201a87401a87501a87701a87801a87a02a87b02a87d03a87e03a88004a88104a78305a78405a78606a68707a68808a68a09a58b0aa58d0ba58e0ca48f0da4910ea3920fa39410a29511a19613a19814a099159f9a169f9c179e9d189d9e199da01a9ca11b9ba21d9aa31e9aa51f99a62098a72197a82296aa2395ab2494ac2694ad2793ae2892b02991b12a90b22b8fb32c8eb42e8db52f8cb6308bb7318ab83289ba3388bb3488bc3587bd3786be3885bf3984c03a83c13b82c23c81c33d80c43e7fc5407ec6417dc7427cc8437bc9447aca457acb4679cc4778cc4977cd4a76ce4b75cf4c74d04d73d14e72d24f71d35171d45270d5536fd5546ed6556dd7566cd8576bd9586ada5a6ada5b69db5c68dc5d67dd5e66de5f65de6164df6263e06363e16462e26561e26660e3685fe4695ee56a5de56b5de66c5ce76e5be76f5ae87059e97158e97257ea7457eb7556eb7655ec7754ed7953ed7a52ee7b51ef7c51ef7e50f07f4ff0804ef1814df1834cf2844bf3854bf3874af48849f48948f58b47f58c46f68d45f68f44f79044f79143f79342f89441f89540f9973ff9983ef99a3efa9b3dfa9c3cfa9e3bfb9f3afba139fba238fca338fca537fca636fca835fca934fdab33fdac33fdae32fdaf31fdb130fdb22ffdb42ffdb52efeb72dfeb82cfeba2cfebb2bfebd2afebe2afec029fdc229fdc328fdc527fdc627fdc827fdca26fdcb26fccd25fcce25fcd025fcd225fbd324fbd524fbd724fad824fada24f9dc24f9dd25f8df25f8e125f7e225f7e425f6e626f6e826f5e926f5eb27f4ed27f3ee27f3f027f2f227f1f426f1f525f0f724f0f921"));
-  $fbd49dde1eebb4268b01862811e04$exports.schemeCategory10 = $ceeb0e6405f8258f8b01f7991d50d876$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeAccent = $d0dd284b57f802fe55a3ae1456a24b1$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeDark2 = $f446c288e38d9a380cd14b6eb912ef2$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePaired = $ca5d65ae2ef5793a93dbdeef6e4f4ce4$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePastel1 = $e6559b659491bb8fff66190bd7724c93$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePastel2 = $f3af8524f11a8c06fc870a29203f05d$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeSet1 = $f7324be48b3236d6a2f112c7ad3e53e$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeSet2 = $f290747ea17a5d6d3742819fa2913029$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeSet3 = $b95e6e43963cccae8161f7494363ec8d$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeTableau10 = $f69f17868d42f054d948c10b47e5$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeBrBG = $b968e3f7e1bb888653a03881f14a32ab$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateBrBG = $b968e3f7e1bb888653a03881f14a32ab$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePRGn = $d03648fd3c244b69c9754b53c46abf61$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePRGn = $d03648fd3c244b69c9754b53c46abf61$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePiYG = $e597add99553e773f7a147050f55ff$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePiYG = $e597add99553e773f7a147050f55ff$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePuOr = $c2fdd06e227e5d13236ddee49048b0$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePuOr = $c2fdd06e227e5d13236ddee49048b0$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeRdBu = $d73be4b0d3c31fe3382a0ad8b44eab67$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRdBu = $d73be4b0d3c31fe3382a0ad8b44eab67$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeRdGy = $dbf2f378c6c54bec950748d23fca$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRdGy = $dbf2f378c6c54bec950748d23fca$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeRdYlBu = $a23b0a8f0b2b0c46db203324be3b$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRdYlBu = $a23b0a8f0b2b0c46db203324be3b$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeRdYlGn = $e93886863d1992f5566c17a1a822$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRdYlGn = $e93886863d1992f5566c17a1a822$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeSpectral = $abc1ac65b0e30f834d6a8e9d9c6fa3$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateSpectral = $abc1ac65b0e30f834d6a8e9d9c6fa3$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeBuGn = $b33eb8268a9649df388c89f5c1a057$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateBuGn = $b33eb8268a9649df388c89f5c1a057$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeBuPu = $cc98a1fb9049689a89d87283a005b1b$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateBuPu = $cc98a1fb9049689a89d87283a005b1b$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeGnBu = $e81cf7711e66e663362d57433cc667f8$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateGnBu = $e81cf7711e66e663362d57433cc667f8$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeOrRd = $cbde1b368e2c1b9b371814cda5d90688$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateOrRd = $cbde1b368e2c1b9b371814cda5d90688$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePuBuGn = $ef788d93ed1d12e46b8cfb48de3591$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePuBuGn = $ef788d93ed1d12e46b8cfb48de3591$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePuBu = $e0ef3d631b7b9433cc301c22c5cd$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePuBu = $e0ef3d631b7b9433cc301c22c5cd$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePuRd = $dcd7845c9891d5853b9d032a51d8b$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePuRd = $dcd7845c9891d5853b9d032a51d8b$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeRdPu = $d160bf497a52de5db19c43bda156667d$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRdPu = $d160bf497a52de5db19c43bda156667d$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeYlGnBu = $b8fd5dcbc26ebf84089d329ce7de7af$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateYlGnBu = $b8fd5dcbc26ebf84089d329ce7de7af$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeYlGn = $fdca6817015f8e752643943131b9c$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateYlGn = $fdca6817015f8e752643943131b9c$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeYlOrBr = $b297419d3e055e8686887cbe34107cd7$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateYlOrBr = $b297419d3e055e8686887cbe34107cd7$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeYlOrRd = $f6a4fb10090fb9a8c6e3cae4f9e38a$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateYlOrRd = $f6a4fb10090fb9a8c6e3cae4f9e38a$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeBlues = $cf38c37fdad15d368de6c556964ca15$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateBlues = $cf38c37fdad15d368de6c556964ca15$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeGreens = $e5bbd4cf6dda976220e95c6781e2c1e4$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateGreens = $e5bbd4cf6dda976220e95c6781e2c1e4$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeGreys = $fceb9d23b1361f9fd124ffd8bb4$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateGreys = $fceb9d23b1361f9fd124ffd8bb4$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemePurples = $a139a90123479b9486cdef7caa1fd342$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePurples = $a139a90123479b9486cdef7caa1fd342$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeReds = $ccb65c01a67cc133de092fc451d40$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateReds = $ccb65c01a67cc133de092fc451d40$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.schemeOranges = $e9e8756506e6331cbb404643bc2a7c$export$scheme;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateOranges = $e9e8756506e6331cbb404643bc2a7c$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateCividis = $eef10f85d1c0bfa1c6099226816d6ed5$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateCubehelixDefault = $adda985d6c0d64d975261bc4aa7b436$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateCool = $e6cbb909cf0df05a5596c1f38777$export$cool;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateWarm = $e6cbb909cf0df05a5596c1f38777$export$warm;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateRainbow = $e6cbb909cf0df05a5596c1f38777$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateSinebow = $ade071401c9eb74edd8341cf7da4fcee$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateTurbo = $c8a98231c4720224ccdf24c43983323$export$default;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolatePlasma = $d9b046a8ee1c285578ac4f2e20ccb7ec$export$plasma;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateInferno = $d9b046a8ee1c285578ac4f2e20ccb7ec$export$inferno;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateMagma = $d9b046a8ee1c285578ac4f2e20ccb7ec$export$magma;
-  $fbd49dde1eebb4268b01862811e04$exports.interpolateViridis = $d9b046a8ee1c285578ac4f2e20ccb7ec$export$default;
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeCategory10", function () {
+    return $ceeb0e6405f8258f8b01f7991d50d876$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeAccent", function () {
+    return $d0dd284b57f802fe55a3ae1456a24b1$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeDark2", function () {
+    return $f446c288e38d9a380cd14b6eb912ef2$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePaired", function () {
+    return $ca5d65ae2ef5793a93dbdeef6e4f4ce4$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePastel1", function () {
+    return $e6559b659491bb8fff66190bd7724c93$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePastel2", function () {
+    return $f3af8524f11a8c06fc870a29203f05d$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeSet1", function () {
+    return $f7324be48b3236d6a2f112c7ad3e53e$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeSet2", function () {
+    return $f290747ea17a5d6d3742819fa2913029$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeSet3", function () {
+    return $b95e6e43963cccae8161f7494363ec8d$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeTableau10", function () {
+    return $f69f17868d42f054d948c10b47e5$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeBrBG", function () {
+    return $b968e3f7e1bb888653a03881f14a32ab$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateBrBG", function () {
+    return $b968e3f7e1bb888653a03881f14a32ab$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePRGn", function () {
+    return $d03648fd3c244b69c9754b53c46abf61$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePRGn", function () {
+    return $d03648fd3c244b69c9754b53c46abf61$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePiYG", function () {
+    return $e597add99553e773f7a147050f55ff$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePiYG", function () {
+    return $e597add99553e773f7a147050f55ff$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePuOr", function () {
+    return $c2fdd06e227e5d13236ddee49048b0$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePuOr", function () {
+    return $c2fdd06e227e5d13236ddee49048b0$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeRdBu", function () {
+    return $d73be4b0d3c31fe3382a0ad8b44eab67$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRdBu", function () {
+    return $d73be4b0d3c31fe3382a0ad8b44eab67$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeRdGy", function () {
+    return $dbf2f378c6c54bec950748d23fca$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRdGy", function () {
+    return $dbf2f378c6c54bec950748d23fca$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeRdYlBu", function () {
+    return $a23b0a8f0b2b0c46db203324be3b$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRdYlBu", function () {
+    return $a23b0a8f0b2b0c46db203324be3b$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeRdYlGn", function () {
+    return $e93886863d1992f5566c17a1a822$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRdYlGn", function () {
+    return $e93886863d1992f5566c17a1a822$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeSpectral", function () {
+    return $abc1ac65b0e30f834d6a8e9d9c6fa3$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateSpectral", function () {
+    return $abc1ac65b0e30f834d6a8e9d9c6fa3$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeBuGn", function () {
+    return $b33eb8268a9649df388c89f5c1a057$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateBuGn", function () {
+    return $b33eb8268a9649df388c89f5c1a057$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeBuPu", function () {
+    return $cc98a1fb9049689a89d87283a005b1b$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateBuPu", function () {
+    return $cc98a1fb9049689a89d87283a005b1b$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeGnBu", function () {
+    return $e81cf7711e66e663362d57433cc667f8$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateGnBu", function () {
+    return $e81cf7711e66e663362d57433cc667f8$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeOrRd", function () {
+    return $cbde1b368e2c1b9b371814cda5d90688$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateOrRd", function () {
+    return $cbde1b368e2c1b9b371814cda5d90688$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePuBuGn", function () {
+    return $ef788d93ed1d12e46b8cfb48de3591$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePuBuGn", function () {
+    return $ef788d93ed1d12e46b8cfb48de3591$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePuBu", function () {
+    return $e0ef3d631b7b9433cc301c22c5cd$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePuBu", function () {
+    return $e0ef3d631b7b9433cc301c22c5cd$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePuRd", function () {
+    return $dcd7845c9891d5853b9d032a51d8b$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePuRd", function () {
+    return $dcd7845c9891d5853b9d032a51d8b$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeRdPu", function () {
+    return $d160bf497a52de5db19c43bda156667d$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRdPu", function () {
+    return $d160bf497a52de5db19c43bda156667d$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeYlGnBu", function () {
+    return $b8fd5dcbc26ebf84089d329ce7de7af$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateYlGnBu", function () {
+    return $b8fd5dcbc26ebf84089d329ce7de7af$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeYlGn", function () {
+    return $fdca6817015f8e752643943131b9c$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateYlGn", function () {
+    return $fdca6817015f8e752643943131b9c$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeYlOrBr", function () {
+    return $b297419d3e055e8686887cbe34107cd7$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateYlOrBr", function () {
+    return $b297419d3e055e8686887cbe34107cd7$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeYlOrRd", function () {
+    return $f6a4fb10090fb9a8c6e3cae4f9e38a$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateYlOrRd", function () {
+    return $f6a4fb10090fb9a8c6e3cae4f9e38a$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeBlues", function () {
+    return $cf38c37fdad15d368de6c556964ca15$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateBlues", function () {
+    return $cf38c37fdad15d368de6c556964ca15$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeGreens", function () {
+    return $e5bbd4cf6dda976220e95c6781e2c1e4$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateGreens", function () {
+    return $e5bbd4cf6dda976220e95c6781e2c1e4$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeGreys", function () {
+    return $fceb9d23b1361f9fd124ffd8bb4$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateGreys", function () {
+    return $fceb9d23b1361f9fd124ffd8bb4$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemePurples", function () {
+    return $a139a90123479b9486cdef7caa1fd342$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePurples", function () {
+    return $a139a90123479b9486cdef7caa1fd342$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeReds", function () {
+    return $ccb65c01a67cc133de092fc451d40$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateReds", function () {
+    return $ccb65c01a67cc133de092fc451d40$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "schemeOranges", function () {
+    return $e9e8756506e6331cbb404643bc2a7c$export$scheme;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateOranges", function () {
+    return $e9e8756506e6331cbb404643bc2a7c$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateCividis", function () {
+    return $eef10f85d1c0bfa1c6099226816d6ed5$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateCubehelixDefault", function () {
+    return $adda985d6c0d64d975261bc4aa7b436$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateCool", function () {
+    return $e6cbb909cf0df05a5596c1f38777$export$cool;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateWarm", function () {
+    return $e6cbb909cf0df05a5596c1f38777$export$warm;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateRainbow", function () {
+    return $e6cbb909cf0df05a5596c1f38777$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateSinebow", function () {
+    return $ade071401c9eb74edd8341cf7da4fcee$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateTurbo", function () {
+    return $c8a98231c4720224ccdf24c43983323$export$default;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolatePlasma", function () {
+    return $d9b046a8ee1c285578ac4f2e20ccb7ec$export$plasma;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateInferno", function () {
+    return $d9b046a8ee1c285578ac4f2e20ccb7ec$export$inferno;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateMagma", function () {
+    return $d9b046a8ee1c285578ac4f2e20ccb7ec$export$magma;
+  });
+  $parcel$reexport($fbd49dde1eebb4268b01862811e04$exports, "interpolateViridis", function () {
+    return $d9b046a8ee1c285578ac4f2e20ccb7ec$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $fbd49dde1eebb4268b01862811e04$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $bc1c240ef53a27a9774123ee235bd$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-shape/src/index.js
@@ -17218,8 +18201,7 @@
         s1 = (y2 - that._y1) / (h1 || h0 < 0 && -0),
         p = (s0 * h1 + s1 * h0) / (h0 + h1);
     return ($e59be5894c06f42b0e196de605769a$var$sign(s0) + $e59be5894c06f42b0e196de605769a$var$sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p)) || 0;
-  } // Calculate a one-sided slope.
-
+  }
 
   function $e59be5894c06f42b0e196de605769a$var$slope2(that, t) {
     var h = that._x1 - that._x0;
@@ -17691,57 +18673,159 @@
     return $cdfd571e7d3acdf05406777bf5f2f$export$default(series).reverse();
   };
 
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.arc = $b7c33c1f364c1f2b7ee36c6e94006$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.area = $c94cbb6259557b38698a3e44333a31a$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.line = $b51a6583ba8ee46b47fc05af2d25eb1$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.pie = $b50bc78a9446cb819deb7e752125df80$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.radialArea = $ce4a159ead1c8579ca59be66a3$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.areaRadial = $ce4a159ead1c8579ca59be66a3$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.radialLine = $f9546b784742cfe53415145a4baae$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.lineRadial = $f9546b784742cfe53415145a4baae$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.pointRadial = $fd076ae7db31b8a281eed9041da06$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.linkRadial = $e206c90d30947e87c8567562f0906$export$linkRadial;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.linkVertical = $e206c90d30947e87c8567562f0906$export$linkVertical;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.linkHorizontal = $e206c90d30947e87c8567562f0906$export$linkHorizontal;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbols = $f05315109f9d935a453a4481d246fff4$export$symbols;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbol = $f05315109f9d935a453a4481d246fff4$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolCircle = $b51ae63717f48f82b6882189f11c5ed$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolCross = $d2023013506ee7a029edf0574e$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolDiamond = $d552494e44a6ee189fa4f7e9e1$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolSquare = $df3e28ae53b48da1a551004d7061b1c$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolStar = $fd201fe40afa6d715e8b6bed64e5a$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolTriangle = $ef54953e47513d3e0c776b41a61438b$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.symbolWye = $d5dc9f36f937f84f0959cd2ffb3520$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveBasisClosed = $bccaa458d9952da7c74505e56266caf$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveBasisOpen = $e21c32d2a505dcd742b9a1fad9c4$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveBasis = $a2095888c558eabc2b64cc170dc2e658$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveBundle = $c410a7d0d0e12cde4d439301bc606f7e$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCardinalClosed = $affcfdfb44ddb46e60e704f$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCardinalOpen = $ca0e92b1c8d4f4931f27be4f0f8b1f9$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCardinal = $bae80d1bd1ec8023d8b8e2f11b2fb1$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCatmullRomClosed = $e192317189cd5cb4a030495b5fd8d$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCatmullRomOpen = $b379757d05649c480d187ec37750c$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveCatmullRom = $aa16fdac8718297cdaa79bfa501fe$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveLinearClosed = $f35db302b93279cadb0eb2a77ca92761$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveLinear = $b5051f433b106d8cdc96c7ab5dee612d$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveMonotoneY = $e59be5894c06f42b0e196de605769a$export$monotoneY;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveMonotoneX = $e59be5894c06f42b0e196de605769a$export$monotoneX;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveNatural = $db460ac5a79054814d0bb1d84ed6119$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveStepBefore = $a97e4017535065f15b864bb69e24951$export$stepBefore;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveStepAfter = $a97e4017535065f15b864bb69e24951$export$stepAfter;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.curveStep = $a97e4017535065f15b864bb69e24951$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stack = $b7422dd2f6d72bed2a8e0aa4d299bc23$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOffsetExpand = $b0f8d73ed8d2456a5f74e4$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOffsetDiverging = $ec32bce0f1942d25f5b71a188ce3fb$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOffsetNone = $b3870f35d3f4ccc5a94109b7f35bcd4$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOffsetSilhouette = $a59bb499f48be044ab36374d024f03$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOffsetWiggle = $fd2e259fe99c7d408821cc5876d02$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderAppearance = $a3a8fa8b52793cac894184634d625857$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderAscending = $b3a0a6dbf76205f722f5b7fa56c1f5f4$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderDescending = $ede6c3130611c0550950bd0a93cc5dba$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderInsideOut = $c7e14b32468a8faaf0c94c0846b7$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderNone = $cdfd571e7d3acdf05406777bf5f2f$export$default;
-  $aabaf3a31e2eb7c51c51bd88e1e53f46$exports.stackOrderReverse = $c1d80a4e41900d1a651b62e069c2e41d$export$default;
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "arc", function () {
+    return $b7c33c1f364c1f2b7ee36c6e94006$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "area", function () {
+    return $c94cbb6259557b38698a3e44333a31a$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "line", function () {
+    return $b51a6583ba8ee46b47fc05af2d25eb1$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "pie", function () {
+    return $b50bc78a9446cb819deb7e752125df80$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "radialArea", function () {
+    return $ce4a159ead1c8579ca59be66a3$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "areaRadial", function () {
+    return $ce4a159ead1c8579ca59be66a3$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "radialLine", function () {
+    return $f9546b784742cfe53415145a4baae$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "lineRadial", function () {
+    return $f9546b784742cfe53415145a4baae$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "pointRadial", function () {
+    return $fd076ae7db31b8a281eed9041da06$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "linkRadial", function () {
+    return $e206c90d30947e87c8567562f0906$export$linkRadial;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "linkVertical", function () {
+    return $e206c90d30947e87c8567562f0906$export$linkVertical;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "linkHorizontal", function () {
+    return $e206c90d30947e87c8567562f0906$export$linkHorizontal;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbols", function () {
+    return $f05315109f9d935a453a4481d246fff4$export$symbols;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbol", function () {
+    return $f05315109f9d935a453a4481d246fff4$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolCircle", function () {
+    return $b51ae63717f48f82b6882189f11c5ed$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolCross", function () {
+    return $d2023013506ee7a029edf0574e$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolDiamond", function () {
+    return $d552494e44a6ee189fa4f7e9e1$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolSquare", function () {
+    return $df3e28ae53b48da1a551004d7061b1c$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolStar", function () {
+    return $fd201fe40afa6d715e8b6bed64e5a$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolTriangle", function () {
+    return $ef54953e47513d3e0c776b41a61438b$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "symbolWye", function () {
+    return $d5dc9f36f937f84f0959cd2ffb3520$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveBasisClosed", function () {
+    return $bccaa458d9952da7c74505e56266caf$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveBasisOpen", function () {
+    return $e21c32d2a505dcd742b9a1fad9c4$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveBasis", function () {
+    return $a2095888c558eabc2b64cc170dc2e658$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveBundle", function () {
+    return $c410a7d0d0e12cde4d439301bc606f7e$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCardinalClosed", function () {
+    return $affcfdfb44ddb46e60e704f$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCardinalOpen", function () {
+    return $ca0e92b1c8d4f4931f27be4f0f8b1f9$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCardinal", function () {
+    return $bae80d1bd1ec8023d8b8e2f11b2fb1$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCatmullRomClosed", function () {
+    return $e192317189cd5cb4a030495b5fd8d$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCatmullRomOpen", function () {
+    return $b379757d05649c480d187ec37750c$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveCatmullRom", function () {
+    return $aa16fdac8718297cdaa79bfa501fe$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveLinearClosed", function () {
+    return $f35db302b93279cadb0eb2a77ca92761$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveLinear", function () {
+    return $b5051f433b106d8cdc96c7ab5dee612d$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveMonotoneY", function () {
+    return $e59be5894c06f42b0e196de605769a$export$monotoneY;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveMonotoneX", function () {
+    return $e59be5894c06f42b0e196de605769a$export$monotoneX;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveNatural", function () {
+    return $db460ac5a79054814d0bb1d84ed6119$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveStepBefore", function () {
+    return $a97e4017535065f15b864bb69e24951$export$stepBefore;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveStepAfter", function () {
+    return $a97e4017535065f15b864bb69e24951$export$stepAfter;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "curveStep", function () {
+    return $a97e4017535065f15b864bb69e24951$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stack", function () {
+    return $b7422dd2f6d72bed2a8e0aa4d299bc23$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOffsetExpand", function () {
+    return $b0f8d73ed8d2456a5f74e4$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOffsetDiverging", function () {
+    return $ec32bce0f1942d25f5b71a188ce3fb$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOffsetNone", function () {
+    return $b3870f35d3f4ccc5a94109b7f35bcd4$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOffsetSilhouette", function () {
+    return $a59bb499f48be044ab36374d024f03$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOffsetWiggle", function () {
+    return $fd2e259fe99c7d408821cc5876d02$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderAppearance", function () {
+    return $a3a8fa8b52793cac894184634d625857$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderAscending", function () {
+    return $b3a0a6dbf76205f722f5b7fa56c1f5f4$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderDescending", function () {
+    return $ede6c3130611c0550950bd0a93cc5dba$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderInsideOut", function () {
+    return $c7e14b32468a8faaf0c94c0846b7$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderNone", function () {
+    return $cdfd571e7d3acdf05406777bf5f2f$export$default;
+  });
+  $parcel$reexport($aabaf3a31e2eb7c51c51bd88e1e53f46$exports, "stackOrderReverse", function () {
+    return $c1d80a4e41900d1a651b62e069c2e41d$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $aabaf3a31e2eb7c51c51bd88e1e53f46$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $fdb41d4afe2ce1674a98816cc3ec80$exports);
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $e12bd314e171f88fccf6d8e1c4669436$exports);
@@ -18734,7 +19818,9 @@
     return voronoi;
   };
 
-  $a76c39e42b7accc88955d54f76b888$exports.voronoi = $adc6b1f61e9af2bec28deb0509b9b09f$export$default;
+  $parcel$reexport($a76c39e42b7accc88955d54f76b888$exports, "voronoi", function () {
+    return $adc6b1f61e9af2bec28deb0509b9b09f$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $a76c39e42b7accc88955d54f76b888$exports);
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/d3-zoom/src/index.js
   var $e61e3877105c2d43445917cfd4c7d565$exports = {};
@@ -19221,17 +20307,20 @@
     return zoom;
   };
 
-  $e61e3877105c2d43445917cfd4c7d565$exports.zoom = $b2ae8daa6818c76946b8eec978daa6db$export$default;
-  $e61e3877105c2d43445917cfd4c7d565$exports.zoomIdentity = $afc12b93cdacfce3012769bffb1fc892$export$identity;
-  $e61e3877105c2d43445917cfd4c7d565$exports.zoomTransform = $afc12b93cdacfce3012769bffb1fc892$export$default;
+  $parcel$reexport($e61e3877105c2d43445917cfd4c7d565$exports, "zoom", function () {
+    return $b2ae8daa6818c76946b8eec978daa6db$export$default;
+  });
+  $parcel$reexport($e61e3877105c2d43445917cfd4c7d565$exports, "zoomIdentity", function () {
+    return $afc12b93cdacfce3012769bffb1fc892$export$identity;
+  });
+  $parcel$reexport($e61e3877105c2d43445917cfd4c7d565$exports, "zoomTransform", function () {
+    return $afc12b93cdacfce3012769bffb1fc892$export$default;
+  });
   $parcel$exportWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports, $e61e3877105c2d43445917cfd4c7d565$exports);
+  $parcel$reexport($baf87f18f8e7d2dd21d7f8fc68289236$exports, "version", function () {
+    return $a003e70e6b368a7643cff3c4c15a2$export$version;
+  });
   var $b4867728b5074e96e0d0487dc52bab0$var$d3 = $b4867728b5074e96e0d0487dc52bab0$var$_interopRequireWildcard($baf87f18f8e7d2dd21d7f8fc68289236$exports);
-
-  function $b4867728b5074e96e0d0487dc52bab0$var$_interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
 
   function $b4867728b5074e96e0d0487dc52bab0$var$_getRequireWildcardCache() {
     if (typeof WeakMap !== "function") return null;
@@ -19287,7 +20376,8 @@
 
   const $b4867728b5074e96e0d0487dc52bab0$var$SVG_WIDTH = 400;
   const $b4867728b5074e96e0d0487dc52bab0$var$SVG_HEIGHT = 600;
-  const $b4867728b5074e96e0d0487dc52bab0$var$H = 600;
+  const $b4867728b5074e96e0d0487dc52bab0$var$H = 600; // svg viewport height
+
   const $b4867728b5074e96e0d0487dc52bab0$var$W = 400; // svg viewport width
 
   const $b4867728b5074e96e0d0487dc52bab0$var$FONT_SIZE = 10;
@@ -19295,16 +20385,9 @@
 
   const $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP = $b4867728b5074e96e0d0487dc52bab0$var$FONT_SIZE + 2 * $b4867728b5074e96e0d0487dc52bab0$var$TIME_MARGIN;
   const $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_BLOCK_LEFT = 40;
-  const $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_BLOCK_RIGHT = $b4867728b5074e96e0d0487dc52bab0$var$TIME_MARGIN;
-  const $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME = 600;
-  var $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_START_TIME = $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME;
-  $b4867728b5074e96e0d0487dc52bab0$exports.DEFAULT_START_TIME = $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_START_TIME;
-  const $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME = 2200; // Generated with https://mokole.com/palette.html
-  // const COLOR_MAP = [
-  //   '#2f4f4f',
-  //   '#228b22',
+  const $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_BLOCK_RIGHT = $b4867728b5074e96e0d0487dc52bab0$var$TIME_MARGIN; //   '#228b22',
   //   '#00008b',
-  //   '#ff4500',
+  //   '#b03060',
   //   '#ffff00',
   //   '#00ff00',
   //   '#00ffff',
@@ -19312,20 +20395,18 @@
   //   '#ffe4b5',
   // ];
 
-  var $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_END_TIME = $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME;
-  $b4867728b5074e96e0d0487dc52bab0$exports.DEFAULT_END_TIME = $b4867728b5074e96e0d0487dc52bab0$export$DEFAULT_END_TIME;
-
-  async function $b4867728b5074e96e0d0487dc52bab0$var$drawSchedule(events, targetId) {
+  async function $b4867728b5074e96e0d0487dc52bab0$var$drawSchedule(events, targetId, startTime, endTime) {
     // console.log(events);
     const svg = $b4867728b5074e96e0d0487dc52bab0$var$d3.select(targetId).append('svg').style('border', '1px solid black').attr('height', $b4867728b5074e96e0d0487dc52bab0$var$SVG_HEIGHT).attr('width', $b4867728b5074e96e0d0487dc52bab0$var$SVG_WIDTH).attr('viewBox', `0 0 ${$b4867728b5074e96e0d0487dc52bab0$var$W} ${$b4867728b5074e96e0d0487dc52bab0$var$H}`);
-    const hours = $b4867728b5074e96e0d0487dc52bab0$var$d3.range($b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME, $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME, 100);
+    const hours = $b4867728b5074e96e0d0487dc52bab0$var$d3.range(startTime, endTime, 100);
+    const scheduleDuration = endTime - startTime;
 
     function timeToY(d) {
-      return (d - $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME) * ($b4867728b5074e96e0d0487dc52bab0$var$H - $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP) / ($b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME - $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME) + $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP;
+      return (d - startTime) / scheduleDuration * ($b4867728b5074e96e0d0487dc52bab0$var$H - $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP) + $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP;
     }
 
     function durationToDY(d) {
-      return d / ($b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME - $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME) * ($b4867728b5074e96e0d0487dc52bab0$var$H - $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP);
+      return d / scheduleDuration * ($b4867728b5074e96e0d0487dc52bab0$var$H - $b4867728b5074e96e0d0487dc52bab0$var$MARGIN_TOP);
     }
 
     svg.selectAll('line').data(hours).enter().append('line').attr('class', 'time').attr('x1', 0).attr('y1', d => timeToY(d)).attr('x2', $b4867728b5074e96e0d0487dc52bab0$var$W).attr('y2', d => timeToY(d));
@@ -19343,15 +20424,19 @@
   $b4867728b5074e96e0d0487dc52bab0$export$eventRegex = $b4867728b5074e96e0d0487dc52bab0$var$eventRegex;
   $b4867728b5074e96e0d0487dc52bab0$exports.eventRegex = $b4867728b5074e96e0d0487dc52bab0$export$eventRegex;
 
-  async function $b4867728b5074e96e0d0487dc52bab0$var$loadSchedule() {
+  async function $b4867728b5074e96e0d0487dc52bab0$var$loadSchedule(scheduleName) {
     const documentRem = await $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil.getDocument(); //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
     //   console.log(tags);
+    // This finds any of multiple schedules...
+    // const scheduleParent = await RemNoteAPI.v0.get_by_name(scheduleName, {
+    //   parentId: documentRem._id,
+    // });
     // TODO: We need get_by_name if we want to configure the plugin.
     // console.log('name', await RemNoteAPI.v0.get_by_name('Schedule', { parentId: documentRem._id }));
 
     let children = await $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil.getChildren(documentRem, true);
     await $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil.loadText(children);
-    const scheduleParent = children.filter(c => c.text === 'Schedule')[0];
+    const scheduleParent = children.filter(c => c.text === scheduleName)[0];
     const timeBlocks = await $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil.getVisibleChildren(scheduleParent);
     await $b4867728b5074e96e0d0487dc52bab0$var$RemNoteUtil.loadText(timeBlocks);
     let events = [];
@@ -19373,16 +20458,17 @@
 
 
     return events;
-  } // Assume resolved time formatting.
+  } // TODO: automatically calculate start and end time.
+  // Assume resolved time formatting.
 
 
   function $b4867728b5074e96e0d0487dc52bab0$var$startTime(schedule) {
-    return Math.max(0, Math.min(...schedule.map(block => block.start), $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME));
+    return Math.max(0, Math.min(...schedule.map(block => block.start), 600));
   } // Assume resolved time formatting
 
 
   function $b4867728b5074e96e0d0487dc52bab0$var$endTime(schedule) {
-    return Math.min(Math.max($b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_END_TIME, ...schedule.map(block => block.end)), 2400);
+    return Math.min(Math.max(DEFAULT_END_TIME, ...schedule.map(block => block.end)), 2400);
   }
   /**
    * In HHMM the MM part is in range 00..59, but we want it to be 00..99.
@@ -19394,16 +20480,13 @@
     const minutes = time % 100;
     return time - minutes + minutes / 60 * 100;
   }
-  /**
-   */
 
-
-  function $b4867728b5074e96e0d0487dc52bab0$var$resolveTimeFormatting(schedule) {
+  function $b4867728b5074e96e0d0487dc52bab0$var$resolveTimeFormatting(schedule, startTime, endTime) {
     let lastEndTime = undefined;
     return schedule.map(block => {
       if (block.start === 'x' && lastEndTime === undefined) {
-        // This should not happen. I map the start time to default.
-        block.start = $b4867728b5074e96e0d0487dc52bab0$var$DEFAULT_START_TIME;
+        // This should not happen. I map the start time to the beginning of the schedule.
+        block.start = startTime;
       } else if (block.start === 'x') {
         block.start = lastEndTime;
       } else {
@@ -19462,11 +20545,13 @@
     return nonOverlappingBlocks;
   }
 
-  async function $b4867728b5074e96e0d0487dc52bab0$var$run(targetId = '#schedule') {
-    let schedule = await $b4867728b5074e96e0d0487dc52bab0$var$loadSchedule();
-    $b4867728b5074e96e0d0487dc52bab0$var$resolveTimeFormatting(schedule);
-    let column = $b4867728b5074e96e0d0487dc52bab0$var$sortScheduleSingleColumn(schedule);
-    $b4867728b5074e96e0d0487dc52bab0$var$drawSchedule(column, targetId);
+  async function $b4867728b5074e96e0d0487dc52bab0$var$makeSchedule(targetId, settings) {
+    let schedule = await $b4867728b5074e96e0d0487dc52bab0$var$loadSchedule(settings.scheduleName);
+    $b4867728b5074e96e0d0487dc52bab0$var$resolveTimeFormatting(schedule, settings.startTime, settings.endTime);
+    let column = $b4867728b5074e96e0d0487dc52bab0$var$sortScheduleSingleColumn(schedule); // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
+
+    document.getElementById('schedule').innerHTML = '';
+    $b4867728b5074e96e0d0487dc52bab0$var$drawSchedule(column, targetId, settings.startTime, settings.endTime);
   }
 
   // ASSET: /home/hannes/projects/remnote-schedule/node_modules/feather-icons/dist/feather.js
@@ -23318,16 +24403,9 @@
 
       })
     );
-  }); //# sourceMappingURL=feather.js.map
-
+  });
 
   var $fefb8311bfbb38e3fee80b21923eaae0$var$_featherIcons = $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireDefault($dee5f820cafedc22d7ba1d8425$exports);
-
-  function $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-      default: obj
-    };
-  }
 
   function $fefb8311bfbb38e3fee80b21923eaae0$var$_getRequireWildcardCache() {
     if (typeof WeakMap !== "function") return null;
@@ -23381,9 +24459,23 @@
     return newObj;
   }
 
-  const $fefb8311bfbb38e3fee80b21923eaae0$var$config = $fefb8311bfbb38e3fee80b21923eaae0$var$RemNoteUtil.getURLConfig();
-  const $fefb8311bfbb38e3fee80b21923eaae0$var$reloadInterval = parseInt($fefb8311bfbb38e3fee80b21923eaae0$var$config.autoreload);
-  const $fefb8311bfbb38e3fee80b21923eaae0$var$autoReloadEnabled = $fefb8311bfbb38e3fee80b21923eaae0$var$reloadInterval > 0;
+  function $fefb8311bfbb38e3fee80b21923eaae0$var$_interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+      default: obj
+    };
+  }
+
+  window.rapi = $fefb8311bfbb38e3fee80b21923eaae0$var$_remnoteApi.default.v0;
+  window.rutil = $fefb8311bfbb38e3fee80b21923eaae0$var$RemNoteUtil;
+  const $fefb8311bfbb38e3fee80b21923eaae0$var$defaultSettings = {
+    scheduleName: 'Schedule',
+    startTime: 600,
+    endTime: 2200,
+    autoReload: 5000
+  };
+  const $fefb8311bfbb38e3fee80b21923eaae0$var$settings = $fefb8311bfbb38e3fee80b21923eaae0$var$RemNoteUtil.getPluginSettings(location.search, $fefb8311bfbb38e3fee80b21923eaae0$var$defaultSettings);
+  console.log('SETTINGS', $fefb8311bfbb38e3fee80b21923eaae0$var$settings);
+  const $fefb8311bfbb38e3fee80b21923eaae0$var$autoReloadEnabled = $fefb8311bfbb38e3fee80b21923eaae0$var$settings.autoReload > 0;
   const $fefb8311bfbb38e3fee80b21923eaae0$var$reloadButton = document.getElementById('reload');
   let $fefb8311bfbb38e3fee80b21923eaae0$var$isAutoReloading = $fefb8311bfbb38e3fee80b21923eaae0$var$autoReloadEnabled;
   const $fefb8311bfbb38e3fee80b21923eaae0$var$RELOAD_ICON = $fefb8311bfbb38e3fee80b21923eaae0$var$_featherIcons.default.icons['refresh-cw'].toSvg();
@@ -23398,33 +24490,28 @@
     }
   }
 
-  async function $fefb8311bfbb38e3fee80b21923eaae0$var$doReload() {
-    console.info('Reloading remnote-schedule.');
-    let schedule = await (0, $b4867728b5074e96e0d0487dc52bab0$exports.loadSchedule)();
-    (0, $b4867728b5074e96e0d0487dc52bab0$exports.resolveTimeFormatting)(schedule);
-    let column = (0, $b4867728b5074e96e0d0487dc52bab0$exports.sortScheduleSingleColumn)(schedule);
-    document.getElementById('schedule').innerHTML = '';
-    (0, $b4867728b5074e96e0d0487dc52bab0$exports.drawSchedule)(column, '#schedule');
+  function $fefb8311bfbb38e3fee80b21923eaae0$var$reload() {
+    (0, $b4867728b5074e96e0d0487dc52bab0$exports.makeSchedule)('#schedule', $fefb8311bfbb38e3fee80b21923eaae0$var$settings);
   }
 
-  $fefb8311bfbb38e3fee80b21923eaae0$var$doReload();
+  $fefb8311bfbb38e3fee80b21923eaae0$var$reload();
   $fefb8311bfbb38e3fee80b21923eaae0$var$updateReloadIcon();
 
   if ($fefb8311bfbb38e3fee80b21923eaae0$var$autoReloadEnabled) {
-    $fefb8311bfbb38e3fee80b21923eaae0$var$reloadIntervalHandle = setInterval($fefb8311bfbb38e3fee80b21923eaae0$var$doReload, $fefb8311bfbb38e3fee80b21923eaae0$var$reloadInterval);
+    $fefb8311bfbb38e3fee80b21923eaae0$var$reloadIntervalHandle = setInterval($fefb8311bfbb38e3fee80b21923eaae0$var$reload, $fefb8311bfbb38e3fee80b21923eaae0$var$settings.autoReload);
     $fefb8311bfbb38e3fee80b21923eaae0$var$reloadButton.addEventListener('click', () => {
       $fefb8311bfbb38e3fee80b21923eaae0$var$isAutoReloading = !$fefb8311bfbb38e3fee80b21923eaae0$var$isAutoReloading;
       clearInterval($fefb8311bfbb38e3fee80b21923eaae0$var$reloadIntervalHandle);
 
       if ($fefb8311bfbb38e3fee80b21923eaae0$var$isAutoReloading) {
-        $fefb8311bfbb38e3fee80b21923eaae0$var$reloadIntervalHandle = setInterval($fefb8311bfbb38e3fee80b21923eaae0$var$doReload, $fefb8311bfbb38e3fee80b21923eaae0$var$reloadInterval);
-        $fefb8311bfbb38e3fee80b21923eaae0$var$doReload();
+        $fefb8311bfbb38e3fee80b21923eaae0$var$reloadIntervalHandle = setInterval($fefb8311bfbb38e3fee80b21923eaae0$var$reload, $fefb8311bfbb38e3fee80b21923eaae0$var$settings.autoReload);
+        $fefb8311bfbb38e3fee80b21923eaae0$var$reload();
       }
 
       $fefb8311bfbb38e3fee80b21923eaae0$var$updateReloadIcon();
     });
   } else {
-    $fefb8311bfbb38e3fee80b21923eaae0$var$reloadButton.addEventListener('click', $fefb8311bfbb38e3fee80b21923eaae0$var$doReload);
+    $fefb8311bfbb38e3fee80b21923eaae0$var$reloadButton.addEventListener('click', $fefb8311bfbb38e3fee80b21923eaae0$var$reload);
   }
 })();
-//# sourceMappingURL=main.fecedf23.js.map
+//# sourceMappingURL=index.09603d80.js.map
