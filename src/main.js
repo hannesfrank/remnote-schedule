@@ -1,11 +1,6 @@
 import RemNoteAPI from 'remnote-api';
 import * as RemNoteUtil from 'remnote-api/util';
-import {
-  loadSchedule,
-  resolveTimeFormatting,
-  sortScheduleSingleColumn,
-  drawSchedule,
-} from './lib/remnote-schedule';
+import { makeSchedule } from './lib/remnote-schedule';
 
 import feather from 'feather-icons';
 
@@ -15,15 +10,15 @@ window.rutil = RemNoteUtil;
 // Custom config handling.
 const defaultSettings = {
   scheduleName: 'Schedule',
-  start: 600,
-  end: 2200,
+  startTime: 600,
+  endTime: 2200,
   autoReload: 5000,
 };
 
-// const settings = Object.assign(defaultSettings, RemNoteUtil.getSettings());
-const settings = defaultSettings;
+const settings = RemNoteUtil.getPluginSettings(location.search, defaultSettings);
+console.log('SETTINGS', settings);
 
-const autoReloadEnabled = settings.reloadInterval > 0;
+const autoReloadEnabled = settings.autoReload > 0;
 const reloadButton = document.getElementById('reload');
 let isAutoReloading = autoReloadEnabled;
 const RELOAD_ICON = feather.icons['refresh-cw'].toSvg();
@@ -38,32 +33,24 @@ function updateReloadIcon() {
   }
 }
 
-async function doReload() {
-  console.info('Reloading remnote-schedule.');
-  let schedule = await loadSchedule(settings.scheduleName);
-  resolveTimeFormatting(schedule);
-  let column = sortScheduleSingleColumn(schedule);
-
-  // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
-  document.getElementById('schedule').innerHTML = '';
-  drawSchedule(column, '#schedule');
+function reload() {
+  makeSchedule('#schedule', settings);
 }
-
-doReload();
+reload();
 updateReloadIcon();
 
 if (autoReloadEnabled) {
-  reloadIntervalHandle = setInterval(doReload, reloadInterval);
+  reloadIntervalHandle = setInterval(reload, settings.autoReload);
 
   reloadButton.addEventListener('click', () => {
     isAutoReloading = !isAutoReloading;
     clearInterval(reloadIntervalHandle);
     if (isAutoReloading) {
-      reloadIntervalHandle = setInterval(doReload, reloadInterval);
-      doReload();
+      reloadIntervalHandle = setInterval(reload, settings.autoReload);
+      reload();
     }
     updateReloadIcon();
   });
 } else {
-  reloadButton.addEventListener('click', doReload);
+  reloadButton.addEventListener('click', reload);
 }

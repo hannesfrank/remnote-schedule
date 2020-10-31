@@ -48,7 +48,7 @@ rect.block.YOUR_TAG {
 Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
 - **Plugin Name:** `remnote-schedule` (or anything you like)
-- **Plugin Description:** Visualize your schedule. (or anything you like)
+- **Plugin Description:** `Visualize your daily schedule.` (or anything you like)
 - **Plugin URL:** `https://hannesfrank.github.io/remnote-schedule/index.html`
 - **CSS Height:** `600px`
 - **CSS Width:** `400px`
@@ -56,24 +56,83 @@ Add this URL to your [RemNote plugins](https://www.remnote.io/plugins):
 
 Add the plugin to a Document with the `/remnote-schedule` command.
 
-### Additional Settings
+## Additional Settings
 
-#### Auto Reload
-
-You can add an URL parameter `?autoreload=<milliseconds>` after the URL to enable auto-reloading. Clicking the reload button pauses the auto-reload.
-
-For example to reload every 5 seconds, use this URL:
+You can add additional parameters to the plugin URL after an `?` in `key=value`.
+Parameters must be separated by `&`.
 
 ```
-https://hannesfrank.github.io/remnote-schedule/index.html?autoreload=5000
+https://hannesfrank.github.io/remnote-schedule/index.html?schedule-name=Tagesplan&start-time=300&end-time=2400&auto-reload=2000
+```
+
+### Schedule Name
+
+The plugin does not search for events under the `Schedule` rem but under some other text.
+
+**Default:** `Schedule`
+
+**Example:** In German it would be called `Tagesplan`:
+
+```
+schedule-name=Tagesplan
+```
+
+**Note:** Special characters like spaces have to be URL encoded. So ` ` becomes `%20`.
+
+### Auto Reload
+
+The schedule refreshes automatically after X milliseconds.
+Clicking the reload button toggles the auto-reload.
+
+**Default:** 5 seconds (5000 ms).
+
+**Example:** Reload every 2.5 seconds:
+
+```
+auto-reload=2500
+```
+
+**Example:** Turn it off.
+
+```
+auto-reload=off
+```
+
+You can reload the schedule manually with the reload button now.
+
+### Start and End Time
+
+Specify the start and/or end time of the schedule.
+
+**Default:**
+
+- Start Time: 6 AM
+- End Time: 22 PM
+
+**Example:** 3 AM to 24 PM
+
+```
+start-time=300&end-time=2400
 ```
 
 ## Development
 
+Install the dependencies.
+The API can be symlinked to allow editing it:
+
+```
+git submodule update
+cd remnote-api
+yarn link
+cd ..
+yarn link remnote-api
+yarn install
+```
+
 Add a plugin `remnote-schedule-dev` with the above settings.
 
 ```
-http://localhost:1234/public/index.html
+http://localhost:1234/index.html
 ```
 
 Run the plugin locally:

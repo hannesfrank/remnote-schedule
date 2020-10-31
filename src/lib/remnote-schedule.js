@@ -11,9 +11,6 @@ const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
 
-export const DEFAULT_START_TIME = 600;
-export const DEFAULT_END_TIME = 2200;
-
 // Generated with https://mokole.com/palette.html
 // const COLOR_MAP = [
 //   '#2f4f4f',
@@ -28,7 +25,7 @@ export const DEFAULT_END_TIME = 2200;
 //   '#ffe4b5',
 // ];
 
-export async function drawSchedule(events, targetId) {
+export async function drawSchedule(events, targetId, startTime, endTime) {
   // console.log(events);
   const svg = d3
     .select(targetId)
@@ -38,16 +35,14 @@ export async function drawSchedule(events, targetId) {
     .attr('width', SVG_WIDTH)
     .attr('viewBox', `0 0 ${W} ${H}`);
 
-  const hours = d3.range(DEFAULT_START_TIME, DEFAULT_END_TIME, 100);
+  const hours = d3.range(startTime, endTime, 100);
+  const scheduleDuration = endTime - startTime;
 
   function timeToY(d) {
-    return (
-      ((d - DEFAULT_START_TIME) * (H - MARGIN_TOP)) / (DEFAULT_END_TIME - DEFAULT_START_TIME) +
-      MARGIN_TOP
-    );
+    return ((d - startTime) / scheduleDuration) * (H - MARGIN_TOP) + MARGIN_TOP;
   }
   function durationToDY(d) {
-    return (d / (DEFAULT_END_TIME - DEFAULT_START_TIME)) * (H - MARGIN_TOP);
+    return (d / scheduleDuration) * (H - MARGIN_TOP);
   }
 
   svg
@@ -122,7 +117,7 @@ function hashString(str) {
   return hash;
 }
 
-export async function loadSchedule(scheduleName = DEFAULT_SCHEDULE_NAME) {
+export async function loadSchedule(scheduleName) {
   const documentRem = await RemNoteUtil.getDocument();
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
   //   console.log(tags);
@@ -156,9 +151,10 @@ export async function loadSchedule(scheduleName = DEFAULT_SCHEDULE_NAME) {
   return events;
 }
 
+// TODO: automatically calculate start and end time.
 // Assume resolved time formatting.
 export function startTime(schedule) {
-  return Math.max(0, Math.min(...schedule.map((block) => block.start), DEFAULT_START_TIME));
+  return Math.max(0, Math.min(...schedule.map((block) => block.start), 600));
 }
 
 // Assume resolved time formatting
@@ -175,15 +171,13 @@ export function HHMMtoLinear(time) {
   return time - minutes + (minutes / 60) * 100;
 }
 
-/**
- */
-export function resolveTimeFormatting(schedule) {
+export function resolveTimeFormatting(schedule, startTime, endTime) {
   let lastEndTime = undefined;
 
   return schedule.map((block) => {
     if (block.start === 'x' && lastEndTime === undefined) {
-      // This should not happen. I map the start time to default.
-      block.start = DEFAULT_START_TIME;
+      // This should not happen. I map the start time to the beginning of the schedule.
+      block.start = startTime;
     } else if (block.start === 'x') {
       block.start = lastEndTime;
     } else {
@@ -233,9 +227,11 @@ export function sortScheduleSingleColumn(schedule) {
   return nonOverlappingBlocks;
 }
 
-export async function run(targetId = '#schedule') {
-  let schedule = await loadSchedule();
-  resolveTimeFormatting(schedule);
+export async function makeSchedule(targetId, settings) {
+  let schedule = await loadSchedule(settings.scheduleName);
+  resolveTimeFormatting(schedule, settings.startTime, settings.endTime);
   let column = sortScheduleSingleColumn(schedule);
-  drawSchedule(column, targetId);
+  // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
+  document.getElementById('schedule').innerHTML = '';
+  drawSchedule(column, targetId, settings.startTime, settings.endTime);
 }

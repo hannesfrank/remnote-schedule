@@ -54,16 +54,16 @@ test('sortSchedule into single column', () => {
   expect(remnoteSchedule.sortScheduleSingleColumn(processedSchedule)).toEqual(singleColumn);
 });
 
-test('startTime', () => {
-  // Default times are 600 - 2200
-  expect(remnoteSchedule.startTime([{ start: '800' }])).toBe(remnoteSchedule.DEFAULT_START_TIME);
-  expect(remnoteSchedule.startTime([{ start: '600' }])).toBe(remnoteSchedule.DEFAULT_START_TIME);
-  expect(remnoteSchedule.startTime([{ start: '500' }])).toBe(500);
+// test('startTime', () => {
+//   // Default times are 600 - 2200
+//   expect(remnoteSchedule.startTime([{ start: '800' }])).toBe(remnoteSchedule.DEFAULT_START_TIME);
+//   expect(remnoteSchedule.startTime([{ start: '600' }])).toBe(remnoteSchedule.DEFAULT_START_TIME);
+//   expect(remnoteSchedule.startTime([{ start: '500' }])).toBe(500);
 
-  expect(remnoteSchedule.endTime([{ end: '800' }])).toBe(remnoteSchedule.DEFAULT_END_TIME);
-  expect(remnoteSchedule.endTime([{ end: '2200' }])).toBe(remnoteSchedule.DEFAULT_END_TIME);
-  expect(remnoteSchedule.endTime([{ end: '2400' }])).toBe(2400);
-});
+//   expect(remnoteSchedule.endTime([{ end: '800' }])).toBe(remnoteSchedule.DEFAULT_END_TIME);
+//   expect(remnoteSchedule.endTime([{ end: '2200' }])).toBe(remnoteSchedule.DEFAULT_END_TIME);
+//   expect(remnoteSchedule.endTime([{ end: '2400' }])).toBe(2400);
+// });
 
 test('HHMMtoLinear', () => {
   expect(remnoteSchedule.HHMMtoLinear(700)).toBe(700);
