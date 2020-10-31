@@ -1,7 +1,5 @@
-import * as RemNoteUtil from './remnote-util';
-import RemNoteAPI from 'remnote-api';
+import * as RemNoteUtil from 'remnote-api/util';
 import * as d3 from 'd3';
-import { interval, stratify } from 'd3';
 
 const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
@@ -124,15 +122,19 @@ function hashString(str) {
   return hash;
 }
 
-export async function loadSchedule() {
+export async function loadSchedule(scheduleName = DEFAULT_SCHEDULE_NAME) {
   const documentRem = await RemNoteUtil.getDocument();
   //   const tags = await Promise.all(documentRem.tagParents.map((remId) => RemNoteAPI.v0.get(remId)));
   //   console.log(tags);
+  // This finds any of multiple schedules...
+  // const scheduleParent = await RemNoteAPI.v0.get_by_name(scheduleName, {
+  //   parentId: documentRem._id,
+  // });
   // TODO: We need get_by_name if we want to configure the plugin.
   // console.log('name', await RemNoteAPI.v0.get_by_name('Schedule', { parentId: documentRem._id }));
   let children = await RemNoteUtil.getChildren(documentRem, true);
   await RemNoteUtil.loadText(children);
-  const scheduleParent = children.filter((c) => c.text === 'Schedule')[0];
+  const scheduleParent = children.filter((c) => c.text === scheduleName)[0];
   const timeBlocks = await RemNoteUtil.getVisibleChildren(scheduleParent);
   await RemNoteUtil.loadText(timeBlocks);
 
