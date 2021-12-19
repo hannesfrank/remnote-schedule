@@ -103,7 +103,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('y2', (d) => timeToY(d));
 }
 
-export let eventRegex = /^([0-9]{1,4}|x)\s*,\s*([0-9]{1,4}|\+[0-9]+)\s*,\s*(.*$)/;
+export let eventRegex = /^([0-9:]{1,5}|x)\s*,\s*([0-9:]{1,5}|\+[0-9]+|x)\s*,\s*(.*$)/;
 
 function hashString(str) {
   if (!str) return 0;
@@ -130,8 +130,11 @@ export async function loadSchedule(scheduleName) {
   let children = await RemNoteUtil.getChildren(documentRem, true);
   await RemNoteUtil.loadText(children);
   const scheduleParent = children.filter((c) => c.text === scheduleName)[0];
-  const timeBlocks = await RemNoteUtil.getVisibleChildren(scheduleParent);
+  // console.log('scheduleParent', scheduleParent);
+  const timeBlocks = await RemNoteUtil.getChildren(scheduleParent, false);
   await RemNoteUtil.loadText(timeBlocks);
+
+  // console.log('Timeblocks', timeBlocks);
 
   let events = [];
   for (const block of timeBlocks) {
@@ -147,19 +150,21 @@ export async function loadSchedule(scheduleName) {
       });
     }
   }
-  // console.log('Raw', events);
+  // console.log('Events', events);
   return events;
 }
 
 // TODO: automatically calculate start and end time.
 // Assume resolved time formatting.
 export function startTime(schedule) {
-  return Math.max(0, Math.min(...schedule.map((block) => block.start), 600));
+  const minStart = Math.min(...schedule.map((block) => block.start));
+  return Math.floor(minStart / 100) * 100;
 }
 
 // Assume resolved time formatting
 export function endTime(schedule) {
-  return Math.min(Math.max(DEFAULT_END_TIME, ...schedule.map((block) => block.end)), 2400);
+  const maxEnd = Math.max(...schedule.map((block) => block.end));
+  return Math.ceil(maxEnd / 100) * 100;
 }
 
 /**
@@ -167,6 +172,9 @@ export function endTime(schedule) {
  * @param {number|string} time
  */
 export function HHMMtoLinear(time) {
+  if (typeof time === 'string') {
+    time = parseInt(time.replace(/:/g, ''), 10);
+  }
   const minutes = time % 100;
   return time - minutes + (minutes / 60) * 100;
 }
@@ -186,6 +194,10 @@ export function resolveTimeFormatting(schedule, startTime, endTime) {
     if (block.end.startsWith('+')) {
       const minutes = parseInt(block.end);
       block.end = block.start + HHMMtoLinear(minutes);
+    } else if (block.end === 'x') {
+      // get current time in hhmm format
+      const now = new Date();
+      block.end = now.getHours() * 100 + (now.getMinutes() / 60) * 100;
     } else {
       block.end = HHMMtoLinear(block.end);
     }
@@ -233,5 +245,5 @@ export async function makeSchedule(targetId, settings) {
   let column = sortScheduleSingleColumn(schedule);
   // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
   document.getElementById('schedule').innerHTML = '';
-  drawSchedule(column, targetId, settings.startTime, settings.endTime);
+  drawSchedule(column, targetId, startTime(schedule), endTime(schedule));
 }
