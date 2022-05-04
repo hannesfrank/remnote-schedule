@@ -1,15 +1,17 @@
 import * as RemNoteUtil from 'remnote-api/util';
 import * as d3 from 'd3';
 
-const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
-const H = 600; // svg viewport height
-const W = 400; // svg viewport width
-const FONT_SIZE = 10;
+const H = SVG_HEIGHT; // svg viewport height
+const SVG_WIDTH = 400;
+const W = SVG_WIDTH; // svg viewport width
+const FONT_SIZE = 8;
 const TIME_MARGIN = 3; // how much to move time text above line
 const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
+const NOTIFICATION_THRESHOLD = 0;
+
 
 // Generated with https://mokole.com/palette.html
 // const COLOR_MAP = [
@@ -35,7 +37,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('width', SVG_WIDTH)
     .attr('viewBox', `0 0 ${W} ${H}`);
 
-  const hours = d3.range(startTime, endTime, 100);
+  const hours = d3.range(startTime, endTime, 25);
   const scheduleDuration = endTime - startTime;
 
   function timeToY(d) {
@@ -43,6 +45,10 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
   }
   function durationToDY(d) {
     return (d / scheduleDuration) * (H - MARGIN_TOP);
+  }
+
+  function timeToHourMarkerY(d) {
+    return Math.floor(d/100) + ":" + String((d % 100) / 100 * 60).padStart(2, '0');
   }
 
   svg
@@ -64,7 +70,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('class', 'time')
     .attr('x', (d) => 2 * TIME_MARGIN) // more space to left than to line below
     .attr('y', (d) => timeToY(d) - TIME_MARGIN)
-    .text((d) => Math.floor(d / 100) + ':00');
+    .text((d) => timeToHourMarkerY(d));
 
   svg
     .selectAll('rect')
@@ -126,17 +132,16 @@ export async function loadSchedule(scheduleName) {
   //   parentId: documentRem._id,
   // });
   // TODO: We need get_by_name if we want to configure the plugin.
-  // console.log('name', await RemNoteAPI.v0.get_by_name('Schedule', { parentId: documentRem._id }));
   let children = await RemNoteUtil.getChildren(documentRem, true);
   await RemNoteUtil.loadText(children);
   const scheduleParent = children.filter((c) => c.text === scheduleName)[0];
-  // console.log('scheduleParent', scheduleParent);
   const timeBlocks = await RemNoteUtil.getChildren(scheduleParent, false);
   await RemNoteUtil.loadText(timeBlocks);
 
   // console.log('Timeblocks', timeBlocks);
 
   let events = [];
+  const DEFAULT_DURATION = '+20';
   for (const block of timeBlocks) {
     await RemNoteUtil.loadTags(block);
     let match = eventRegex.exec(block.text);
@@ -148,8 +153,29 @@ export async function loadSchedule(scheduleName) {
         event,
         tags: block.tags,
       });
+    } else if (block.text.trim() !== '') {
+      // reverse search char in text
+      let commaIdx = block.text.lastIndexOf(',');
+      // check if string is a number
+      let duration = block.text.substring(commaIdx + 1).trim();
+      if (commaIdx === -1 || isNaN(parseInt(duration))) {
+        events.push({
+          start: 'x',
+          end: DEFAULT_DURATION,
+          event: block.text,
+          tags: block.tags,
+        });
+      } else {
+        events.push({
+          start: 'x',
+          end: '+' + duration,
+          event: block.text.substring(0, commaIdx),
+          tags: block.tags,
+        });
+      }
     }
   }
+  // console.log('Events copy', JSON.parse(JSON.stringify(events)));
   // console.log('Events', events);
   return events;
 }
@@ -179,8 +205,11 @@ export function HHMMtoLinear(time) {
   return time - minutes + (minutes / 60) * 100;
 }
 
+
 export function resolveTimeFormatting(schedule, startTime, endTime) {
   let lastEndTime = undefined;
+  const now = new Date();
+  const currentTime = now.getHours() * 100 + (now.getMinutes() / 60) * 100;
 
   return schedule.map((block) => {
     if (block.start === 'x' && lastEndTime === undefined) {
@@ -196,12 +225,15 @@ export function resolveTimeFormatting(schedule, startTime, endTime) {
       block.end = block.start + HHMMtoLinear(minutes);
     } else if (block.end === 'x') {
       // get current time in hhmm format
-      const now = new Date();
-      block.end = now.getHours() * 100 + (now.getMinutes() / 60) * 100;
+      block.end = currentTime;
     } else {
       block.end = HHMMtoLinear(block.end);
     }
     lastEndTime = block.end;
+    if (block.end - currentTime < NOTIFICATION_THRESHOLD && block.end - currentTime > 0) {
+      sendNotification('Close to end of event', block.event);
+    }
+    // console.log('Resolved time', block.start, block.end, block.event);
     return block;
   });
 }
@@ -237,6 +269,16 @@ export function sortScheduleSingleColumn(schedule) {
     }
   }
   return nonOverlappingBlocks;
+}
+
+function sendNotification(title, body) {
+  console.log('Notification');
+  const notification = new Notification(title, {
+    body: body,
+  });
+  notification.onclick = () => {
+    window.open(window.location.href);
+  };
 }
 
 export async function makeSchedule(targetId, settings) {
