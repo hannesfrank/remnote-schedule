@@ -1,15 +1,17 @@
 import * as RemNoteUtil from 'remnote-api/util';
 import * as d3 from 'd3';
 
-const SVG_WIDTH = 400;
 const SVG_HEIGHT = 600;
-const H = 600; // svg viewport height
-const W = 400; // svg viewport width
-const FONT_SIZE = 10;
+const H = SVG_HEIGHT; // svg viewport height
+const SVG_WIDTH = 400;
+const W = SVG_WIDTH; // svg viewport width
+const FONT_SIZE = 8;
 const TIME_MARGIN = 3; // how much to move time text above line
 const MARGIN_TOP = FONT_SIZE + 2 * TIME_MARGIN;
 const MARGIN_BLOCK_LEFT = 40;
 const MARGIN_BLOCK_RIGHT = TIME_MARGIN;
+const NOTIFICATION_THRESHOLD = 0;
+
 
 // Generated with https://mokole.com/palette.html
 // const COLOR_MAP = [
@@ -35,7 +37,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('width', SVG_WIDTH)
     .attr('viewBox', `0 0 ${W} ${H}`);
 
-  const hours = d3.range(startTime, endTime, 100);
+  const hours = d3.range(startTime, endTime, 25);
   const scheduleDuration = endTime - startTime;
 
   function timeToY(d) {
@@ -43,6 +45,10 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
   }
   function durationToDY(d) {
     return (d / scheduleDuration) * (H - MARGIN_TOP);
+  }
+
+  function timeToHourMarkerY(d) {
+    return Math.floor(d/100) + ":" + String((d % 100) / 100 * 60).padStart(2, '0');
   }
 
   svg
@@ -64,7 +70,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('class', 'time')
     .attr('x', (d) => 2 * TIME_MARGIN) // more space to left than to line below
     .attr('y', (d) => timeToY(d) - TIME_MARGIN)
-    .text((d) => Math.floor(d / 100) + ':00');
+    .text((d) => timeToHourMarkerY(d));
 
   svg
     .selectAll('rect')
@@ -103,7 +109,7 @@ export async function drawSchedule(events, targetId, startTime, endTime) {
     .attr('y2', (d) => timeToY(d));
 }
 
-export let eventRegex = /^([0-9]{1,4}|x)\s*,\s*([0-9]{1,4}|\+[0-9]+)\s*,\s*(.*$)/;
+export let eventRegex = /^([0-9:]{1,5}|x)\s*,\s*([0-9:]{1,5}|\+[0-9]+|x)\s*,\s*(.*$)/;
 
 function hashString(str) {
   if (!str) return 0;
@@ -126,14 +132,16 @@ export async function loadSchedule(scheduleName) {
   //   parentId: documentRem._id,
   // });
   // TODO: We need get_by_name if we want to configure the plugin.
-  // console.log('name', await RemNoteAPI.v0.get_by_name('Schedule', { parentId: documentRem._id }));
   let children = await RemNoteUtil.getChildren(documentRem, true);
   await RemNoteUtil.loadText(children);
   const scheduleParent = children.filter((c) => c.text === scheduleName)[0];
-  const timeBlocks = await RemNoteUtil.getVisibleChildren(scheduleParent);
+  const timeBlocks = await RemNoteUtil.getChildren(scheduleParent, false);
   await RemNoteUtil.loadText(timeBlocks);
 
+  // console.log('Timeblocks', timeBlocks);
+
   let events = [];
+  const DEFAULT_DURATION = '+20';
   for (const block of timeBlocks) {
     await RemNoteUtil.loadTags(block);
     let match = eventRegex.exec(block.text);
@@ -145,21 +153,44 @@ export async function loadSchedule(scheduleName) {
         event,
         tags: block.tags,
       });
+    } else if (block.text.trim() !== '') {
+      // reverse search char in text
+      let commaIdx = block.text.lastIndexOf(',');
+      // check if string is a number
+      let duration = block.text.substring(commaIdx + 1).trim();
+      if (commaIdx === -1 || isNaN(parseInt(duration))) {
+        events.push({
+          start: 'x',
+          end: DEFAULT_DURATION,
+          event: block.text,
+          tags: block.tags,
+        });
+      } else {
+        events.push({
+          start: 'x',
+          end: '+' + duration,
+          event: block.text.substring(0, commaIdx),
+          tags: block.tags,
+        });
+      }
     }
   }
-  // console.log('Raw', events);
+  // console.log('Events copy', JSON.parse(JSON.stringify(events)));
+  // console.log('Events', events);
   return events;
 }
 
 // TODO: automatically calculate start and end time.
 // Assume resolved time formatting.
 export function startTime(schedule) {
-  return Math.max(0, Math.min(...schedule.map((block) => block.start), 600));
+  const minStart = Math.min(...schedule.map((block) => block.start));
+  return Math.floor(minStart / 100) * 100;
 }
 
 // Assume resolved time formatting
 export function endTime(schedule) {
-  return Math.min(Math.max(DEFAULT_END_TIME, ...schedule.map((block) => block.end)), 2400);
+  const maxEnd = Math.max(...schedule.map((block) => block.end));
+  return Math.ceil(maxEnd / 100) * 100;
 }
 
 /**
@@ -167,12 +198,18 @@ export function endTime(schedule) {
  * @param {number|string} time
  */
 export function HHMMtoLinear(time) {
+  if (typeof time === 'string') {
+    time = parseInt(time.replace(/:/g, ''), 10);
+  }
   const minutes = time % 100;
   return time - minutes + (minutes / 60) * 100;
 }
 
+
 export function resolveTimeFormatting(schedule, startTime, endTime) {
   let lastEndTime = undefined;
+  const now = new Date();
+  const currentTime = now.getHours() * 100 + (now.getMinutes() / 60) * 100;
 
   return schedule.map((block) => {
     if (block.start === 'x' && lastEndTime === undefined) {
@@ -186,10 +223,17 @@ export function resolveTimeFormatting(schedule, startTime, endTime) {
     if (block.end.startsWith('+')) {
       const minutes = parseInt(block.end);
       block.end = block.start + HHMMtoLinear(minutes);
+    } else if (block.end === 'x') {
+      // get current time in hhmm format
+      block.end = currentTime;
     } else {
       block.end = HHMMtoLinear(block.end);
     }
     lastEndTime = block.end;
+    if (block.end - currentTime < NOTIFICATION_THRESHOLD && block.end - currentTime > 0) {
+      sendNotification('Close to end of event', block.event);
+    }
+    // console.log('Resolved time', block.start, block.end, block.event);
     return block;
   });
 }
@@ -227,11 +271,21 @@ export function sortScheduleSingleColumn(schedule) {
   return nonOverlappingBlocks;
 }
 
+function sendNotification(title, body) {
+  console.log('Notification');
+  const notification = new Notification(title, {
+    body: body,
+  });
+  notification.onclick = () => {
+    window.open(window.location.href);
+  };
+}
+
 export async function makeSchedule(targetId, settings) {
   let schedule = await loadSchedule(settings.scheduleName);
   resolveTimeFormatting(schedule, settings.startTime, settings.endTime);
   let column = sortScheduleSingleColumn(schedule);
   // TODO: Use D3.js enter/exit mechanism instead of deleting everything.
   document.getElementById('schedule').innerHTML = '';
-  drawSchedule(column, targetId, settings.startTime, settings.endTime);
+  drawSchedule(column, targetId, startTime(schedule), endTime(schedule));
 }

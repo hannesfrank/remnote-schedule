@@ -1,0 +1,38 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="23">
+            <item index="0" class="java.lang.String" itemvalue="autopep8" />
+            <item index="1" class="java.lang.String" itemvalue="michelangelo-python-client" />
+            <item index="2" class="java.lang.String" itemvalue="six" />
+            <item index="3" class="java.lang.String" itemvalue="asn1crypto" />
+            <item index="4" class="java.lang.String" itemvalue="googleapis-common-protos" />
+            <item index="5" class="java.lang.String" itemvalue="pytimeparse" />
+            <item index="6" class="java.lang.String" itemvalue="psycopg2" />
+            <item index="7" class="java.lang.String" itemvalue="httplib2" />
+            <item index="8" class="java.lang.String" itemvalue="packaging" />
+            <item index="9" class="java.lang.String" itemvalue="pexpect" />
+            <item index="10" class="java.lang.String" itemvalue="importlib-metadata" />
+            <item index="11" class="java.lang.String" itemvalue="pydevd" />
+            <item index="12" class="java.lang.String" itemvalue="pyasn1-modules" />
+            <item index="13" class="java.lang.String" itemvalue="seaborn" />
+            <item index="14" class="java.lang.String" itemvalue="pymssql" />
+            <item index="15" class="java.lang.String" itemvalue="zipp" />
+            <item index="16" class="java.lang.String" itemvalue="zest.releaser" />
+            <item index="17" class="java.lang.String" itemvalue="docutils" />
+            <item index="18" class="java.lang.String" itemvalue="lxml" />
+            <item index="19" class="java.lang.String" itemvalue="pem" />
+            <item index="20" class="java.lang.String" itemvalue="oscrypto" />
+            <item index="21" class="java.lang.String" itemvalue="vertica-python" />
+            <item index="22" class="java.lang.String" itemvalue="google-auth" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SqlNoDataSourceInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SqlResolveInspection" enabled="false" level="ERROR" enabled_by_default="false" />
+  </profile>
+</component>
